@@ -5,6 +5,9 @@ Exploration and puzzle-based platformer
 
 ### Movement
 - Basic running, jumping, etc. (import from zubenel)
+	- Star prefab colors
+	- Redo player sounds
+	- Animator
 - Wall slide down slows descent
 	- Slide image only when down
 	- Slide particles?
@@ -55,7 +58,6 @@ Exploration and puzzle-based platformer
 	- Swim, moon gravity?
 
 ### Level design
-
 - Player should visit doors before being able to open them
 - Use scenery to draw attention to offscreen stuff
 - Tutorial: jump, roll under ledge, roll through breakable wall, walljump, jump & roll in midair through breakable high wall
@@ -78,18 +80,39 @@ Exploration and puzzle-based platformer
 	- Digging to the core
 	- Fixing the village
 - Levels:
-	- left: Water? Rainy forest? Temple?
-	- up: Ice/mountain
+	- left: Slime forest
+		- Slime pads bounce you
+		- Reverse direction of roll
+	- up: Crystal mountain
+		- Climbers
+		- Something at the top
 	- down: Rock
 		- Tumbler
 		- Get on top of the elevator puzzle
 		- Spinny platforms (gears?) (rotating, revolving)
+		- Mining operation
+		- Foreman- angry
+		- Mining bots- scared
+		- Bug enemies
+		- Grob
 	- right: Charred forest
+		- Roll over coals (low ceiling)
 	- other levels:
+		- Lake
+			- Surfer dude fish
+			- Streams of water that push you faster
+		- Cloud kingdom
+			- Princess- authoritarian
+		- Haunted Mansion
+			- Draculas
+			- Appearing platforms
+		- Temple of the Stars
+			- Quiet, echoes, humming
+			- Symmetry
+			- Bells
+			- Near end game
 		- Beehive
-		- Lava
-		- Ocean- surfer dude fish, fast currents
-		- See phone notes
+		- Lava streams
 - Level bits:
 	- Multiple columns of ascending/descending platforms
 	- Star bits at corners of area
@@ -98,6 +121,7 @@ Exploration and puzzle-based platformer
 	- Spin entire big area
 
 ### UI
+- Import menus from zubenel
 - Outline on star # GUI (white text, dark outline)
 - Add back HUD sliding in/out
 	- Also show star count when paused
@@ -146,7 +170,6 @@ Exploration and puzzle-based platformer
 - Landing from high fall
 - Door sliding open
 - Door ascending tones
-- Slime bounce
 - Level music (mute during star overlay)
 
 ### Art

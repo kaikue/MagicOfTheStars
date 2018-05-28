@@ -41,3 +41,30 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 4167673843
+    locked: 0
+  - name: Midground
+    uniqueID: 3820061763
+    locked: 0
+  - name: Scenery
+    uniqueID: 647760093
+    locked: 0
+  - name: StarGlow
+    uniqueID: 2469761671
+    locked: 0
+  - name: Tiles
+    uniqueID: 3327601583
+    locked: 0
+  - name: StarParticles
+    uniqueID: 1485716513
+    locked: 0
+  - name: Stars
+    uniqueID: 2301860539
+    locked: 0
+  - name: Player
+    uniqueID: 3674379309
+    locked: 0
+  - name: Overlay
+    uniqueID: 2699381141
+    locked: 0
