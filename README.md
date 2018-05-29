@@ -4,10 +4,8 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Basic running, jumping, etc. (import from zubenel)
-	- Star prefab colors
-	- Redo player sounds
-	- Animator
+- Redo player sounds
+- Animator
 - Wall slide down slows descent
 	- Slide image only when down
 	- Slide particles?
@@ -83,6 +81,8 @@ Exploration and puzzle-based platformer
 	- left: Slime forest
 		- Slime pads bounce you
 		- Reverse direction of roll
+		- Slime conserves vertial momentum (if >= max) or add to it (if below max)
+		- Auto walljump corridor
 	- up: Crystal mountain
 		- Climbers
 		- Something at the top
@@ -185,7 +185,6 @@ Exploration and puzzle-based platformer
 - Enemies
 - Obstacles
 
-- Be sure to set NUM_RUN_FRAMES and NUM_ROLL_FRAMES to the correct values
 - Default sprite facing is left (remove - in facing calculation if not)
 - Wall slide sprite should face opposite of other sprites
 - Star should be white, colored by material
