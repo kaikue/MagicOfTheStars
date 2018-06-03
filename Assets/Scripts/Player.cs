@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
 
 	private const float JUMP_VEL = 14.0f; //jump y speed
 	private const float JUMP_GRACE_TIME = 0.1f; //time after leaving ground player can still jump
+	private const float JUMP_BUFFER_TIME = 0.1f; //time before hitting ground a jump will still be queued
 
 	private const float WALLJUMP_VEL = 1.5f * MAX_RUN_VEL; //speed applied at time of walljump
 	private const float WALLJUMP_MIN_FACTOR = 0.0f; //amount of walljump kept at minimum if no input
@@ -154,11 +155,14 @@ public class Player : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton0)) //A
 		{
+			StopCoroutine(CancelQueuedJump());
 			jumpQueued = true;
+			StartCoroutine(CancelQueuedJump());
 		}
 		
-		bool triggerPressed = Input.GetAxis("RTrigger") > 0;
-		if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) || triggerPressed)
+		bool triggerPressed = Input.GetAxis("LTrigger") > 0 || Input.GetAxis("RTrigger") > 0;
+		bool shiftPressed = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
+		if (shiftPressed || triggerPressed)
 		{
 			rollQueued = true;
 		}
@@ -222,18 +226,7 @@ public class Player : MonoBehaviour
 				rollDir = Math.Sign(inputXVel);
 			}
 		}
-
-		//patch for player sometimes floating (in boss fight)
-		/*if (grounds.Count > 0)
-		{
-			RaycastHit2D[] hits = BoxCast(GRAVITY_NORMAL, 0.1f);
-			if (hits.Length == 0)
-			{
-				print("CLEARING");
-				grounds.Clear();
-			}
-		}*/
-
+		
 		bool onGround = grounds.Count > 0;
 		/*if (!onGround && velocity.y == 0)
 		{
@@ -289,6 +282,7 @@ public class Player : MonoBehaviour
 				velocity.y = JUMP_VEL;
 				walljumpPush = true;
 				jumpQueued = false;
+				StopCoroutine(CancelQueuedJump());
 
 				PlayJumpSound();
 				SkidSound.Stop();
@@ -306,6 +300,7 @@ public class Player : MonoBehaviour
 		{
 			//regular jump
 			jumpQueued = false;
+			StopCoroutine(CancelQueuedJump());
 			canJump = false;
 			StopRoll();
 			if (!isRolling()) //don't jump if forced roll
@@ -357,6 +352,7 @@ public class Player : MonoBehaviour
 
 		if (rollQueued)
 		{
+			rollQueued = false;
 			if (canRoll)
 			{
 				//start roll
@@ -438,8 +434,13 @@ public class Player : MonoBehaviour
 		rb.velocity = velocity;
 		rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime + offset);
 
+		//jumpQueued = false;
+	}
+
+	private IEnumerator CancelQueuedJump()
+	{
+		yield return new WaitForSeconds(JUMP_BUFFER_TIME);
 		jumpQueued = false;
-		rollQueued = false;
 	}
 
 	private bool isRolling()

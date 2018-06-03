@@ -5,21 +5,22 @@ Exploration and puzzle-based platformer
 
 ### Movement
 - Keep jump queued for a pre-grace period (if jump pressed just before landing)
-- Redo player sounds
-- Reverse if rolling, hitting wall and can't unroll
-- Animator
+- Keep walljump speed when no input, but slow to 0 when moving against walljump
 - Wall slide down slows descent
 	- Slide image only when down
 	- Slide particles?
 - Variable jump height
-- Moving platforms
+- Reverse if rolling, hitting wall and can't unroll
+- Take velocity of moving platforms
+- Hitsnapping
+	- note issues when rolling off of platform and immediately under ledge
+- Redo player sounds
+- Animator
 - Adjust jump & walljump grace period
 - Make roll longer?
 - More moves?
 	- Roll + jump = long jump?
 	- Roll cancel jump in midair?
-- Hitsnapping
-	- note issues when rolling off of platform and immediately under ledge
 
 ### Health
 - 5 points of health- show sometimes or always?
