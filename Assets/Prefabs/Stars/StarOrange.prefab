@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 82600503572855414}
   - component: {fileID: 114104806111632338}
   m_Layer: 0
-  m_Name: StarBlue
+  m_Name: StarOrange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

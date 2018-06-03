@@ -22,6 +22,7 @@ Exploration and puzzle-based platformer
 
 ### Health
 - 5 points of health- show sometimes or always?
+	- sometimes for >2 health, always for <=2?
 	- If you die you restart from the last checkpoint (reload scene)
 - Obstacles
 	- Spikes
@@ -119,6 +120,7 @@ Exploration and puzzle-based platformer
 	- Water jetstreams
 	- Platforms revolving around center (windmill style)
 	- Spin entire big area
+	- Little islands over water
 
 ### UI
 - Import menus from zubenel
@@ -147,7 +149,7 @@ Exploration and puzzle-based platformer
 - Zoom in to star when approaching (then zoom out after collected)
 - Gamepad/keyboard controls text
 - Freeze for a bit on hit then flicker after respawning
-- Checkpoints (& notifications)
+- Checkpoint notifications
 - Remove N cheat
 - Scene transitions (to point in scene)
 	- Shrinking cutout star animation

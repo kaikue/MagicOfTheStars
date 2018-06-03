@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
 	private Rigidbody2D rb;
 
 	private Vector2 groundNormal;
-
+	private Vector2 lastGroundPos;
 	private Collision2D lastCollision;
 
 	private bool jumpQueued = false;
@@ -76,9 +76,7 @@ public class Player : MonoBehaviour
 	private float ecHeight;
 	private bool rollingCollider = false;
 
-	private Vector3 respawnPoint;
-
-	private Vector2 lastGroundPos;
+	private Vector2 respawnPos;
 
 	enum AnimState
 	{
@@ -114,10 +112,10 @@ public class Player : MonoBehaviour
 
 		SLIDE_THRESHOLD = -Mathf.Sqrt(2) / 2; //player will slide down 45 degree angle slopes
 
+		respawnPos = gameObject.transform.position;
+
 		sr = SpriteObject.GetComponent<SpriteRenderer>();
 		LoadSprites();
-
-		respawnPoint = transform.position;
 	}
 
 	private void LoadSprites()
@@ -447,12 +445,12 @@ public class Player : MonoBehaviour
 
 	public void Kill()
 	{
-		transform.position = respawnPoint;
 		StopRoll();
 		lastCollision = null;
 		grounds.Clear();
 		ClearWall();
 		rb.velocity = Vector3.zero;
+		gameObject.transform.position = respawnPos;
 
 		DeathSound.Play();
 	}
@@ -559,6 +557,13 @@ public class Player : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
+		Damage damage = collision.gameObject.GetComponent<Damage>();
+		if (damage != null)
+		{
+			//TODO: damage, respawn if necessary (like for spikes)
+			Kill();
+		}
+
 		if (collision.gameObject.tag == "Slime")
 		{
 			if (collision.gameObject.transform.position.y < rb.position.y)
@@ -764,9 +769,9 @@ public class Player : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.CompareTag("Respawn"))
+		if (collision.CompareTag("Checkpoint"))
 		{
-			respawnPoint = transform.position;
+			respawnPos = collision.gameObject.transform.position;
 		}
 
 		Star star = collision.gameObject.GetComponent<Star>();
@@ -808,14 +813,6 @@ public class Player : MonoBehaviour
 		}*/
 	}
 	
-	private void OnTriggerExit2D(Collider2D collision)
-	{
-		if (collision.CompareTag("Respawn"))
-		{
-			respawnPoint = transform.position;
-		}
-	}
-
 	private void PlayJumpSound()
 	{
 		JumpSound.pitch = UnityEngine.Random.Range(2 - PITCH_VARIATION, 2 + PITCH_VARIATION);
