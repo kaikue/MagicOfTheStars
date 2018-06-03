@@ -114,6 +114,7 @@ Exploration and puzzle-based platformer
 			- Near end game
 		- Beehive
 		- Lava streams
+		- Gravity direction
 - Level bits:
 	- Multiple columns of ascending/descending platforms
 	- Star bits at corners of area
@@ -124,6 +125,7 @@ Exploration and puzzle-based platformer
 
 ### UI
 - Import menus from zubenel
+- TextMeshPro
 - Outline on star # GUI (white text, dark outline)
 - Add back HUD sliding in/out
 	- Also show star count when paused

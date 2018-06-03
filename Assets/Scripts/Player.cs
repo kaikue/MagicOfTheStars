@@ -59,11 +59,10 @@ public class Player : MonoBehaviour
 
 	private Vector2 groundNormal;
 	private Vector2 lastGroundPos;
-	private Collision2D lastCollision;
 
 	private bool jumpQueued = false;
 	private List<GameObject> grounds = new List<GameObject>();
-	private GameObject wall = null;
+	private List<GameObject> walls = new List<GameObject>();
 	private int wallSide = 0; //1 for wall on left, 0 for none, -1 for wall on right (i.e. points away from wall in x)
 	private int lastWallSide = 0;
 	private float walljumpTime = 0; //counts down from WALLJUMP_TIME
@@ -446,20 +445,16 @@ public class Player : MonoBehaviour
 	public void Kill()
 	{
 		StopRoll();
-		lastCollision = null;
+		ResetWalljump();
 		grounds.Clear();
-		ClearWall();
+		wallSide = 0;
+		walls.Clear();
 		rb.velocity = Vector3.zero;
 		gameObject.transform.position = respawnPos;
 
 		DeathSound.Play();
 	}
-
-	public int GetFacing()
-	{
-		return facing;
-	}
-
+	
 	private void SetRollCollider()
 	{
 		rollingCollider = true;
@@ -603,51 +598,58 @@ public class Player : MonoBehaviour
 			return;
 		}
 
-		if (HasGround(collision) && !HasGround(lastCollision))
+		/*print("NormalDot:");
+		foreach (float d in NormalDotList(collision))
+		{
+			print(d);
+		}*/
+
+		ContactPoint2D? groundPoint = GetGround(collision);
+		if (groundPoint.HasValue)
 		{
 			if (!grounds.Contains(collision.gameObject))
 			{
 				grounds.Add(collision.gameObject);
 			}
-			groundNormal = GetGround(collision).normal;
+			groundNormal = groundPoint.Value.normal;
+		}
+		else
+		{
+			grounds.Remove(collision.gameObject);
 		}
 
-		if (HasCeiling(collision) && !HasCeiling(lastCollision))
+		ContactPoint2D? ceilingPoint = GetCeiling(collision);
+		if (ceilingPoint.HasValue)
 		{
 			Vector2 velocity = rb.velocity;
 			velocity.y = 0;
 			rb.velocity = velocity;
 		}
 
-		if (HasWall(collision))
+		ContactPoint2D? wallPoint = GetWall(collision);
+		if (wallPoint.HasValue)
 		{
-			float x = Vector2.Dot(Vector2.right, GetWall(collision).normal);
+			if (!walls.Contains(collision.gameObject))
+			{
+				walls.Add(collision.gameObject);
+			}
+			float x = Vector2.Dot(Vector2.right, wallPoint.Value.normal);
 			int newWallSide = Mathf.RoundToInt(x);
-			if (!HasWall(lastCollision) || newWallSide != wallSide)
+			if (wallSide != newWallSide)
 			{
 				wallSide = newWallSide;
 				StopCoroutine(LeaveWall());
-				wall = collision.gameObject;
 
 				ResetWalljump();
 				StopRoll();
+				//TODO: slide down?
 				//SkidSound.PlayScheduled(0.1);
 			}
 		}
-
-		if (!HasGround(collision))// && HasGround(lastCollision))
+		else
 		{
-			grounds.Remove(collision.gameObject);
+			walls.Remove(collision.gameObject);
 		}
-
-		if (!HasWall(collision) && HasWall(lastCollision))
-		{
-			SkidSound.Stop();
-			StartCoroutine(LeaveWall());
-		}
-
-		lastCollision = collision;
-
 	}
 
 	private void OnCollisionExit2D(Collision2D collision)
@@ -658,10 +660,10 @@ public class Player : MonoBehaviour
 			return;
 		}*/
 
-		lastCollision = null;
 		grounds.Remove(collision.gameObject);
+		walls.Remove(collision.gameObject);
 
-		if (collision.gameObject == wall)
+		if (walls.Count == 0)
 		{
 			StartCoroutine(LeaveWall());
 		}
@@ -669,103 +671,53 @@ public class Player : MonoBehaviour
 
 	private float NormalDot(ContactPoint2D contact)
 	{
-		Vector2 normal = contact.normal;
-		return Vector2.Dot(normal, GRAVITY_NORMAL);
+		return Vector2.Dot(contact.normal, GRAVITY_NORMAL);
 	}
-
-	private float[] NormalDotList(Collision2D collision)
+	
+	private ContactPoint2D? GetWithDotCheck(Collision2D collision, Func<float, bool> dotCheck)
 	{
-		float[] dots = new float[collision.contacts.Length];
-		for (int i = 0; i < collision.contacts.Length; i++)
-		{
-			dots[i] = NormalDot(collision.contacts[i]);
-		}
+		if (collision == null) return null;
 
-		return dots;
-	}
-
-	private bool HasGround(Collision2D collision)
-	{
-		if (collision == null) return false;
-		float[] dots = NormalDotList(collision);
-		foreach (float dot in dots)
-		{
-			if (dot < -.0001f)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private ContactPoint2D GetGround(Collision2D collision)
-	{
+		int len = collision.contacts.Length;
 		for (int i = 0; i < collision.contacts.Length; i++)
 		{
 			float dot = NormalDot(collision.contacts[i]);
-			if (dot < -.0001f)
+			if (dotCheck(dot))
 			{
 				return collision.contacts[i];
 			}
 		}
-
-		return collision.contacts[0]; // should never happen
+		return null;
 	}
 
-	private ContactPoint2D GetWall(Collision2D collision)
+	private ContactPoint2D? GetGround(Collision2D collision)
 	{
-		for (int i = 0; i < collision.contacts.Length; i++)
-		{
-			float dot = NormalDot(collision.contacts[i]);
-			if (Mathf.Abs(dot) < 0.001f)
-			{
-				return collision.contacts[i];
-			}
-		}
-
-		return collision.contacts[0]; // should never happen
+		return GetWithDotCheck(collision, d => d < 0);
+	}
+	
+	private ContactPoint2D? GetCeiling(Collision2D collision)
+	{
+		return GetWithDotCheck(collision, d => d > 0);
 	}
 
-
-	private bool HasCeiling(Collision2D collision)
+	private ContactPoint2D? GetWall(Collision2D collision)
 	{
-		if (collision == null) return false;
-		float[] dots = NormalDotList(collision);
-		foreach (float dot in dots)
-		{
-			if (dot > .0001f)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private bool HasWall(Collision2D collision)
-	{
-		if (collision == null) return false;
-		float[] dots = NormalDotList(collision);
-		foreach (float dot in dots)
-		{
-			if (Mathf.Abs(dot) < 0.0001f)
-			{
-				return true;
-			}
-		}
-		return false;
+		return GetWithDotCheck(collision, d => Mathf.Abs(d) < 0.01f);
 	}
 
 	private IEnumerator LeaveWall()
 	{
+		print("leavewall");
 		yield return new WaitForSeconds(WALLJUMP_GRACE_TIME);
-		ClearWall();
+		wallSide = 0;
+		//ClearWall();
 	}
 
-	private void ClearWall()
+	/*private void ClearWall()
 	{
-		wall = null;
+		walls.Clear();
 		wallSide = 0;
-	}
+	}*/
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
