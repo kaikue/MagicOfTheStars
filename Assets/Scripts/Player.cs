@@ -22,11 +22,12 @@ public class Player : MonoBehaviour
 	private const float SNAP_DIST = 0.5f;
 
 	private const float JUMP_VEL = 14.0f; //jump y speed
-	private const float WALLJUMP_VEL = 1.5f * MAX_RUN_VEL; //speed applied at time of walljump
+	private const float JUMP_GRACE_TIME = 0.1f; //time after leaving ground player can still jump
 
-	private const float WALLJUMP_MIN_FACTOR = 0.5f; //amount of walljump kept at minimum if no input
+	private const float WALLJUMP_VEL = 1.5f * MAX_RUN_VEL; //speed applied at time of walljump
+	private const float WALLJUMP_MIN_FACTOR = 0.0f; //amount of walljump kept at minimum if no input
 	private const float WALLJUMP_TIME = 0.5f; //time it takes for walljump to wear off
-	private const float WALLJUMP_GRACE_TIME = 0.1f; //time after leaving wall player can still walljump
+	private const float WALLJUMP_GRACE_TIME = 0.2f; //time after leaving wall player can still walljump
 
 	private const float ROLL_VEL = 2 * MAX_RUN_VEL; //speed of roll
 	private const float ROLL_TIME = 1.0f; //time it takes for roll to wear off naturally
@@ -61,6 +62,7 @@ public class Player : MonoBehaviour
 	private Vector2 lastGroundPos;
 
 	private bool jumpQueued = false;
+	private bool canJump = false;
 	private List<GameObject> grounds = new List<GameObject>();
 	private List<GameObject> walls = new List<GameObject>();
 	private int wallSide = 0; //1 for wall on left, 0 for none, -1 for wall on right (i.e. points away from wall in x)
@@ -247,9 +249,11 @@ public class Player : MonoBehaviour
 				grounds.Add(hit.transform.gameObject);
 			}
 		}*/
-
+		
 		if (onGround && velocity.y <= 0) //on the ground, didn't just jump
 		{
+			velocity.y = 0; //TODO: remove?
+
 			//align to platform moving down (for boss hands)
 			Vector2 newGroundPos = grounds[0].transform.position;
 			if (lastGroundPos != null)
@@ -267,31 +271,13 @@ public class Player : MonoBehaviour
 				print("slide");
 				velocity.y += GRAVITY_ACCEL; //* slope (perp. to ground angle), * friction?
 			}
-			else
-			{*/
+			*/
 			ResetWalljump();
 
 			if (!isRolling() && !canRoll)
 			{
 				canRoll = true;
 			}
-
-			velocity.y = 0;
-			if (jumpQueued)
-			{
-				jumpQueued = false;
-				//regular jump
-				StopRoll();
-				if (!isRolling()) //don't jump if forced roll
-				{
-					velocity.y += JUMP_VEL;
-					PlayJumpSound();
-				}
-			}
-
-			//print(grounds.Count + " " + velocity.y + " " + onGround + " " + (velocity.y <= 0));
-
-			//}
 		}
 		else
 		{
@@ -308,6 +294,25 @@ public class Player : MonoBehaviour
 				SkidSound.Stop();
 			}
 			velocity.y += GRAVITY_ACCEL;
+		}
+
+		//continued moving past wall corner- clear wallslide
+		if (wallSide != 0 && Math.Sign(velocity.x) != wallSide && walls.Count == 0)
+		{
+			wallSide = 0;
+		}
+
+		if (jumpQueued && canJump && velocity.y <= 0)
+		{
+			//regular jump
+			jumpQueued = false;
+			canJump = false;
+			StopRoll();
+			if (!isRolling()) //don't jump if forced roll
+			{
+				velocity.y += JUMP_VEL;
+				PlayJumpSound();
+			}
 		}
 
 		/*if (isRolling() && jumpQueued)
@@ -445,8 +450,9 @@ public class Player : MonoBehaviour
 	public void Kill()
 	{
 		StopRoll();
-		ResetWalljump();
 		grounds.Clear();
+		canJump = false;
+		ResetWalljump();
 		wallSide = 0;
 		walls.Clear();
 		rb.velocity = Vector3.zero;
@@ -612,10 +618,11 @@ public class Player : MonoBehaviour
 				grounds.Add(collision.gameObject);
 			}
 			groundNormal = groundPoint.Value.normal;
+			canJump = true;
 		}
 		else
 		{
-			grounds.Remove(collision.gameObject);
+			RemoveContact(grounds, collision.gameObject, LeaveGround());
 		}
 
 		ContactPoint2D? ceilingPoint = GetCeiling(collision);
@@ -648,7 +655,7 @@ public class Player : MonoBehaviour
 		}
 		else
 		{
-			walls.Remove(collision.gameObject);
+			RemoveContact(walls, collision.gameObject, LeaveWall());
 		}
 	}
 
@@ -660,13 +667,8 @@ public class Player : MonoBehaviour
 			return;
 		}*/
 
-		grounds.Remove(collision.gameObject);
-		walls.Remove(collision.gameObject);
-
-		if (walls.Count == 0)
-		{
-			StartCoroutine(LeaveWall());
-		}
+		RemoveContact(grounds, collision.gameObject, LeaveGround());
+		RemoveContact(walls, collision.gameObject, LeaveWall());
 	}
 
 	private float NormalDot(ContactPoint2D contact)
@@ -705,20 +707,27 @@ public class Player : MonoBehaviour
 		return GetWithDotCheck(collision, d => Mathf.Abs(d) < 0.01f);
 	}
 
-	private IEnumerator LeaveWall()
+	private void RemoveContact(List<GameObject> contacts, GameObject contact, IEnumerator ifEmpty)
 	{
-		print("leavewall");
-		yield return new WaitForSeconds(WALLJUMP_GRACE_TIME);
-		wallSide = 0;
-		//ClearWall();
+		bool removed = contacts.Remove(contact);
+		if (removed && contacts.Count == 0)
+		{
+			StartCoroutine(ifEmpty);
+		}
 	}
 
-	/*private void ClearWall()
+	private IEnumerator LeaveGround()
 	{
-		walls.Clear();
-		wallSide = 0;
-	}*/
+		yield return new WaitForSeconds(JUMP_GRACE_TIME);
+		canJump = false;
+	}
 
+	private IEnumerator LeaveWall()
+	{
+		yield return new WaitForSeconds(WALLJUMP_GRACE_TIME);
+		wallSide = 0;
+	}
+	
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.CompareTag("Checkpoint"))

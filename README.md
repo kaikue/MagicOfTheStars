@@ -4,15 +4,16 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
+- Keep jump queued for a pre-grace period (if jump pressed just before landing)
 - Redo player sounds
+- Reverse if rolling, hitting wall and can't unroll
 - Animator
 - Wall slide down slows descent
 	- Slide image only when down
 	- Slide particles?
-- Jump + wall jump grace period of 0.25s?
-- Set jump anim instead of slide right after leaving wall, not after grace period
-- Review collisions
 - Variable jump height
+- Moving platforms
+- Adjust jump & walljump grace period
 - Make roll longer?
 - More moves?
 	- Roll + jump = long jump?
@@ -140,6 +141,7 @@ Exploration and puzzle-based platformer
 - Cartoony font
 
 ### Camera
+- Follow player- part of prefab
 - 2/3 down normally?
 - Trigger areas
 	- Lerp to fixed or relative positions
@@ -166,7 +168,7 @@ Exploration and puzzle-based platformer
 
 ### Sound
 - Multiple jump sounds
-- Wallslide
+- Wallslide down
 - Roll (whoosh)
 - star collect (level up) https://freesound.org/people/elmasmalo1/sounds/350841/
 - star twinkle https://freesound.org/people/MrCisum/sounds/336664/
@@ -193,3 +195,5 @@ Exploration and puzzle-based platformer
 - Wall slide sprite should face opposite of other sprites
 - Star should be white, colored by material
 - When changing player dimensions, update bounding box and fully retest level design
+- Player can jump up 3 blocks, across 7 blocks without rolling
+- Don't give 1 block gaps that end in a wall- player gets stuck
