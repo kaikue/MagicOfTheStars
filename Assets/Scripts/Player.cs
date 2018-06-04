@@ -249,13 +249,10 @@ public class Player : MonoBehaviour
 
 			//align to platform moving down (for boss hands)
 			Vector2 newGroundPos = grounds[0].transform.position;
-			if (lastGroundPos != null)
+			float yDiff = newGroundPos.y - lastGroundPos.y;
+			if (yDiff < 0)
 			{
-				float yDiff = newGroundPos.y - lastGroundPos.y;
-				if (yDiff < 0)
-				{
-					offset.y += -0.1f;
-				}
+				offset.y += -0.1f;
 			}
 			lastGroundPos = newGroundPos;
 
@@ -309,16 +306,7 @@ public class Player : MonoBehaviour
 				PlayJumpSound();
 			}
 		}
-
-		/*if (isRolling() && jumpQueued)
-		{
-			//midair roll cancel
-			StopRoll();
-			ResetWalljump();
-			velocity.y = ROLLJUMP_VEL;
-			jumpQueued = false;
-		}*/
-
+		
 		if (walljumpTime > 0 || walljumpPush)
 		{
 			//apply walljump velocity
@@ -650,6 +638,12 @@ public class Player : MonoBehaviour
 
 				ResetWalljump();
 				StopRoll();
+				//if still rolling: bounce (stuck under ledge)
+				if (isRolling())
+				{
+					rollDir *= -1;
+				}
+
 				//TODO: slide down?
 				//SkidSound.PlayScheduled(0.1);
 			}

@@ -4,17 +4,17 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Keep jump queued for a pre-grace period (if jump pressed just before landing)
 - Keep walljump speed when no input, but slow to 0 when moving against walljump
 - Wall slide down slows descent
 	- Slide image only when down
 	- Slide particles?
 - Variable jump height
-- Reverse if rolling, hitting wall and can't unroll
 - Take velocity of moving platforms
 - Hitsnapping
 	- note issues when rolling off of platform and immediately under ledge
 - Redo player sounds
+- Slopes
+	- Sliding down steep angles
 - Animator
 - Adjust jump & walljump grace period
 - Make roll longer?
@@ -56,7 +56,9 @@ Exploration and puzzle-based platformer
 - Color schemes
 - Suits
 	- New abilities
-	- Swim, moon gravity?
+	- Swim
+	- Moon gravity?
+	- Double jump?
 
 ### Level design
 - Player should visit doors before being able to open them
@@ -143,7 +145,9 @@ Exploration and puzzle-based platformer
 
 ### Camera
 - Follow player- part of prefab
-- 2/3 down normally?
+	- room to move back and forth a bit
+	- lead the player's movement?
+- 2/3 down normally? or snapped to offset from ground position
 - Trigger areas
 	- Lerp to fixed or relative positions
 	- Zoom out
