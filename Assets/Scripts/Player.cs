@@ -16,9 +16,12 @@ public class Player : MonoBehaviour
 	public AudioSource StarCollectSound;
 	public AudioSource DeathSound;
 
-	private const float RUN_ACCEL = 0.4f;
-	private const float GRAVITY_ACCEL = -0.6f;
+	private const float RUN_ACCEL = 0.4f; //acceleration of horizontal movement
 	private const float MAX_RUN_VEL = 7.0f; //maximum speed of horizontal movement
+
+	private const float GRAVITY_ACCEL = -0.6f; //acceleration of gravity
+	private const float MAX_FALL_VEL = -20.0f; //maximum speed of fall
+	private const float SLIDE_FACTOR = 0.5f; //multiplier for fall speed when sliding against wall
 	private const float SNAP_DIST = 0.5f;
 
 	private const float JUMP_VEL = 14.0f; //jump y speed
@@ -269,7 +272,7 @@ public class Player : MonoBehaviour
 				canRoll = true;
 			}
 		}
-		else
+		else //in midair
 		{
 			if (!onGround && jumpQueued && wallSide != 0 && !isRolling())
 			{
@@ -284,7 +287,19 @@ public class Player : MonoBehaviour
 				PlayJumpSound();
 				SkidSound.Stop();
 			}
-			velocity.y += GRAVITY_ACCEL;
+
+			float gravAccel = GRAVITY_ACCEL;
+			float maxFall = MAX_FALL_VEL;
+			if (velocity.y < 0 && walls.Count > 0)
+			{
+				//slide down wall more slowly
+				gravAccel *= SLIDE_FACTOR;
+				maxFall *= SLIDE_FACTOR;
+				//TODO: slide sound/particles?
+			}
+
+			velocity.y += gravAccel;
+			velocity.y = Mathf.Max(velocity.y, maxFall); //max since they're negative
 		}
 
 		//continued moving past wall corner- clear wallslide
@@ -328,7 +343,7 @@ public class Player : MonoBehaviour
 
 		if (velocity.y != 0 && !isRolling())
 		{
-			if (wallSide != 0 && Math.Sign(velocity.x) != wallSide)
+			if (wallSide != 0 && velocity.y < 0 && Math.Sign(velocity.x) != wallSide)
 			{
 				SetAnimState(AnimState.WALLSLIDE);
 			}
@@ -469,7 +484,7 @@ public class Player : MonoBehaviour
 		SetColliderHeight(normalTop);
 
 		RaycastHit2D[] hits = BoxCast(Vector2.zero, 0);
-		if (hits.Length > 0) //collided with something else
+		if (hits.Length > 0) //collided with something when trying to unroll- force roll to continue
 		{
 			canRoll = false;
 			rollTime = Mathf.Max(rollTime + Time.fixedDeltaTime, ROLL_FORCE_AMOUNT);
@@ -587,7 +602,7 @@ public class Player : MonoBehaviour
 	{
 		if (collision.contacts.Length == 0) return; //not sure what happened
 
-		//TODO: don't assume it's land, check that first
+		//TODO: don't assume it's land, check that first (use layermask)
 		if (collision.gameObject.tag == "Slime" || collision.gameObject.tag == "Obstacle" || collision.gameObject.tag == "StarSpot")
 		{
 			return;
@@ -644,7 +659,6 @@ public class Player : MonoBehaviour
 					rollDir *= -1;
 				}
 
-				//TODO: slide down?
 				//SkidSound.PlayScheduled(0.1);
 			}
 		}

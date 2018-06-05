@@ -5,18 +5,16 @@ Exploration and puzzle-based platformer
 
 ### Movement
 - Keep walljump speed when no input, but slow to 0 when moving against walljump
-- Wall slide down slows descent
-	- Slide image only when down
-	- Slide particles?
 - Variable jump height
-- Take velocity of moving platforms
+- Take velocity of moving platforms (grounds and walls?)
 - Hitsnapping
 	- note issues when rolling off of platform and immediately under ledge
 - Redo player sounds
 - Slopes
 	- Sliding down steep angles
-- Animator
+- Animator 
 - Adjust jump & walljump grace period
+- Slide particles?
 - Make roll longer?
 - More moves?
 	- Roll + jump = long jump?
@@ -201,4 +199,3 @@ Exploration and puzzle-based platformer
 - Star should be white, colored by material
 - When changing player dimensions, update bounding box and fully retest level design
 - Player can jump up 3 blocks, across 7 blocks without rolling
-- Don't give 1 block gaps that end in a wall- player gets stuck
