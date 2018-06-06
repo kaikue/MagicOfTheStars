@@ -4,7 +4,6 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Keep walljump speed when no input, but slow to 0 when moving against walljump
 - Variable jump height
 - Take velocity of moving platforms (grounds and walls?)
 - Hitsnapping

@@ -28,8 +28,8 @@ public class Player : MonoBehaviour
 	private const float JUMP_GRACE_TIME = 0.1f; //time after leaving ground player can still jump
 	private const float JUMP_BUFFER_TIME = 0.1f; //time before hitting ground a jump will still be queued
 
-	private const float WALLJUMP_VEL = 1.5f * MAX_RUN_VEL; //speed applied at time of walljump
-	private const float WALLJUMP_MIN_FACTOR = 0.0f; //amount of walljump kept at minimum if no input
+	private const float WALLJUMP_VEL = MAX_RUN_VEL; //speed applied at time of walljump
+	private const float WALLJUMP_MIN_FACTOR = 0.75f; //amount of walljump kept at minimum if no input
 	private const float WALLJUMP_TIME = 0.5f; //time it takes for walljump to wear off
 	private const float WALLJUMP_GRACE_TIME = 0.2f; //time after leaving wall player can still walljump
 
@@ -217,14 +217,11 @@ public class Player : MonoBehaviour
 				velocity.x = Mathf.Clamp(velocity.x, -speedCap, speedCap);
 				SetAnimState(AnimState.RUN);
 			}
-
-			if (walljumpTime <= 0)
-			{
-				//received horizontal input, so don't let player get pushed by natural walljump velocity
-				walljumpPush = false;
-			}
-
-			if (!isRolling())
+            
+			//received horizontal input, so don't let player get pushed by natural walljump velocity
+			walljumpPush = false;
+			
+			if (!IsRolling())
 			{
 				rollDir = Math.Sign(inputXVel);
 			}
@@ -267,14 +264,14 @@ public class Player : MonoBehaviour
 			*/
 			ResetWalljump();
 
-			if (!isRolling() && !canRoll)
+			if (!IsRolling() && !canRoll)
 			{
 				canRoll = true;
 			}
 		}
 		else //in midair
 		{
-			if (!onGround && jumpQueued && wallSide != 0 && !isRolling())
+			if (!onGround && jumpQueued && wallSide != 0 && !IsRolling())
 			{
 				//walljump
 				walljumpTime = WALLJUMP_TIME;
@@ -315,7 +312,7 @@ public class Player : MonoBehaviour
 			StopCoroutine(CancelQueuedJump());
 			canJump = false;
 			StopRoll();
-			if (!isRolling()) //don't jump if forced roll
+			if (!IsRolling()) //don't jump if forced roll
 			{
 				velocity.y += JUMP_VEL;
 				PlayJumpSound();
@@ -331,6 +328,7 @@ public class Player : MonoBehaviour
 				timeFactor = Mathf.Max(timeFactor, WALLJUMP_MIN_FACTOR);
 			}
 			float walljumpVel = WALLJUMP_VEL * lastWallSide * timeFactor;
+            print(walljumpVel + " " + walljumpPush);
 
 			velocity.x += walljumpVel;
 			velocity.x = Mathf.Clamp(velocity.x, -MAX_RUN_VEL, MAX_RUN_VEL);
@@ -341,7 +339,7 @@ public class Player : MonoBehaviour
 			}
 		}
 
-		if (velocity.y != 0 && !isRolling())
+		if (velocity.y != 0 && !IsRolling())
 		{
 			if (wallSide != 0 && velocity.y < 0 && Math.Sign(velocity.x) != wallSide)
 			{
@@ -368,7 +366,7 @@ public class Player : MonoBehaviour
 			}
 		}
 
-		if (isRolling())
+		if (IsRolling())
 		{
 			//apply roll velocity
 			float timeFactor = rollTime / ROLL_TIME;
@@ -409,11 +407,11 @@ public class Player : MonoBehaviour
 
 			rollTime -= Time.fixedDeltaTime;
 
-			if (!isRolling() || shouldStop)
+			if (!IsRolling() || shouldStop)
 			{
 				StopRoll();
 			}
-			if (isRolling()) //both may be true if forced roll
+			if (IsRolling()) //both may be true if forced roll
 			{
 				SetAnimState(AnimState.ROLL);
 			}
@@ -446,7 +444,7 @@ public class Player : MonoBehaviour
 		jumpQueued = false;
 	}
 
-	private bool isRolling()
+	private bool IsRolling()
 	{
 		return rollTime > 0;
 	}
@@ -582,7 +580,7 @@ public class Player : MonoBehaviour
 				//rb.velocity = new Vector2(rb.velocity.x, SLIME_BOUNCE_MULTIPLIER * JUMP_VEL);
 
 				//reverse if rolling into slime
-				if (isRolling() && Mathf.Sign(rb.velocity.x) != Mathf.Sign(prevXVel))
+				if (IsRolling() && Mathf.Sign(rb.velocity.x) != Mathf.Sign(prevXVel))
 				{
 					rollDir *= -1;
 				}
@@ -654,7 +652,7 @@ public class Player : MonoBehaviour
 				ResetWalljump();
 				StopRoll();
 				//if still rolling: bounce (stuck under ledge)
-				if (isRolling())
+				if (IsRolling())
 				{
 					rollDir *= -1;
 				}
