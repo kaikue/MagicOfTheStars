@@ -6,6 +6,7 @@ Exploration and puzzle-based platformer
 ### Movement
 - Variable jump height
 - Take velocity of moving platforms (grounds and walls?)
+- One way platforms (platformeffector2d)
 - Hitsnapping
 	- note issues when rolling off of platform and immediately under ledge
 - Redo player sounds
@@ -70,6 +71,9 @@ Exploration and puzzle-based platformer
 - Sneak peeks of other levels
 - Invisible secrets (hints on map & elsewhere)
 - Mini-speedruns
+- Speed paths
+	- Camera-based cycles
+- Puzzles
 - Levels tell a story
 	- Story should be reflected in level mechanics
 	- Conspiracy- detective sends you to "pick up clues", he was the one who did the crime and wants you to collect evidence

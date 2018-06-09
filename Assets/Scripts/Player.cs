@@ -328,7 +328,6 @@ public class Player : MonoBehaviour
 				timeFactor = Mathf.Max(timeFactor, WALLJUMP_MIN_FACTOR);
 			}
 			float walljumpVel = WALLJUMP_VEL * lastWallSide * timeFactor;
-            print(walljumpVel + " " + walljumpPush);
 
 			velocity.x += walljumpVel;
 			velocity.x = Mathf.Clamp(velocity.x, -MAX_RUN_VEL, MAX_RUN_VEL);
@@ -600,8 +599,7 @@ public class Player : MonoBehaviour
 	{
 		if (collision.contacts.Length == 0) return; //not sure what happened
 
-		//TODO: don't assume it's land, check that first (use layermask)
-		if (collision.gameObject.tag == "Slime" || collision.gameObject.tag == "Obstacle" || collision.gameObject.tag == "StarSpot")
+        if (collision.gameObject.layer != LayerMask.NameToLayer("LevelGeometry"))
 		{
 			return;
 		}
