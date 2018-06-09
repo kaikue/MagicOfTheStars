@@ -4,7 +4,7 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Variable jump height
+- Climb up ground tiles if player is more than halfway up tile and has free space above it? 
 - Take velocity of moving platforms (grounds and walls?)
 - One way platforms (platformeffector2d)
 - Hitsnapping
@@ -31,6 +31,7 @@ Exploration and puzzle-based platformer
 	- Rotating blocks
 	- Appearing blocks
 	- Rollthroughable blocks
+	- Bounce on things while rolling (spin jump like)
 - Enemies
 	- Damage by rolling, you bounce back out of roll
 	- Should make the game FUN

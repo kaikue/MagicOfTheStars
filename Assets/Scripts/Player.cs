@@ -25,7 +25,8 @@ public class Player : MonoBehaviour
 	private const float SNAP_DIST = 0.5f;
 
 	private const float JUMP_VEL = 14.0f; //jump y speed
-	private const float JUMP_GRACE_TIME = 0.1f; //time after leaving ground player can still jump
+    private const float JUMP_RELEASE_FACTOR = 0.5f; //factor to reduce jump by when releasing
+    private const float JUMP_GRACE_TIME = 0.1f; //time after leaving ground player can still jump
 	private const float JUMP_BUFFER_TIME = 0.1f; //time before hitting ground a jump will still be queued
 
 	private const float WALLJUMP_VEL = MAX_RUN_VEL; //speed applied at time of walljump
@@ -66,8 +67,10 @@ public class Player : MonoBehaviour
 	private Vector2 lastGroundPos;
 
 	private bool jumpQueued = false;
-	private bool canJump = false;
-	private List<GameObject> grounds = new List<GameObject>();
+    private bool jumpReleaseQueued = false;
+    private bool canJump = false;
+    private bool canJumpRelease = false;
+    private List<GameObject> grounds = new List<GameObject>();
 	private List<GameObject> walls = new List<GameObject>();
 	private int wallSide = 0; //1 for wall on left, 0 for none, -1 for wall on right (i.e. points away from wall in x)
 	private int lastWallSide = 0;
@@ -162,6 +165,11 @@ public class Player : MonoBehaviour
 			jumpQueued = true;
 			StartCoroutine(CancelQueuedJump());
 		}
+
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton0))
+        {
+            jumpReleaseQueued = true;
+        }
 		
 		bool triggerPressed = Input.GetAxis("LTrigger") > 0 || Input.GetAxis("RTrigger") > 0;
 		bool shiftPressed = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
@@ -271,6 +279,16 @@ public class Player : MonoBehaviour
 		}
 		else //in midair
 		{
+            if (jumpReleaseQueued)
+            {
+                jumpReleaseQueued = false;
+                if (canJumpRelease && velocity.y > 0)
+                {
+                    velocity.y = velocity.y * JUMP_RELEASE_FACTOR;
+                }
+                canJumpRelease = false;
+            }
+
 			if (!onGround && jumpQueued && wallSide != 0 && !IsRolling())
 			{
 				//walljump
@@ -279,7 +297,8 @@ public class Player : MonoBehaviour
 				velocity.y = JUMP_VEL;
 				walljumpPush = true;
 				jumpQueued = false;
-				StopCoroutine(CancelQueuedJump());
+                canJumpRelease = true;
+                StopCoroutine(CancelQueuedJump());
 
 				PlayJumpSound();
 				SkidSound.Stop();
@@ -311,7 +330,8 @@ public class Player : MonoBehaviour
 			jumpQueued = false;
 			StopCoroutine(CancelQueuedJump());
 			canJump = false;
-			StopRoll();
+            canJumpRelease = true;
+            StopRoll();
 			if (!IsRolling()) //don't jump if forced roll
 			{
 				velocity.y += JUMP_VEL;
@@ -434,7 +454,7 @@ public class Player : MonoBehaviour
 		rb.velocity = velocity;
 		rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime + offset);
 
-		//jumpQueued = false;
+		jumpReleaseQueued = false;
 	}
 
 	private IEnumerator CancelQueuedJump()
