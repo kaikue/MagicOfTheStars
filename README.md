@@ -3,7 +3,7 @@ Exploration and puzzle-based platformer
 
 ## TODO
 
-- Remove gameObject. when it's not necessary (getcomponent, transform)
+- Resources folder bad???
 
 ### Movement
 - Climb up ground tiles if player is more than halfway up tile and has free space above it? 
@@ -203,7 +203,7 @@ Exploration and puzzle-based platformer
 ### Art
 - Vector art
 - Player animations
-- Star (juicy)
+- Star (juicier shading)
 - Star collect image
 - Door
 - Menus
