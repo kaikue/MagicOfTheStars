@@ -28,7 +28,7 @@ public class Star : MonoBehaviour {
 	{
 		color = GetColor();
 
-		ParticleSystem ps = gameObject.GetComponentInChildren<ParticleSystem>();
+		ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
 		ParticleSystem.MainModule main = ps.main;
 		main.startColor = color;
 		
@@ -39,7 +39,7 @@ public class Star : MonoBehaviour {
 			color = collectedColor;
 			starImage.GetComponent<SpriteRenderer>().color = color;
 			ps.gameObject.SetActive(false);
-			gameObject.GetComponent<AudioSource>().enabled = false;
+			GetComponent<AudioSource>().enabled = false;
 		}
 
 		glow.GetComponent<SpriteRenderer>().material.color = color;

@@ -848,7 +848,7 @@ public class Player : MonoBehaviour
             powerUp.Activate(this);
         }
 
-		/*Portal portalCollided = collision.gameObject.GetComponent<Portal>();
+		/*Portal portalCollided = other.GetComponent<Portal>();
 		if (portalCollided != null)
 		{
 			int starType = (int)gm.levelStarPrefab.GetComponent<Star>().starType;
@@ -858,7 +858,7 @@ public class Player : MonoBehaviour
 			}
 		}
 
-		StarSpot starSpot = collision.gameObject.GetComponent<StarSpot>();
+		StarSpot starSpot = other.GetComponent<StarSpot>();
 		if (starSpot != null && !starSpot.touched)
 		{
 			starSpot.Fill();

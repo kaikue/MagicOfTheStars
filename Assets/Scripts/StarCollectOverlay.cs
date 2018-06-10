@@ -24,7 +24,9 @@ public class StarCollectOverlay : MonoBehaviour {
 	private RectTransform leftRect;
 	private RectTransform rightRect;
 
-	private void Start()
+    private GameManager gm;
+
+    private void Start()
 	{
 		leftRect = left.GetComponent<RectTransform>();
 		rightRect = right.GetComponent<RectTransform>();
@@ -35,7 +37,7 @@ public class StarCollectOverlay : MonoBehaviour {
 
 		lastRealTime = Time.realtimeSinceStartup;
 
-		GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+		gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 		starImage.GetComponent<Image>().color = gm.levelStarPrefab.GetComponent<Star>().GetColor();
 	}
 
@@ -63,7 +65,7 @@ public class StarCollectOverlay : MonoBehaviour {
 
 			//fade out overlay
 
-			GameObject.Find("GameManager").GetComponent<GameManager>().FinishOverlay();
+			gm.FinishOverlay();
 			Destroy(gameObject);
 		}
 	}

@@ -32,8 +32,8 @@ public class Door : MonoBehaviour {
 			requirements[i].GetComponentInChildren<SpriteRenderer>().color = starsRequiredPrefabs[i].GetComponent<Star>().GetColor();
 			requirements[i].GetComponentInChildren<Text>().text = "" + starsRequiredCounts[i];
 			//rotate to look normal
-			requirements[i].GetComponentInChildren<SpriteRenderer>().gameObject.transform.rotation = Quaternion.identity;
-			requirements[i].GetComponentInChildren<Text>().gameObject.transform.rotation = Quaternion.identity;
+			requirements[i].GetComponentInChildren<SpriteRenderer>().transform.rotation = Quaternion.identity;
+			requirements[i].GetComponentInChildren<Text>().transform.rotation = Quaternion.identity;
 		}
 		for (int i = starsRequiredCounts.Length; i < requirements.Length; i++)
 		{
@@ -43,7 +43,7 @@ public class Door : MonoBehaviour {
 		int numMissing = requirements.Length - starsRequiredCounts.Length;
 		requirementsBase.transform.localPosition += Vector3.down * numMissing * REQ_HEIGHT / 2;
 
-		closedPos = gameObject.transform.position;
+		closedPos = transform.position;
 		openPos = new Vector3(closedPos.x + openOffsetX, closedPos.y + openOffsetY, closedPos.z);
 
 		//destroy if was previously opened
@@ -99,7 +99,7 @@ public class Door : MonoBehaviour {
 	{
 		for (float t = 0; t < SLIDE_TIME; t += Time.deltaTime)
 		{
-			gameObject.transform.position = Vector3.Lerp(closedPos, openPos, t / SLIDE_TIME);
+			transform.position = Vector3.Lerp(closedPos, openPos, t / SLIDE_TIME);
 			yield return new WaitForEndOfFrame();
 		}
 
