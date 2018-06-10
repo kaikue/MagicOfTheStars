@@ -274,7 +274,7 @@ public class Player : MonoBehaviour
 
 			if (!IsRolling() && !canRoll)
 			{
-				canRoll = true;
+                SetCanRoll();
 			}
 		}
 		else //in midair
@@ -326,17 +326,7 @@ public class Player : MonoBehaviour
 
 		if (jumpQueued && canJump && velocity.y <= 0)
 		{
-			//regular jump
-			jumpQueued = false;
-			StopCoroutine(CancelQueuedJump());
-			canJump = false;
-            canJumpRelease = true;
-            StopRoll();
-			if (!IsRolling()) //don't jump if forced roll
-			{
-				velocity.y += JUMP_VEL;
-				PlayJumpSound();
-			}
+            Jump(ref velocity);
 		}
 		
 		if (walljumpTime > 0 || walljumpPush)
@@ -456,6 +446,20 @@ public class Player : MonoBehaviour
 
 		jumpReleaseQueued = false;
 	}
+
+    private void Jump(ref Vector2 velocity)
+    {
+        jumpQueued = false;
+        StopCoroutine(CancelQueuedJump());
+        canJump = false;
+        canJumpRelease = true;
+        StopRoll();
+        if (!IsRolling()) //don't jump if forced roll
+        {
+            velocity.y += JUMP_VEL;
+            PlayJumpSound();
+        }
+    }
 
 	private IEnumerator CancelQueuedJump()
 	{
@@ -755,16 +759,18 @@ public class Player : MonoBehaviour
 	
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.CompareTag("Checkpoint"))
+        GameObject other = collision.gameObject;
+
+        if (collision.CompareTag("Checkpoint"))
 		{
-			respawnPos = collision.gameObject.transform.position;
+			respawnPos = other.transform.position;
 		}
 
-		Star star = collision.gameObject.GetComponent<Star>();
+		Star star = other.GetComponent<Star>();
 		if (star != null)
 		{
 			bool newStar = gm.CollectStar(star);
-			Destroy(star.gameObject);
+			Destroy(other);
 			if (newStar)
 			{
 				StarCollectSound.Play();
@@ -775,12 +781,18 @@ public class Player : MonoBehaviour
 			}
 		}
 
-		Door door = collision.gameObject.GetComponent<Door>();
+		Door door = other.GetComponent<Door>();
 		if (door != null)
 		{
 			gm.ShowHUDDoorStars(door);
 			door.TryOpen();
 		}
+
+        PowerUp powerUp = other.GetComponent<PowerUp>();
+        if (powerUp != null)
+        {
+            powerUp.Activate(this);
+        }
 
 		/*Portal portalCollided = collision.gameObject.GetComponent<Portal>();
 		if (portalCollided != null)
@@ -819,4 +831,10 @@ public class Player : MonoBehaviour
 			DeathSound.Play();
 		}
 	}
+
+    public void SetCanRoll()
+    {
+        canRoll = true;
+        //TODO: fancy effects
+    }
 }

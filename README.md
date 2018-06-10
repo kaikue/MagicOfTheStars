@@ -3,6 +3,9 @@ Exploration and puzzle-based platformer
 
 ## TODO
 
+- Break up FixedUpdate into multiple functions that change ref velocity
+- Remove gameObject. when it's not necessary (getcomponent, transform)
+
 ### Movement
 - Climb up ground tiles if player is more than halfway up tile and has free space above it? 
 - Take velocity of moving platforms (grounds and walls?)
@@ -10,12 +13,17 @@ Exploration and puzzle-based platformer
 - Hitsnapping
 	- note issues when rolling off of platform and immediately under ledge
 - Redo player sounds
+	- Delete old sounds
 - Slopes
 	- Sliding down steep angles
 - Animator 
 - Adjust jump & walljump grace period
 - Slide particles?
+- Powerups
+	- Reset jump (double+ jump)
+- Visual indication for reset roll
 - Make roll longer?
+	- Depends on how long you hold the trigger- is there a limit?
 - More moves?
 	- Roll + jump = long jump?
 	- Roll cancel jump in midair?
@@ -128,6 +136,8 @@ Exploration and puzzle-based platformer
 	- Platforms revolving around center (windmill style)
 	- Spin entire big area
 	- Little islands over water
+	- Air roll course with PowerUpRoll
+	- Roll after fall
 
 ### UI
 - Import menus from zubenel
