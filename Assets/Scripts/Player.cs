@@ -68,16 +68,17 @@ public class Player : MonoBehaviour
 
 	private bool jumpQueued = false;
     private bool jumpReleaseQueued = false;
-    private bool canJump = false;
-    private bool canJumpRelease = false;
+    private bool canJump = false; //used instead of onGround to allow grace time after leaving platform
+    private bool canJumpRelease = false; //to only allow the first jump release to slow the jump
     private List<GameObject> grounds = new List<GameObject>();
 	private List<GameObject> walls = new List<GameObject>();
 	private int wallSide = 0; //1 for wall on left, 0 for none, -1 for wall on right (i.e. points away from wall in x)
 	private int lastWallSide = 0;
 	private float walljumpTime = 0; //counts down from WALLJUMP_TIME
 	private bool walljumpPush = false; //if the player hasn't touched anything and the walljump should keep moving them
+    private bool canMidairJump = false;
 
-	private bool rollQueued = false;
+    private bool rollQueued = false;
 	private float rollTime = 0;
 	private bool canRoll = true;
 	private int rollDir = 1; //-1 for left, 1 for right
@@ -109,18 +110,18 @@ public class Player : MonoBehaviour
 
 	private void Start()
 	{
-		baseScaleX = gameObject.transform.localScale.x;
-		baseScaleY = gameObject.transform.localScale.y;
-		baseScaleZ = gameObject.transform.localScale.z;
+		baseScaleX = transform.localScale.x;
+		baseScaleY = transform.localScale.y;
+		baseScaleZ = transform.localScale.z;
 
 		gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-		rb = gameObject.GetComponent<Rigidbody2D>();
-		ec = gameObject.GetComponent<EdgeCollider2D>();
+		rb = GetComponent<Rigidbody2D>();
+		ec = GetComponent<EdgeCollider2D>();
 		ecHeight = ec.points[1].y - ec.points[0].y;
 
 		SLIDE_THRESHOLD = -Mathf.Sqrt(2) / 2; //player will slide down 45 degree angle slopes
 
-		respawnPos = gameObject.transform.position;
+		respawnPos = transform.position;
 
 		sr = SpriteObject.GetComponent<SpriteRenderer>();
 		LoadSprites();
@@ -213,26 +214,7 @@ public class Player : MonoBehaviour
 		}
 		else
 		{
-			if (velocity.x != 0 && Mathf.Sign(inputXVel) != Mathf.Sign(velocity.x)) //don't slide if switching directions on same frame
-			{
-				velocity.x = 0;
-				shouldStand = true;
-			}
-			else
-			{
-				velocity.x += RUN_ACCEL * inputXVel;
-				float speedCap = Mathf.Abs(inputXVel * MAX_RUN_VEL); //use input to clamp max speed so half tilted joystick is slower
-				velocity.x = Mathf.Clamp(velocity.x, -speedCap, speedCap);
-				SetAnimState(AnimState.RUN);
-			}
-            
-			//received horizontal input, so don't let player get pushed by natural walljump velocity
-			walljumpPush = false;
-			
-			if (!IsRolling())
-			{
-				rollDir = Math.Sign(inputXVel);
-			}
+			MoveHorizontal(inputXVel, ref velocity);
 		}
 		
 		bool onGround = grounds.Count > 0;
@@ -253,29 +235,7 @@ public class Player : MonoBehaviour
 		
 		if (onGround && velocity.y <= 0) //on the ground, didn't just jump
 		{
-			velocity.y = 0; //TODO: remove?
-
-			//align to platform moving down (for boss hands)
-			Vector2 newGroundPos = grounds[0].transform.position;
-			float yDiff = newGroundPos.y - lastGroundPos.y;
-			if (yDiff < 0)
-			{
-				offset.y += -0.1f;
-			}
-			lastGroundPos = newGroundPos;
-
-			/*if (groundAngle >= SLIDE_THRESHOLD)
-			{
-				print("slide");
-				velocity.y += GRAVITY_ACCEL; //* slope (perp. to ground angle), * friction?
-			}
-			*/
-			ResetWalljump();
-
-			if (!IsRolling() && !canRoll)
-			{
-                SetCanRoll();
-			}
+            StayOnGround(ref velocity, ref offset);
 		}
 		else //in midair
 		{
@@ -291,31 +251,10 @@ public class Player : MonoBehaviour
 
 			if (!onGround && jumpQueued && wallSide != 0 && !IsRolling())
 			{
-				//walljump
-				walljumpTime = WALLJUMP_TIME;
-				lastWallSide = wallSide;
-				velocity.y = JUMP_VEL;
-				walljumpPush = true;
-				jumpQueued = false;
-                canJumpRelease = true;
-                StopCoroutine(CancelQueuedJump());
-
-				PlayJumpSound();
-				SkidSound.Stop();
+                WallJump(ref velocity);
 			}
 
-			float gravAccel = GRAVITY_ACCEL;
-			float maxFall = MAX_FALL_VEL;
-			if (velocity.y < 0 && walls.Count > 0)
-			{
-				//slide down wall more slowly
-				gravAccel *= SLIDE_FACTOR;
-				maxFall *= SLIDE_FACTOR;
-				//TODO: slide sound/particles?
-			}
-
-			velocity.y += gravAccel;
-			velocity.y = Mathf.Max(velocity.y, maxFall); //max since they're negative
+            Fall(ref velocity);
 		}
 
 		//continued moving past wall corner- clear wallslide
@@ -324,28 +263,14 @@ public class Player : MonoBehaviour
 			wallSide = 0;
 		}
 
-		if (jumpQueued && canJump && velocity.y <= 0)
+		if (jumpQueued && ((canJump && velocity.y <= 0) || canMidairJump))
 		{
             Jump(ref velocity);
 		}
 		
 		if (walljumpTime > 0 || walljumpPush)
 		{
-			//apply walljump velocity
-			float timeFactor = walljumpTime / WALLJUMP_TIME;
-			if (walljumpPush)
-			{
-				timeFactor = Mathf.Max(timeFactor, WALLJUMP_MIN_FACTOR);
-			}
-			float walljumpVel = WALLJUMP_VEL * lastWallSide * timeFactor;
-
-			velocity.x += walljumpVel;
-			velocity.x = Mathf.Clamp(velocity.x, -MAX_RUN_VEL, MAX_RUN_VEL);
-
-			if (walljumpTime > 0)
-			{
-				walljumpTime -= Time.fixedDeltaTime;
-			}
+            ApplyWalljumpPush(ref velocity);
 		}
 
 		if (velocity.y != 0 && !IsRolling())
@@ -365,62 +290,15 @@ public class Player : MonoBehaviour
 			rollQueued = false;
 			if (canRoll)
 			{
-				//start roll
-				canRoll = false;
-				rollTime = ROLL_TIME;
-				SetRollCollider();
-				ResetWalljump();
-
-				RollSound.Play();
+                Roll();
 			}
 		}
 
 		if (IsRolling())
 		{
-			//apply roll velocity
-			float timeFactor = rollTime / ROLL_TIME;
-			float rollVel = rollDir * ROLL_VEL * timeFactor;
-
-			bool shouldStop = false;
-			if (Mathf.Abs(rollVel) < Mathf.Abs(velocity.x))
-			{
-				shouldStop = true;
-			}
-
-			//roll in direction of ground
-			Vector2 groundVec;
-			if (onGround)
-			{
-				groundVec = Vector3.Cross(groundNormal, Vector3.forward); //left handed
-				groundVec.Normalize();
-			}
-			else
-			{
-				groundVec = Vector2.right;
-			}
-			Vector2 rollVec = rollVel * groundVec;
-			velocity.x += rollVec.x;
-			float speedCapX = Mathf.Abs(rollVec.x);
-			velocity.x = Mathf.Clamp(velocity.x, -speedCapX, speedCapX);
-
-			offset.y += rollVec.y * Time.fixedDeltaTime; //do this with offset so it doesn't persist when rolling up
-
-			//roll for longer on slope
-			if (rollVec.y < 0)
-			{
-				float maxAddition = ROLL_MAX_ADDITION * Time.fixedDeltaTime;
-				float groundAngle = Vector2.Dot(groundNormal.normalized, Vector2.right * rollDir);
-				float rollTimeAddition = groundAngle * maxAddition;
-				rollTime = Mathf.Min(rollTime + rollTimeAddition, ROLL_TIME);
-			}
-
-			rollTime -= Time.fixedDeltaTime;
-
-			if (!IsRolling() || shouldStop)
-			{
-				StopRoll();
-			}
-			if (IsRolling()) //both may be true if forced roll
+            ApplyRoll(onGround, ref velocity, ref offset);
+			
+			if (IsRolling())
 			{
 				SetAnimState(AnimState.ROLL);
 			}
@@ -439,19 +317,152 @@ public class Player : MonoBehaviour
 				rollDir = Math.Sign(velocity.x);
 			}
 		}
-		gameObject.transform.localScale = new Vector3(facing * baseScaleX, baseScaleY, baseScaleZ);
+		transform.localScale = new Vector3(facing * baseScaleX, baseScaleY, baseScaleZ);
 
 		rb.velocity = velocity;
 		rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime + offset);
 
 		jumpReleaseQueued = false;
 	}
+    
+    private void MoveHorizontal(float inputXVel, ref Vector2 velocity)
+    {
+        if (velocity.x != 0 && Mathf.Sign(inputXVel) != Mathf.Sign(velocity.x)) //don't slide if switching directions on same frame
+        {
+            velocity.x = 0;
+            shouldStand = true;
+        }
+        else
+        {
+            velocity.x += RUN_ACCEL * inputXVel;
+            float speedCap = Mathf.Abs(inputXVel * MAX_RUN_VEL); //use input to clamp max speed so half tilted joystick is slower
+            velocity.x = Mathf.Clamp(velocity.x, -speedCap, speedCap);
+            SetAnimState(AnimState.RUN);
+        }
+
+        //received horizontal input, so don't let player get pushed by natural walljump velocity
+        walljumpPush = false;
+
+        if (!IsRolling())
+        {
+            rollDir = Math.Sign(inputXVel);
+        }
+    }
+
+    private void StayOnGround(ref Vector2 velocity, ref Vector2 offset)
+    {
+        velocity.y = 0; //TODO: remove?
+
+        //TODO: make this work for all moving platforms
+        //align to platform moving down (for boss hands)
+        Vector2 newGroundPos = grounds[0].transform.position;
+        float yDiff = newGroundPos.y - lastGroundPos.y;
+        if (yDiff < 0)
+        {
+            offset.y += -0.1f;
+        }
+        lastGroundPos = newGroundPos;
+
+        /*if (groundAngle >= SLIDE_THRESHOLD)
+        {
+            print("slide");
+            velocity.y += GRAVITY_ACCEL; //* slope (perp. to ground angle), * friction?
+        }
+        */
+        ResetWalljump();
+
+        if (!IsRolling() && !canRoll)
+        {
+            SetCanRoll();
+        }
+    }
+
+    private void Fall(ref Vector2 velocity)
+    {
+        float gravAccel = GRAVITY_ACCEL;
+        float maxFall = MAX_FALL_VEL;
+        if (velocity.y < 0 && walls.Count > 0)
+        {
+            //slide down wall more slowly
+            gravAccel *= SLIDE_FACTOR;
+            maxFall *= SLIDE_FACTOR;
+            //TODO: slide sound/particles?
+        }
+
+        velocity.y += gravAccel;
+        velocity.y = Mathf.Max(velocity.y, maxFall); //max since they're negative
+    }
+
+    private void ApplyWalljumpPush(ref Vector2 velocity)
+    {
+        float timeFactor = walljumpTime / WALLJUMP_TIME;
+        if (walljumpPush)
+        {
+            timeFactor = Mathf.Max(timeFactor, WALLJUMP_MIN_FACTOR);
+        }
+        float walljumpVel = WALLJUMP_VEL * lastWallSide * timeFactor;
+
+        velocity.x += walljumpVel;
+        velocity.x = Mathf.Clamp(velocity.x, -MAX_RUN_VEL, MAX_RUN_VEL);
+
+        if (walljumpTime > 0)
+        {
+            walljumpTime -= Time.fixedDeltaTime;
+        }
+    }
+    
+    private void ApplyRoll(bool onGround, ref Vector2 velocity, ref Vector2 offset)
+    {
+        float timeFactor = rollTime / ROLL_TIME;
+        float rollVel = rollDir * ROLL_VEL * timeFactor;
+
+        bool shouldStop = false;
+        if (Mathf.Abs(rollVel) < Mathf.Abs(velocity.x))
+        {
+            shouldStop = true;
+        }
+
+        //roll in direction of ground
+        Vector2 groundVec;
+        if (onGround)
+        {
+            groundVec = Vector3.Cross(groundNormal, Vector3.forward); //left handed
+            groundVec.Normalize();
+        }
+        else
+        {
+            groundVec = Vector2.right;
+        }
+        Vector2 rollVec = rollVel * groundVec;
+        velocity.x += rollVec.x;
+        float speedCapX = Mathf.Abs(rollVec.x);
+        velocity.x = Mathf.Clamp(velocity.x, -speedCapX, speedCapX);
+
+        offset.y += rollVec.y * Time.fixedDeltaTime; //do this with offset so it doesn't persist when rolling up
+
+        //roll for longer on slope
+        if (rollVec.y < 0)
+        {
+            float maxAddition = ROLL_MAX_ADDITION * Time.fixedDeltaTime;
+            float groundAngle = Vector2.Dot(groundNormal.normalized, Vector2.right * rollDir);
+            float rollTimeAddition = groundAngle * maxAddition;
+            rollTime = Mathf.Min(rollTime + rollTimeAddition, ROLL_TIME);
+        }
+
+        rollTime -= Time.fixedDeltaTime;
+
+        if (!IsRolling() || shouldStop)
+        {
+            StopRoll();
+        }
+    }
 
     private void Jump(ref Vector2 velocity)
     {
         jumpQueued = false;
         StopCoroutine(CancelQueuedJump());
         canJump = false;
+        canMidairJump = false;
         canJumpRelease = true;
         StopRoll();
         if (!IsRolling()) //don't jump if forced roll
@@ -461,7 +472,37 @@ public class Player : MonoBehaviour
         }
     }
 
-	private IEnumerator CancelQueuedJump()
+    private void WallJump(ref Vector2 velocity)
+    {
+        walljumpTime = WALLJUMP_TIME;
+        lastWallSide = wallSide;
+        velocity.y = JUMP_VEL;
+        walljumpPush = true;
+        jumpQueued = false;
+        canJumpRelease = true;
+        StopCoroutine(CancelQueuedJump());
+
+        PlayJumpSound();
+        //SkidSound.Stop();
+    }
+
+    private void Roll()
+    {
+        canRoll = false;
+        rollTime = ROLL_TIME;
+        SetRollCollider();
+        ResetWalljump();
+
+        RollSound.Play();
+    }
+
+    public void SetCanRoll()
+    {
+        canRoll = true;
+        //TODO: fancy effects
+    }
+
+    private IEnumerator CancelQueuedJump()
 	{
 		yield return new WaitForSeconds(JUMP_BUFFER_TIME);
 		jumpQueued = false;
@@ -474,14 +515,16 @@ public class Player : MonoBehaviour
 
 	public void Kill()
 	{
+        //TODO: make sure this sets all relevant properties
 		StopRoll();
 		grounds.Clear();
 		canJump = false;
+        canMidairJump = false;
 		ResetWalljump();
 		wallSide = 0;
 		walls.Clear();
 		rb.velocity = Vector3.zero;
-		gameObject.transform.position = respawnPos;
+		transform.position = respawnPos;
 
 		DeathSound.Play();
 	}
@@ -536,7 +579,7 @@ public class Player : MonoBehaviour
 		walljumpPush = false;
 		walljumpTime = 0;
 
-		SkidSound.Stop();
+		//SkidSound.Stop();
 	}
 
 	private void SetAnimState(AnimState state)
@@ -583,16 +626,18 @@ public class Player : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		Damage damage = collision.gameObject.GetComponent<Damage>();
+        GameObject other = collision.gameObject;
+
+        Damage damage = other.GetComponent<Damage>();
 		if (damage != null)
 		{
 			//TODO: damage, respawn if necessary (like for spikes)
 			Kill();
 		}
 
-		if (collision.gameObject.tag == "Slime")
+		if (other.tag == "Slime")
 		{
-			if (collision.gameObject.transform.position.y < rb.position.y)
+			if (other.transform.position.y < rb.position.y)
 			{
 				float prevXVel = rb.velocity.x;
 				rb.velocity = Vector2.Reflect(rb.velocity, collision.contacts[0].normal);
@@ -627,13 +672,7 @@ public class Player : MonoBehaviour
 		{
 			return;
 		}
-
-		/*print("NormalDot:");
-		foreach (float d in NormalDotList(collision))
-		{
-			print(d);
-		}*/
-
+        
 		ContactPoint2D? groundPoint = GetGround(collision);
 		if (groundPoint.HasValue)
 		{
@@ -642,7 +681,7 @@ public class Player : MonoBehaviour
 				grounds.Add(collision.gameObject);
 			}
 			groundNormal = groundPoint.Value.normal;
-			canJump = true;
+            HitGround();
 		}
 		else
 		{
@@ -652,9 +691,7 @@ public class Player : MonoBehaviour
 		ContactPoint2D? ceilingPoint = GetCeiling(collision);
 		if (ceilingPoint.HasValue)
 		{
-			Vector2 velocity = rb.velocity;
-			velocity.y = 0;
-			rb.velocity = velocity;
+            HitCeiling();
 		}
 
 		ContactPoint2D? wallPoint = GetWall(collision);
@@ -668,18 +705,7 @@ public class Player : MonoBehaviour
 			int newWallSide = Mathf.RoundToInt(x);
 			if (wallSide != newWallSide)
 			{
-				wallSide = newWallSide;
-				StopCoroutine(LeaveWall());
-
-				ResetWalljump();
-				StopRoll();
-				//if still rolling: bounce (stuck under ledge)
-				if (IsRolling())
-				{
-					rollDir *= -1;
-				}
-
-				//SkidSound.PlayScheduled(0.1);
+                HitWall(newWallSide);
 			}
 		}
 		else
@@ -688,13 +714,41 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	private void OnCollisionExit2D(Collision2D collision)
+    private void HitGround()
+    {
+        canJump = true;
+        canMidairJump = false;
+    }
+
+    private void HitCeiling()
+    {
+        Vector2 velocity = rb.velocity;
+        velocity.y = 0;
+        rb.velocity = velocity;
+    }
+
+    private void HitWall(int newWallSide)
+    {
+        wallSide = newWallSide;
+        StopCoroutine(LeaveWall());
+
+        ResetWalljump();
+        StopRoll();
+        //if still rolling: bounce (stuck under ledge)
+        if (IsRolling())
+        {
+            rollDir *= -1;
+        }
+
+        //SkidSound.PlayScheduled(0.1);
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
 	{
-		//TODO: if it's not a solid wall: return
-		/*if (collision.collider.CompareTag("Slime") || collision.gameObject.tag == "Obstacle" || collision.gameObject.tag == "StarSpot")
+		if (collision.gameObject.layer != LayerMask.NameToLayer("LevelGeometry"))
 		{
 			return;
-		}*/
+		}
 
 		RemoveContact(grounds, collision.gameObject, LeaveGround());
 		RemoveContact(walls, collision.gameObject, LeaveWall());
@@ -831,10 +885,4 @@ public class Player : MonoBehaviour
 			DeathSound.Play();
 		}
 	}
-
-    public void SetCanRoll()
-    {
-        canRoll = true;
-        //TODO: fancy effects
-    }
 }

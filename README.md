@@ -3,7 +3,6 @@ Exploration and puzzle-based platformer
 
 ## TODO
 
-- Break up FixedUpdate into multiple functions that change ref velocity
 - Remove gameObject. when it's not necessary (getcomponent, transform)
 
 ### Movement
@@ -16,12 +15,15 @@ Exploration and puzzle-based platformer
 	- Delete old sounds
 - Slopes
 	- Sliding down steep angles
+- Slime that bounces you (auto-walljump corridor, bouncy hallway)
+- Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
 - Animator 
 - Adjust jump & walljump grace period
 - Slide particles?
 - Powerups
 	- Reset jump (double+ jump)
-- Visual indication for reset roll
+	- Particles
+- Visual indication for CanRoll
 - Make roll longer?
 	- Depends on how long you hold the trigger- is there a limit?
 - More moves?
@@ -138,6 +140,8 @@ Exploration and puzzle-based platformer
 	- Little islands over water
 	- Air roll course with PowerUpRoll
 	- Roll after fall
+	- Use roll powerups to do multiple walljumps
+	- Reuse roll/jump powerup after it resets while you're still in midair
 
 ### UI
 - Import menus from zubenel
@@ -190,6 +194,7 @@ Exploration and puzzle-based platformer
 - star collect (level up) https://freesound.org/people/elmasmalo1/sounds/350841/
 - star twinkle https://freesound.org/people/MrCisum/sounds/336664/
 - collect star again (bloop)
+- collect powerup (ding or up-whoosh)
 - Landing from high fall
 - Door sliding open
 - Door ascending tones
