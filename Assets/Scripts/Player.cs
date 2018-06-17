@@ -64,7 +64,6 @@ public class Player : MonoBehaviour
 	private Rigidbody2D rb;
 
 	private Vector2 groundNormal;
-	private Vector2 lastGroundPos;
 
 	private bool jumpQueued = false;
     private bool jumpReleaseQueued = false;
@@ -290,7 +289,7 @@ public class Player : MonoBehaviour
 			rollQueued = false;
 			if (canRoll)
 			{
-                Roll();
+                Roll(ref velocity);
 			}
 		}
 
@@ -353,15 +352,13 @@ public class Player : MonoBehaviour
     {
         velocity.y = 0; //TODO: remove?
 
-        //TODO: make this work for all moving platforms
-        //align to platform moving down (for boss hands)
-        Vector2 newGroundPos = grounds[0].transform.position;
-        float yDiff = newGroundPos.y - lastGroundPos.y;
-        if (yDiff < 0)
+        //apply moving platform velocity
+        //use last where the player is more than half on it
+        Rigidbody2D groundRB = grounds[grounds.Count - 1].GetComponent<Rigidbody2D>();
+        if (groundRB != null)
         {
-            offset.y += -0.1f;
+            offset += groundRB.velocity * Time.fixedDeltaTime;
         }
-        lastGroundPos = newGroundPos;
 
         /*if (groundAngle >= SLIDE_THRESHOLD)
         {
@@ -467,7 +464,7 @@ public class Player : MonoBehaviour
         StopRoll();
         if (!IsRolling()) //don't jump if forced roll
         {
-            velocity.y += JUMP_VEL;
+            velocity.y = JUMP_VEL;
             PlayJumpSound();
         }
     }
@@ -486,12 +483,13 @@ public class Player : MonoBehaviour
         //SkidSound.Stop();
     }
 
-    private void Roll()
+    private void Roll(ref Vector2 velocity)
     {
         canRoll = false;
         rollTime = ROLL_TIME;
         SetRollCollider();
         ResetWalljump();
+        velocity.y = 0;
 
         RollSound.Play();
     }
@@ -500,6 +498,12 @@ public class Player : MonoBehaviour
     {
         canRoll = true;
         //TODO: fancy effects
+    }
+
+    public void SetCanMidairJump()
+    {
+        canMidairJump = true;
+        //TODO: fancy glowy effects
     }
 
     private IEnumerator CancelQueuedJump()

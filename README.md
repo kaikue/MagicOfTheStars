@@ -3,12 +3,13 @@ Exploration and puzzle-based platformer
 
 ## TODO
 
-- Resources folder bad???
-
 ### Movement
-- Climb up ground tiles if player is more than halfway up tile and has free space above it? 
+- Climb up ground tiles if player is more than halfway up tile and has free space above it?
 - Take velocity of moving platforms (grounds and walls?)
-- One way platforms (platformeffector2d)
+	- should add velocity of platform after jump?
+	- moving platform nodes
+	- use most recent last platform to have player standing mostly on it (currently sticks on corner of player)
+- Make roll depend on how long you hold the trigger- is there a limit?
 - Hitsnapping
 	- note issues when rolling off of platform and immediately under ledge
 - Redo player sounds
@@ -17,15 +18,17 @@ Exploration and puzzle-based platformer
 	- Sliding down steep angles
 - Slime that bounces you (auto-walljump corridor, bouncy hallway)
 - Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
-- Animator 
-- Adjust jump & walljump grace period
+- Animator
+	- Don't use Resources.Load
+	- Use skeleton animation instead of individual frames
+	- Get rid of NUM\_whatever\_FRAMES
+- Adjust jump & walljump grace period based on playtesting
 - Slide particles?
 - Powerups
-	- Reset jump (double+ jump)
 	- Particles
-- Visual indication for CanRoll
-- Make roll longer?
-	- Depends on how long you hold the trigger- is there a limit?
+	- Glowy effect for can midair jump
+- Visual indication for CanRoll (like mario galaxy spin recharge)
+- One way platforms (only intersect with bottom edge?)
 - More moves?
 	- Roll + jump = long jump?
 	- Roll cancel jump in midair?
@@ -67,7 +70,7 @@ Exploration and puzzle-based platformer
 	- New abilities
 	- Swim
 	- Moon gravity?
-	- Double jump?
+	- Ability to place limited number of jump/roll powerups?
 
 ### Level design
 - Player should visit doors before being able to open them
@@ -176,6 +179,7 @@ Exploration and puzzle-based platformer
 - Freeze for a bit on hit then flicker after respawning
 - Checkpoint notifications
 - Remove N cheat
+- Save options with PlayerPrefs
 - Scene transitions (to point in scene)
 	- Shrinking cutout star animation
 - Slopes
