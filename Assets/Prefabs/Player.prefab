@@ -178,7 +178,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 1.6}
+  m_Size: {x: 0.1, y: 0.1}
   m_EdgeRadius: 0
 --- !u!68 &68408387707633938
 EdgeCollider2D:
@@ -230,6 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteObject: {fileID: 1061453982016600}
+  SquishObject: {fileID: 1777920819247860}
   JumpSound: {fileID: 0}
   RollSound: {fileID: 0}
   SkidSound: {fileID: 0}

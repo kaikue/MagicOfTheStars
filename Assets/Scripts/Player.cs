@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 {
 
 	public GameObject SpriteObject;
+    public GameObject SquishObject;
 	
 	public AudioSource JumpSound;
 	public AudioSource RollSound;
@@ -48,7 +49,9 @@ public class Player : MonoBehaviour
 	private static float SLIDE_THRESHOLD;
 	private static Vector2 GRAVITY_NORMAL = new Vector2(0, GRAVITY_ACCEL).normalized;
 
-	private const int NUM_RUN_FRAMES = 10;
+    private const float SQUISH_SIZE_FACTOR = 0.7f; //size of squish collider as factor of normal collider (should be between 0 and 1)
+
+    private const int NUM_RUN_FRAMES = 10;
 	private const int NUM_ROLL_FRAMES = 4;
 
 	private const float FRAME_TIME = 0.1f; //time in seconds per frame of animation
@@ -81,10 +84,12 @@ public class Player : MonoBehaviour
 	private float rollTime = 0;
 	private bool canRoll = true;
 	private int rollDir = 1; //-1 for left, 1 for right
-	private float ecHeight;
+	private float normalHeight;
 	private bool rollingCollider = false;
 
-	private Vector2 respawnPos;
+    private BoxCollider2D squishCollider;
+
+    private Vector2 respawnPos;
 
 	enum AnimState
 	{
@@ -116,7 +121,9 @@ public class Player : MonoBehaviour
 		gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 		rb = GetComponent<Rigidbody2D>();
 		ec = GetComponent<EdgeCollider2D>();
-		ecHeight = ec.points[1].y - ec.points[0].y;
+		normalHeight = ec.points[1].y - ec.points[0].y;
+        squishCollider = SquishObject.GetComponent<BoxCollider2D>();
+        RefreshSquishSize();
 
 		SLIDE_THRESHOLD = -Mathf.Sqrt(2) / 2; //player will slide down 45 degree angle slopes
 
@@ -537,7 +544,7 @@ public class Player : MonoBehaviour
 	{
 		rollingCollider = true;
 		float ecBottom = ec.points[0].y;
-		float rollTop = ecBottom + ecHeight * ROLL_HEIGHT;
+		float rollTop = ecBottom + normalHeight * ROLL_HEIGHT;
 		SetColliderHeight(rollTop);
 	}
 
@@ -548,7 +555,7 @@ public class Player : MonoBehaviour
 
 		rollingCollider = false;
 		float ecBottom = ec.points[0].y;
-		float normalTop = ecBottom + ecHeight;
+		float normalTop = ecBottom + normalHeight;
 		SetColliderHeight(normalTop);
 
 		RaycastHit2D[] hits = BoxCast(Vector2.zero, 0);
@@ -566,11 +573,29 @@ public class Player : MonoBehaviour
 
 	private void SetColliderHeight(float height)
 	{
-		Vector2[] points = ec.points;
-		points[1].y = height;
+        Vector2[] points = ec.points;
+        points[1].y = height;
 		points[2].y = height;
 		ec.points = points;
+        RefreshSquishSize();
 	}
+
+    private void RefreshSquishSize()
+    {
+        Vector2[] points = ec.points;
+        float left = points[1].x;
+        float right = points[2].x;
+        float bottom = points[0].y;
+        float top = points[1].y;
+        float ecWidth = right - left;
+        float ecHeight = top - bottom;
+        float offsetY = (bottom + top) / 2;
+        float width = ecWidth * SQUISH_SIZE_FACTOR;
+        float height = ecHeight * SQUISH_SIZE_FACTOR;
+        Vector2 size = new Vector2(width, height);
+        squishCollider.offset = new Vector2(0, offsetY);
+        squishCollider.size = size;
+    }
 
 	private RaycastHit2D[] BoxCast(Vector2 direction, float distance)
 	{

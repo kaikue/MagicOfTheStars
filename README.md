@@ -4,6 +4,7 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
+- Shrink squishzone while rolling
 - Climb up ground tiles if player is more than halfway up tile and has free space above it?
 - Take velocity of moving platforms (grounds and walls?)
 	- should add velocity of platform after jump?
@@ -66,6 +67,7 @@ Exploration and puzzle-based platformer
 - Health
 	- In levels, drops from enemies? 
 - Color schemes
+- Special collectibles for an NPC
 - Suits
 	- New abilities
 	- Swim
@@ -145,6 +147,11 @@ Exploration and puzzle-based platformer
 	- Roll after fall
 	- Use roll powerups to do multiple walljumps
 	- Reuse roll/jump powerup after it resets while you're still in midair
+	- Towers over water
+	- Climb small mountain island
+	- Crushers
+	- Floating islands
+	- Diagonal moving platforms
 
 ### UI
 - Import menus from zubenel
