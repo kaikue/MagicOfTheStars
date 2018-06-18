@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 61627524968762322}
   - component: {fileID: 114020198285222936}
   m_Layer: 0
-  m_Name: SquishZone
+  m_Name: HurtZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteObject: {fileID: 1061453982016600}
-  SquishObject: {fileID: 1777920819247860}
+  HurtZone: {fileID: 1777920819247860}
   JumpSound: {fileID: 0}
   RollSound: {fileID: 0}
   SkidSound: {fileID: 0}

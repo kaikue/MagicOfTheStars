@@ -4,7 +4,6 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Shrink squishzone while rolling
 - Climb up ground tiles if player is more than halfway up tile and has free space above it?
 - Take velocity of moving platforms (grounds and walls?)
 	- should add velocity of platform after jump?
@@ -14,7 +13,7 @@ Exploration and puzzle-based platformer
 - Hitsnapping
 	- note issues when rolling off of platform and immediately under ledge
 - Redo player sounds
-	- Delete old sounds
+	- Delete old sound files
 - Slopes
 	- Sliding down steep angles
 - Slime that bounces you (auto-walljump corridor, bouncy hallway)

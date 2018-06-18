@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
 
 	public GameObject SpriteObject;
-    public GameObject SquishObject;
+    public GameObject HurtZone;
 	
 	public AudioSource JumpSound;
 	public AudioSource RollSound;
@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
 	private static float SLIDE_THRESHOLD;
 	private static Vector2 GRAVITY_NORMAL = new Vector2(0, GRAVITY_ACCEL).normalized;
 
-    private const float SQUISH_SIZE_FACTOR = 0.7f; //size of squish collider as factor of normal collider (should be between 0 and 1)
+    private const float HURTZONE_SIZE_FACTOR = 0.7f; //size of squish collider as factor of normal collider (should be between 0 and 1)
 
     private const int NUM_RUN_FRAMES = 10;
 	private const int NUM_ROLL_FRAMES = 4;
@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
 	private float normalHeight;
 	private bool rollingCollider = false;
 
-    private BoxCollider2D squishCollider;
+    private BoxCollider2D hurtCollider;
 
     private Vector2 respawnPos;
 
@@ -122,8 +122,8 @@ public class Player : MonoBehaviour
 		rb = GetComponent<Rigidbody2D>();
 		ec = GetComponent<EdgeCollider2D>();
 		normalHeight = ec.points[1].y - ec.points[0].y;
-        squishCollider = SquishObject.GetComponent<BoxCollider2D>();
-        RefreshSquishSize();
+        hurtCollider = HurtZone.GetComponent<BoxCollider2D>();
+        RefreshHurtZone();
 
 		SLIDE_THRESHOLD = -Mathf.Sqrt(2) / 2; //player will slide down 45 degree angle slopes
 
@@ -577,10 +577,10 @@ public class Player : MonoBehaviour
         points[1].y = height;
 		points[2].y = height;
 		ec.points = points;
-        RefreshSquishSize();
+        RefreshHurtZone();
 	}
 
-    private void RefreshSquishSize()
+    private void RefreshHurtZone()
     {
         Vector2[] points = ec.points;
         float left = points[1].x;
@@ -590,11 +590,11 @@ public class Player : MonoBehaviour
         float ecWidth = right - left;
         float ecHeight = top - bottom;
         float offsetY = (bottom + top) / 2;
-        float width = ecWidth * SQUISH_SIZE_FACTOR;
-        float height = ecHeight * SQUISH_SIZE_FACTOR;
+        float width = ecWidth * HURTZONE_SIZE_FACTOR;
+        float height = ecHeight * HURTZONE_SIZE_FACTOR;
         Vector2 size = new Vector2(width, height);
-        squishCollider.offset = new Vector2(0, offsetY);
-        squishCollider.size = size;
+        hurtCollider.offset = new Vector2(0, offsetY);
+        hurtCollider.size = size;
     }
 
 	private RaycastHit2D[] BoxCast(Vector2 direction, float distance)
@@ -656,13 +656,6 @@ public class Player : MonoBehaviour
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
         GameObject other = collision.gameObject;
-
-        Damage damage = other.GetComponent<Damage>();
-		if (damage != null)
-		{
-			//TODO: damage, respawn if necessary (like for spikes)
-			Kill();
-		}
 
 		if (other.tag == "Slime")
 		{
