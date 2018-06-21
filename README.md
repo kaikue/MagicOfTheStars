@@ -9,6 +9,7 @@ Exploration and puzzle-based platformer
 	- should add velocity of platform after jump?
 	- moving platform nodes
 	- use most recent last platform to have player standing mostly on it (currently sticks on corner of player)
+- Conveyors
 - Make roll depend on how long you hold the trigger- is there a limit?
 - Hitsnapping
 	- note issues when rolling off of platform and immediately under ledge
@@ -75,7 +76,7 @@ Exploration and puzzle-based platformer
 
 ### Level design
 - Player should visit doors before being able to open them
-- Use scenery to draw attention to offscreen stuff
+- Use scenery, zoomouts to draw attention to offscreen stuff
 - Tutorial: jump, roll under ledge, roll through breakable wall, walljump, jump & roll in midair through breakable high wall
 - Boss doors require a bunch of that level's color
 - Secret final door requires all 11 of all colors
@@ -89,6 +90,8 @@ Exploration and puzzle-based platformer
 - Speed paths
 	- Camera-based cycles
 - Puzzles
+- Fake walls (indication of fakeness- different color?)
+- P-switch like things that make permanent changes to sections of levels
 - Levels tell a story
 	- Story should be reflected in level mechanics
 	- Conspiracy- detective sends you to "pick up clues", he was the one who did the crime and wants you to collect evidence
@@ -149,8 +152,9 @@ Exploration and puzzle-based platformer
 	- Towers over water
 	- Climb small mountain island
 	- Crushers
-	- Floating islands
+	- Flying islands
 	- Diagonal moving platforms
+	- Moving blocks push you into spikes
 
 ### UI
 - Import menus from zubenel
@@ -188,6 +192,7 @@ Exploration and puzzle-based platformer
 - Save options with PlayerPrefs
 - Scene transitions (to point in scene)
 	- Shrinking cutout star animation
+- Portals
 - Slopes
 	- slide down >= 45 degree slopes, can't move/jump/roll
 		- not if already rolling?
