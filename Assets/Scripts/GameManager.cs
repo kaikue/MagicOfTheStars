@@ -4,7 +4,8 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
 	public GameObject pauseOverlayPrefab;
 	public GameObject starCollectOverlayPrefab;
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour {
 	private bool overlayActive = false;
 
 	public const string SAVE_PATH = ".save";
-	
+
 	private GameObject pauseOverlay;
 	private HUDOverlay hudOverlay;
 	private Star levelStar;
@@ -32,14 +33,14 @@ public class GameManager : MonoBehaviour {
 		hudOverlay = hudObject.GetComponent<HUDOverlay>();
 		LoadSave();
 	}
-	
+
 	private void LoadSave()
 	{
 		int numTypes = Enum.GetValues(typeof(Star.StarType)).Length;
 		starsCollected = new int[numTypes];
 		starCollectedNames = new List<string>();
 		doorsOpenedNames = new List<string>();
-		
+
 		string[] lines = File.ReadAllLines(SAVE_PATH);
 		for (int l = 1; l < lines.Length; l++) //skip first line (level index)
 		{
@@ -92,7 +93,7 @@ public class GameManager : MonoBehaviour {
 			starColors[i] = star.GetColor();
 			starCounts[i] = starsCollected[(int)star.starType];
 		}
-		
+
 		hudOverlay.SetStars(starColors, starCounts);
 		hudOverlay.SlideIn();
 	}
@@ -124,7 +125,7 @@ public class GameManager : MonoBehaviour {
 			Destroy(pauseOverlay);
 		}
 	}
-	
+
 	public void LoadScene(int sceneIndex)
 	{
 		Instantiate(loadingOverlayPrefab);

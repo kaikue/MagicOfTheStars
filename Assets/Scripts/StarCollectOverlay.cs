@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class StarCollectOverlay : MonoBehaviour {
+public class StarCollectOverlay : MonoBehaviour
+{
 
 	public GameObject canvas;
 	public GameObject contents;
@@ -24,9 +25,9 @@ public class StarCollectOverlay : MonoBehaviour {
 	private RectTransform leftRect;
 	private RectTransform rightRect;
 
-    private GameManager gm;
+	private GameManager gm;
 
-    private void Start()
+	private void Start()
 	{
 		leftRect = left.GetComponent<RectTransform>();
 		rightRect = right.GetComponent<RectTransform>();

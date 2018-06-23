@@ -5,7 +5,7 @@ Exploration and puzzle-based platformer
 
 ### Movement
 - Climb up ground tiles if player is more than halfway up tile and has free space above it?
-- Take velocity of moving platforms (grounds and walls?)
+- Take velocity of moving platforms
 	- should add velocity of platform after jump?
 	- moving platform nodes
 	- use most recent last platform to have player standing mostly on it (currently sticks on corner of player)
@@ -28,11 +28,11 @@ Exploration and puzzle-based platformer
 - Powerups
 	- Particles
 	- Glowy effect for can midair jump
-- Visual indication for CanRoll (like mario galaxy spin recharge)
-- One way platforms (only intersect with bottom edge?)
+- Visual indication for SetCanRoll (like mario galaxy spin recharge)
 - More moves?
 	- Roll + jump = long jump?
 	- Roll cancel jump in midair?
+	- Speed boost for timing jump/roll somehow?
 
 ### Health
 - 5 points of health- show sometimes or always?
@@ -155,6 +155,7 @@ Exploration and puzzle-based platformer
 	- Flying islands
 	- Diagonal moving platforms
 	- Moving blocks push you into spikes
+	- Chase someone
 
 ### UI
 - Import menus from zubenel
