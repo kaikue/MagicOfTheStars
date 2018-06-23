@@ -156,6 +156,7 @@ Exploration and puzzle-based platformer
 	- Diagonal moving platforms
 	- Moving blocks push you into spikes
 	- Chase someone
+	- Stuff with one-way platforms (feel less stable)
 
 ### UI
 - Import menus from zubenel

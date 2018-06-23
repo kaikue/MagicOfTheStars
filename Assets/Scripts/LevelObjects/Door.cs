@@ -2,7 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Door : MonoBehaviour {
+public class Door : MonoBehaviour
+{
 
 	public string doorName; //to identify in saving/loading
 	public GameObject[] starsRequiredPrefabs; //required types to open door
@@ -52,7 +53,7 @@ public class Door : MonoBehaviour {
 			Destroy(gameObject);
 		}
 	}
-	
+
 	private bool CanOpen()
 	{
 		if (open)

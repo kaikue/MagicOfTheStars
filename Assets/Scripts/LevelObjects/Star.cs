@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
-public class Star : MonoBehaviour {
-	
+public class Star : MonoBehaviour
+{
+
 	public enum StarType
 	{
 		YELLOW = 0,
@@ -23,7 +24,7 @@ public class Star : MonoBehaviour {
 
 	private bool wasCollected = false;
 	private Color color;
-	
+
 	private void Start()
 	{
 		color = GetColor();
@@ -31,7 +32,7 @@ public class Star : MonoBehaviour {
 		ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
 		ParticleSystem.MainModule main = ps.main;
 		main.startColor = color;
-		
+
 		wasCollected = GameObject.Find("GameManager").GetComponent<GameManager>().WasStarCollected(this);
 
 		if (wasCollected)

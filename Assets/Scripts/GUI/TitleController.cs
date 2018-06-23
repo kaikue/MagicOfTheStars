@@ -4,7 +4,8 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TitleController : MonoBehaviour {
+public class TitleController : MonoBehaviour
+{
 
 	public GameObject ContinueButton;
 	public GameObject loadingOverlay;

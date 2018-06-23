@@ -2,7 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HUDOverlay : MonoBehaviour {
+public class HUDOverlay : MonoBehaviour
+{
 
 	public GameObject canvas;
 	public GameObject[] contents;
@@ -93,7 +94,7 @@ public class HUDOverlay : MonoBehaviour {
 			tScale = 1 - tScale; //reverse the numbers
 		}
 		float oneMinusTScale = 1 - tScale;
-		
+
 		//return Mathf.Pow(timeRemaining, 2) * goalY + HEIGHT_OFFSCREEN; //TODO: quadtratic slide
 		return tScale * HEIGHT_OFFSCREEN + oneMinusTScale * goalY;
 	}
