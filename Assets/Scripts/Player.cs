@@ -57,11 +57,7 @@ public class Player : MonoBehaviour
 	private const float FRAME_TIME = 0.1f; //time in seconds per frame of animation
 
 	private const float PITCH_VARIATION = 0.1f;
-
-	private float baseScaleX;
-	private float baseScaleY;
-	private float baseScaleZ;
-
+    
 	private GameManager gm;
 	private EdgeCollider2D ec;
 	private Rigidbody2D rb;
@@ -103,7 +99,7 @@ public class Player : MonoBehaviour
 	private AnimState animState = AnimState.STAND;
 	private int animFrame = 0;
 	private float frameTime = FRAME_TIME;
-	private int facing = -1; //for animation: -1 for right, 1 for left (images face left)
+	private bool facingLeft = false; //for animation (images face left)
 	private bool shouldStand = false;
 
 	private Sprite standSprite;
@@ -114,10 +110,6 @@ public class Player : MonoBehaviour
 
 	private void Start()
 	{
-		baseScaleX = transform.localScale.x;
-		baseScaleY = transform.localScale.y;
-		baseScaleZ = transform.localScale.z;
-
 		gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 		rb = GetComponent<Rigidbody2D>();
 		ec = GetComponent<EdgeCollider2D>();
@@ -317,15 +309,16 @@ public class Player : MonoBehaviour
 
 		if (velocity.x != 0)
 		{
-			facing = -Math.Sign(velocity.x); //make this positive if sprites face right
+			facingLeft = velocity.x < 0;
 			if (inputXVel == 0)
 			{
 				rollDir = Math.Sign(velocity.x);
 			}
 		}
-		transform.localScale = new Vector3(facing * baseScaleX, baseScaleY, baseScaleZ);
+        
+        sr.flipX = !facingLeft; //change this if sprites face right
 
-		rb.velocity = velocity;
+        rb.velocity = velocity;
 		rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime + offset);
 
 		jumpReleaseQueued = false;
