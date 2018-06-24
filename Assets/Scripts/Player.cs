@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
 	private BoxCollider2D hurtCollider;
 
 	private Vector2 respawnPos;
-
+	
 	enum AnimState
 	{
 		STAND,
@@ -355,11 +355,10 @@ public class Player : MonoBehaviour
 		velocity.y = 0; //TODO: remove?
 
 		//apply moving platform velocity
-		//TODO: use last where the player is more than half on it
-		Rigidbody2D groundRB = grounds[grounds.Count - 1].GetComponent<Rigidbody2D>();
-		if (groundRB != null)
+		Rigidbody2D platformRB = GetMovingPlatformRigidbody();
+		if (platformRB != null)
 		{
-			offset += groundRB.velocity * Time.fixedDeltaTime;
+			offset += platformRB.velocity * Time.fixedDeltaTime;
 		}
 
 		/*if (groundAngle >= SLIDE_THRESHOLD)
@@ -374,6 +373,12 @@ public class Player : MonoBehaviour
 		{
 			SetCanRoll();
 		}
+	}
+
+	private Rigidbody2D GetMovingPlatformRigidbody()
+	{
+		//TODO: use last where the player is more than half on it
+		return grounds[grounds.Count - 1].GetComponent<Rigidbody2D>();
 	}
 
 	private void Fall(ref Vector2 velocity)
@@ -467,6 +472,13 @@ public class Player : MonoBehaviour
 		if (!IsRolling()) //don't jump if forced roll
 		{
 			velocity.y = JUMP_VEL;
+			//add moving platform vertical velocity
+			Rigidbody2D groundRB = GetMovingPlatformRigidbody();
+			if (groundRB != null)
+			{
+				velocity.y += groundRB.velocity.y;
+			}
+
 			PlayJumpSound();
 		}
 	}
@@ -785,12 +797,7 @@ public class Player : MonoBehaviour
 		yield return new WaitForSeconds(0.2f); //seems to give best results
 		col.enabled = true;
 	}
-
-	/*private bool VectorsApproximately(Vector2 a, Vector2 b)
-    {
-        return Mathf.Approximately(a.x, b.x) && Mathf.Approximately(a.y, b.y);
-    }*/
-
+	
 	private void OnCollisionExit2D(Collision2D collision)
 	{
 		if (collision.gameObject.layer != LayerMask.NameToLayer("LevelGeometry"))

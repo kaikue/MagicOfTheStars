@@ -5,10 +5,7 @@ Exploration and puzzle-based platformer
 
 ### Movement
 - Climb up ground tiles if player is more than halfway up tile and has free space above it?
-- Take velocity of moving platforms
-	- should add velocity of platform after jump?
-	- moving platform nodes
-	- use most recent last platform to have player standing mostly on it (currently sticks on corner of player)
+- Moving platform- use most recent last platform to have player standing mostly on it (currently sticks on corner of player)
 - Conveyors
 - Make roll depend on how long you hold the trigger- is there a limit?
 - Hitsnapping
@@ -157,6 +154,7 @@ Exploration and puzzle-based platformer
 	- Moving blocks push you into spikes
 	- Chase someone
 	- Stuff with one-way platforms (feel less stable)
+	- Spring off vertical moving platform
 
 ### UI
 - Import menus from zubenel
