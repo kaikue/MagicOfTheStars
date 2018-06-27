@@ -5,7 +5,6 @@ Exploration and puzzle-based platformer
 
 ### Movement
 - Climb up ground tiles if player is more than halfway up tile and has free space above it?
-- Moving platform- use most recent last platform to have player standing mostly on it (currently sticks on corner of player)
 - Conveyors
 - Make roll depend on how long you hold the trigger- is there a limit?
 - Hitsnapping
@@ -16,6 +15,7 @@ Exploration and puzzle-based platformer
 	- Sliding down steep angles
 - Slime that bounces you (auto-walljump corridor, bouncy hallway)
 - Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
+- Moving platform- use most recent last platform to have player standing mostly on it (currently sticks on corner of player)
 - Animator
 	- Don't use Resources.Load
 	- Use skeleton animation instead of individual frames
