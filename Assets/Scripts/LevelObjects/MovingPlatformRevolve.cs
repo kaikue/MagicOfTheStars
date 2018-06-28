@@ -10,27 +10,40 @@ using UnityEngine;
  */
 public class MovingPlatformRevolve : MovingPlatform
 {
+	private const float TAU = 2 * Mathf.PI;
+
 	public float speed;
 	public bool clockwise;
-
+	
+	private Vector2 center;
 	private float radius;
-	private float initialTheta;
+	private float theta;
 
 	protected override void Start()
 	{
 		base.Start();
-		radius = (transform.position - nodes[0].position).magnitude;
-		initialTheta = 0; //???
+		center = nodes[0].position;
+		radius = ((Vector2)transform.position - center).magnitude;
+		float xDiff = transform.position.x - nodes[0].position.x;
+		float yDiff = transform.position.y - nodes[0].position.y;
+		theta = Mathf.Atan2(yDiff, xDiff);
 	}
 
 	private void FixedUpdate()
 	{
-		Vector2 diff = transform.position - nodes[0].position;
-		Vector2 tangent = Vector2.Perpendicular(diff).normalized;
-		int direction = clockwise ? -1 : 1;
-		rb.velocity = tangent * speed * direction;
+		//can't use velocity-driven movement because the tangents would need to be applied every frame
+		//so just set the position directly
+		theta += speed / radius * Time.fixedDeltaTime;
+		if (theta > TAU)
+		{
+			theta -= TAU;
+		}
+		Vector2 pos = center + new Vector2(Mathf.Cos(theta), Mathf.Sin(theta)) * radius;
+		rb.MovePosition(pos);
 
-		//set position directly- can't use velocity because the tangents would need to be applied every frame
-		//rb.MovePosition(); //need to keep in sync with velocity somehow- angular velocity?
+		//set velocity (describing this frame's movement)
+		Vector2 vel = new Vector2(pos.x - transform.position.x, pos.y - transform.position.y) / Time.fixedDeltaTime;
+		rb.velocity = vel;
+		print(rb.velocity);
 	}
 }
