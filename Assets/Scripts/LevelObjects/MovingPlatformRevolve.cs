@@ -44,6 +44,5 @@ public class MovingPlatformRevolve : MovingPlatform
 		//set velocity (describing this frame's movement)
 		Vector2 vel = new Vector2(pos.x - transform.position.x, pos.y - transform.position.y) / Time.fixedDeltaTime;
 		rb.velocity = vel;
-		print(rb.velocity);
 	}
 }
