@@ -784,7 +784,7 @@ public class Player : MonoBehaviour
 	private void HitCeiling()
 	{
 		Vector2 velocity = rb.velocity;
-		velocity.y = 0;
+		velocity.y = Mathf.Min(velocity.y, 0);
 		rb.velocity = velocity;
 	}
 
