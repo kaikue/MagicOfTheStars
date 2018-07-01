@@ -45,7 +45,10 @@ Exploration and puzzle-based platformer
 	- Rollthroughable blocks
 	- Bounce on things while rolling (spin jump like)
 - Enemies
-	- Damage by rolling, you bounce back out of roll
+	- Damage by rolling
+		- you bounce back out of roll
+		- roll again while bouncing back (timed) to get extra speed & damage on roll
+		- up to 3rd time combo (2 increasing rolls)
 	- Should make the game FUN
 	- Slimes- have to roll under ledge and squish one to teach mechanic
 - Bosses

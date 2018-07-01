@@ -377,6 +377,8 @@ public class Player : MonoBehaviour
 
 	private Rigidbody2D GetMovingPlatformRigidbody()
 	{
+		if (grounds.Count == 0) return null;
+
 		//TODO: use last where the player is more than half on it
 		return grounds[grounds.Count - 1].GetComponent<Rigidbody2D>();
 	}
