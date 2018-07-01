@@ -7,7 +7,6 @@ Exploration and puzzle-based platformer
 - Fix moving platforms moving down on head causing player to fall slower
 - Climb up ground tiles if player is more than halfway up tile and has free space above it?
 - Conveyors
-- Make roll depend on how long you hold the trigger- is there a limit?
 - Hitsnapping
 	- note issues when rolling off of platform and immediately under ledge
 - Redo player sounds

@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
 	private const float ROLLJUMP_VEL = JUMP_VEL * 2.0f / 3.0f; //roll cancel jump y speed
 	private const float ROLL_HEIGHT = 0.5f; //scale factor of height when rolling
 	private const float ROLL_FORCE_AMOUNT = 0.1f; //how much to push the player when they can't unroll
+	private const float ROLL_RELEASE_FACTOR = 0.5f; //factor to reduce roll by when releasing
 
 	private const float SLIME_BOUNCE_MULTIPLIER = 1.5f; // minimum bounce given by slime as a multiple of JUMP_VEL
 	private const float MIN_SLIME_BOUNCE = SLIME_BOUNCE_MULTIPLIER * JUMP_VEL;
@@ -79,6 +80,8 @@ public class Player : MonoBehaviour
 	private bool canMidairJump = false;
 
 	private bool rollQueued = false;
+	private bool rollReleaseQueued = false;
+	private bool triggerWasHeld = false;
 	private float rollTime = 0;
 	private bool canRoll = true;
 	private int rollDir = 1; //-1 for left, 1 for right
@@ -155,6 +158,8 @@ public class Player : MonoBehaviour
 
 	private void Update()
 	{
+		//Get input here and queue it up to be processed by FixedUpdate- can't get in FixedUpdate since it may miss inputs
+
 		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7)) //Start
 		{
 			gm.TogglePauseMenu();
@@ -172,12 +177,22 @@ public class Player : MonoBehaviour
 			jumpReleaseQueued = true;
 		}
 
-		bool triggerPressed = Input.GetAxis("LTrigger") > 0 || Input.GetAxis("RTrigger") > 0;
+		bool triggerHeld = Input.GetAxis("LTrigger") > 0 || Input.GetAxis("RTrigger") > 0;
+		bool triggerPressed = !triggerWasHeld && triggerHeld;
 		bool shiftPressed = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
 		if (shiftPressed || triggerPressed)
 		{
 			rollQueued = true;
 		}
+
+		bool triggerReleased = triggerWasHeld && !triggerHeld;
+		bool shiftReleased = Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift);
+		if (triggerReleased || shiftReleased)
+		{
+			rollReleaseQueued = true;
+		}
+
+		triggerWasHeld = triggerHeld;
 
 		AdvanceAnim();
 		sr.sprite = GetAnimSprite();
@@ -241,7 +256,7 @@ public class Player : MonoBehaviour
 		{
 			if (jumpReleaseQueued)
 			{
-				jumpReleaseQueued = false;
+				//cut jump short
 				if (canJumpRelease && velocity.y > 0)
 				{
 					velocity.y = velocity.y * JUMP_RELEASE_FACTOR;
@@ -256,6 +271,7 @@ public class Player : MonoBehaviour
 
 			Fall(ref velocity);
 		}
+		jumpReleaseQueued = false;
 
 		//continued moving past wall corner- clear wallslide
 		if (wallSide != 0 && Math.Sign(velocity.x) != wallSide && walls.Count == 0)
@@ -296,6 +312,12 @@ public class Player : MonoBehaviour
 
 		if (IsRolling())
 		{
+			if (rollReleaseQueued)
+			{
+				//slow your roll
+				rollTime *= ROLL_RELEASE_FACTOR;
+			}
+
 			ApplyRoll(onGround, ref velocity, ref offset);
 
 			if (IsRolling())
@@ -303,6 +325,7 @@ public class Player : MonoBehaviour
 				SetAnimState(AnimState.ROLL);
 			}
 		}
+		rollReleaseQueued = false;
 
 		if (shouldStand)
 		{
@@ -322,8 +345,6 @@ public class Player : MonoBehaviour
 
 		rb.velocity = velocity;
 		rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime + offset);
-
-		jumpReleaseQueued = false;
 	}
 
 	private void MoveHorizontal(float inputXVel, ref Vector2 velocity)
@@ -425,7 +446,8 @@ public class Player : MonoBehaviour
 		bool shouldStop = false;
 		if (Mathf.Abs(rollVel) < Mathf.Abs(velocity.x))
 		{
-			shouldStop = true;
+			//rolling would be slower than running
+			//shouldStop = true;
 		}
 
 		//roll in direction of ground
