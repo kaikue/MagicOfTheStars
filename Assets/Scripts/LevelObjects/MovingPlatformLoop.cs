@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Moves around nodes in a loop.
+ * When it gets to the last node, it will move back towards node 0 and repeat.
+ */
 public class MovingPlatformLoop : MovingPlatform
 {
 	public float speed;

@@ -4,23 +4,26 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Climb up ground tiles if player is more than halfway up tile and has free space above it?
-- Conveyors
-- Hitsnapping
-	- note issues when rolling off of platform and immediately under ledge
+- Slime doesn't push on some walljumps
+- Sliding down when just off of platform edge is wrong sprite direction
+- Call floats "speed" instead of "vel" or "velocity" (since velocity is a vector)
+- Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
 - Redo player sounds
 	- Delete old sound files
-- Slopes
+- Climb up ground tiles if player is more than halfway up tile and has free space above it?
+- Slopes?
 	- Sliding down steep angles
-- Slime that bounces you (auto-walljump corridor, bouncy hallway)
-- Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
+	- Hitsnapping
+		- note issues when rolling off of platform and immediately under ledge
 - Moving platform- use most recent last platform to have player standing mostly on it (currently sticks on corner of player)
 - Animator
 	- Don't use Resources.Load
 	- Use skeleton animation instead of individual frames
 	- Get rid of NUM\_whatever\_FRAMES
 - Adjust jump & walljump grace period based on playtesting
-- Slide particles?
+- Slide particles and sound?
+- Sideways one-way platforms?
+- Apply moving wall velocity?
 - Powerups
 	- Particles
 	- Glowy effect for can midair jump
@@ -33,6 +36,7 @@ Exploration and puzzle-based platformer
 ### Health
 - 5 points of health- show sometimes or always?
 	- sometimes for >2 health, always for <=2?
+	- always if below max?
 	- If you die you restart from the last checkpoint (reload scene)
 - Obstacles
 	- Spikes

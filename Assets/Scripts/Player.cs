@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 	private const float MAX_RUN_VEL = 7.0f; //maximum speed of horizontal movement
 
 	private const float GRAVITY_ACCEL = -0.6f; //acceleration of gravity
-	private const float MAX_FALL_VEL = -20.0f; //maximum speed of fall
+	private const float MAX_FALL_VEL = -30.0f; //maximum speed of fall
 	private const float SLIDE_FACTOR = 0.5f; //multiplier for fall speed when sliding against wall
 	private const float SNAP_DIST = 0.5f;
 
@@ -44,10 +44,7 @@ public class Player : MonoBehaviour
 	private const float ROLL_FORCE_AMOUNT = 0.1f; //how much to push the player when they can't unroll
 	private const float ROLL_RELEASE_FACTOR = 0.5f; //factor to reduce roll by when releasing
 
-	private const float SLIME_BOUNCE_MULTIPLIER = 1.5f; // minimum bounce given by slime as a multiple of JUMP_VEL
-	private const float MIN_SLIME_BOUNCE = SLIME_BOUNCE_MULTIPLIER * JUMP_VEL;
-
-	private static float SLIDE_THRESHOLD;
+	//private static float SLIDE_THRESHOLD;
 	private static Vector2 GRAVITY_NORMAL = new Vector2(0, GRAVITY_ACCEL).normalized;
 
 	private const float HURTZONE_SIZE_FACTOR = 0.7f; //size of squish collider as factor of normal collider (should be between 0 and 1)
@@ -91,7 +88,7 @@ public class Player : MonoBehaviour
 	private BoxCollider2D hurtCollider;
 
 	private Vector2 respawnPos;
-	
+
 	enum AnimState
 	{
 		STAND,
@@ -122,7 +119,7 @@ public class Player : MonoBehaviour
 		hurtCollider = HurtZone.GetComponent<BoxCollider2D>();
 		RefreshHurtZone();
 
-		SLIDE_THRESHOLD = -Mathf.Sqrt(2) / 2; //player will slide down 45 degree angle slopes
+		//SLIDE_THRESHOLD = -Mathf.Sqrt(2) / 2; //player will slide down 45 degree angle slopes
 
 		respawnPos = transform.position;
 
@@ -218,6 +215,8 @@ public class Player : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		//Process movement- running, walljumping, jumping, rolling, etc.
+
 		Vector2 velocity = rb.velocity; //for changing the player's actual velocity
 		Vector2 offset = Vector2.zero; //for any additional movement nudges
 		shouldStand = false;
@@ -274,17 +273,32 @@ public class Player : MonoBehaviour
 		jumpReleaseQueued = false;
 
 		//continued moving past wall corner- clear wallslide
-		if (wallSide != 0 && Math.Sign(velocity.x) != wallSide && walls.Count == 0)
+		//this should happen if:
+		//	the player moves past a corner sliding up
+		//this should not happen if:
+		//	the player is moving away from the wall
+		//	the player is in the middle of a walljump (e.g. slime side bounce)
+		if (wallSide != 0 && Math.Sign(velocity.x) != wallSide && !IsWalljumping() && walls.Count == 0)
 		{
 			wallSide = 0;
 		}
+
+		/*
+		//apply moving wall velocity
+		Rigidbody2D wallRB = GetWallRigidbody();
+		if (wallRB != null)
+		{
+			offset += wallRB.velocity * Time.fixedDeltaTime;
+			//velocity.y = 0; //???
+			//velocity.y = wallRB.velocity.y;
+		}*/
 
 		if (jumpQueued && ((canJump && velocity.y <= 0) || canMidairJump))
 		{
 			Jump(ref velocity);
 		}
 
-		if (walljumpTime > 0 || walljumpPush)
+		if (IsWalljumping())
 		{
 			ApplyWalljumpPush(ref velocity);
 		}
@@ -376,7 +390,7 @@ public class Player : MonoBehaviour
 		velocity.y = 0; //TODO: remove?
 
 		//apply moving platform velocity
-		Rigidbody2D platformRB = GetMovingPlatformRigidbody();
+		Rigidbody2D platformRB = GetGroundRigidbody();
 		if (platformRB != null)
 		{
 			offset += platformRB.velocity * Time.fixedDeltaTime;
@@ -396,12 +410,23 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	private Rigidbody2D GetMovingPlatformRigidbody()
+	private Rigidbody2D GetWallRigidbody()
 	{
-		if (grounds.Count == 0) return null;
+		return GetRigidbody(walls);
+	}
+
+	private Rigidbody2D GetGroundRigidbody()
+	{
+		return GetRigidbody(grounds);
+	}
+
+	private Rigidbody2D GetRigidbody(List<GameObject> platforms)
+	{
+		int count = platforms.Count;
+		if (count == 0) return null;
 
 		//TODO: use last where the player is more than half on it
-		return grounds[grounds.Count - 1].GetComponent<Rigidbody2D>();
+		return platforms[count - 1].GetComponent<Rigidbody2D>();
 	}
 
 	private void Fall(ref Vector2 velocity)
@@ -497,7 +522,7 @@ public class Player : MonoBehaviour
 		{
 			velocity.y = JUMP_VEL;
 			//add moving platform vertical velocity
-			Rigidbody2D groundRB = GetMovingPlatformRigidbody();
+			Rigidbody2D groundRB = GetGroundRigidbody();
 			if (groundRB != null)
 			{
 				velocity.y += groundRB.velocity.y;
@@ -553,6 +578,11 @@ public class Player : MonoBehaviour
 	private bool IsRolling()
 	{
 		return rollTime > 0;
+	}
+
+	private bool IsWalljumping()
+	{
+		return walljumpPush || walljumpTime > 0;
 	}
 
 	public void Kill()
@@ -688,32 +718,45 @@ public class Player : MonoBehaviour
 	{
 		GameObject other = collision.gameObject;
 
-		if (other.tag == "Slime")
+		Slime slime = other.GetComponent<Slime>();
+		if (slime != null)
 		{
-			if (other.transform.position.y < rb.position.y)
+			float prevXVel = rb.velocity.x;
+			
+			ContactPoint2D? groundPoint = GetGround(collision);
+			if (groundPoint.HasValue)
 			{
-				float prevXVel = rb.velocity.x;
-				rb.velocity = Vector2.Reflect(rb.velocity, collision.contacts[0].normal);
-				if (rb.velocity.y < MIN_SLIME_BOUNCE)
-				{
-					rb.velocity = new Vector2(rb.velocity.x, MIN_SLIME_BOUNCE);
-				}
-				//rb.velocity = new Vector2(rb.velocity.x, SLIME_BOUNCE_MULTIPLIER * JUMP_VEL);
-
-				//reverse if rolling into slime
-				if (IsRolling() && Mathf.Sign(rb.velocity.x) != Mathf.Sign(prevXVel))
-				{
-					rollDir *= -1;
-				}
-
-				BounceSound.Play();
+				rb.velocity = new Vector2(rb.velocity.x, slime.bounceSpeed);
 			}
-			else
+			ContactPoint2D? ceilingPoint = GetCeiling(collision);
+			if (ceilingPoint.HasValue)
 			{
+				rb.velocity = new Vector2(rb.velocity.x, -slime.bounceSpeed);
+			}
+			ContactPoint2D? wallPoint = GetWall(collision);
+			if (wallPoint.HasValue)
+			{
+				//apply some velocity- use walljump code
+				UpdateWallSide(wallPoint.Value);
+				lastWallSide = wallSide;
+				walljumpTime = WALLJUMP_TIME;
 				Vector2 velocity = rb.velocity;
-				velocity.y = 0;
+				velocity.y = slime.bounceSpeed;
 				rb.velocity = velocity;
+				walljumpPush = true;
 			}
+
+			//reverse if rolling into slime
+			if (IsRolling() && Mathf.Sign(rb.velocity.x) != Mathf.Sign(prevXVel))
+			{
+				rollDir *= -1;
+			}
+
+			//prevent jump-release-braking the slime bounce
+			canJumpRelease = false;
+
+			BounceSound.Play();
+
 		}
 	}
 
@@ -762,12 +805,7 @@ public class Player : MonoBehaviour
 			{
 				walls.Add(collision.gameObject);
 			}
-			float x = Vector2.Dot(Vector2.right, wallPoint.Value.normal);
-			int newWallSide = Mathf.RoundToInt(x);
-			if (wallSide != newWallSide)
-			{
-				HitWall(newWallSide);
-			}
+			HitWallPoint(wallPoint.Value);
 		}
 		else
 		{
@@ -788,11 +826,9 @@ public class Player : MonoBehaviour
 		rb.velocity = velocity;
 	}
 
-	private void HitWall(int newWallSide)
+	private void HitWall()
 	{
-		wallSide = newWallSide;
 		StopCoroutine(LeaveWall());
-
 		ResetWalljump();
 		StopRoll();
 		//if still rolling: bounce (stuck under ledge)
@@ -802,6 +838,22 @@ public class Player : MonoBehaviour
 		}
 
 		//SkidSound.PlayScheduled(0.1);
+	}
+
+	private void UpdateWallSide(ContactPoint2D wallPoint)
+	{
+		float x = Vector2.Dot(Vector2.right, wallPoint.normal);
+		wallSide = Mathf.RoundToInt(x);
+	}
+
+	private void HitWallPoint(ContactPoint2D wallPoint)
+	{
+		int oldWallSide = wallSide;
+		UpdateWallSide(wallPoint);
+		if (wallSide != oldWallSide)
+		{
+			HitWall();
+		}
 	}
 
 	private bool IsOneWayPlatform(Collision2D collision)
@@ -821,7 +873,7 @@ public class Player : MonoBehaviour
 		yield return new WaitForSeconds(0.2f); //seems to give best results
 		col.enabled = true;
 	}
-	
+
 	private void OnCollisionExit2D(Collision2D collision)
 	{
 		if (collision.gameObject.layer != LayerMask.NameToLayer("LevelGeometry"))

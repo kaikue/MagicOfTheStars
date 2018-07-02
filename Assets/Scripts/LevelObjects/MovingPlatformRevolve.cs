@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
- * Doesn't work due to discrete timesteps causing incorrect velocity tangent calculations.
- * 
  * Currently only uses one node (the center it orbits around).
  * Could be extended to use multiple nodes (e.g. infinity sign-shaped path).
  */
