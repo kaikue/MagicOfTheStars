@@ -468,12 +468,12 @@ public class Player : MonoBehaviour
 		float timeFactor = rollTime / ROLL_TIME;
 		float rollVel = rollDir * ROLL_VEL * timeFactor;
 
-		bool shouldStop = false;
+		/*bool shouldStop = false;
 		if (Mathf.Abs(rollVel) < Mathf.Abs(velocity.x))
 		{
 			//rolling would be slower than running
-			//shouldStop = true;
-		}
+			shouldStop = true;
+		}*/
 
 		//roll in direction of ground
 		Vector2 groundVec;
@@ -504,7 +504,9 @@ public class Player : MonoBehaviour
 
 		rollTime -= Time.fixedDeltaTime;
 
-		if (!IsRolling() || shouldStop)
+		walljumpPush = false; //don't keep pushing after roll finishes
+
+		if (!IsRolling()) // || shouldStop)
 		{
 			StopRoll();
 		}
