@@ -4,7 +4,7 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Do one way moving platforms squish player up or down?
+- Can't get onto vertical moving one-way platform
 - Sliding down when just off of platform edge is wrong sprite direction
 - Call floats "speed" instead of "vel" or "velocity" (since velocity is a vector)
 - Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
