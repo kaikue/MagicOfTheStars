@@ -4,7 +4,8 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Slime doesn't push on some walljumps
+- When unrolling, set walljumppush = false (it's weird that the player starts moving after rolling to a stop in midair)
+- Do one way moving platforms squish player up or down?
 - Sliding down when just off of platform edge is wrong sprite direction
 - Call floats "speed" instead of "vel" or "velocity" (since velocity is a vector)
 - Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)

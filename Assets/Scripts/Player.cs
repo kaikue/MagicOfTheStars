@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 	private const float MAX_RUN_VEL = 7.0f; //maximum speed of horizontal movement
 
 	private const float GRAVITY_ACCEL = -0.6f; //acceleration of gravity
-	private const float MAX_FALL_VEL = -30.0f; //maximum speed of fall
+	private const float MAX_FALL_VEL = -50.0f; //maximum speed of fall
 	private const float SLIDE_FACTOR = 0.5f; //multiplier for fall speed when sliding against wall
 	private const float SNAP_DIST = 0.5f;
 
@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
 	private bool canJumpRelease = false; //to only allow the first jump release to slow the jump
 	private List<GameObject> grounds = new List<GameObject>();
 	private List<GameObject> walls = new List<GameObject>();
-	private int wallSide = 0; //1 for wall on left, 0 for none, -1 for wall on right (i.e. points away from wall in x)
+	private int wallSide = 0; //1 for wall on left, 0 for none, -1 for wall on right (i.e. points away from wall in x)- this is non-zero = the player can walljump
 	private int lastWallSide = 0;
 	private float walljumpTime = 0; //counts down from WALLJUMP_TIME
 	private bool walljumpPush = false; //if the player hasn't touched anything and the walljump should keep moving them
@@ -109,7 +109,7 @@ public class Player : MonoBehaviour
 	private Sprite wallslideSprite;
 	private Sprite[] runSprites;
 	private Sprite[] rollSprites;
-
+	
 	private void Start()
 	{
 		gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -398,7 +398,7 @@ public class Player : MonoBehaviour
 
 		/*if (groundAngle >= SLIDE_THRESHOLD)
         {
-            print("slide");
+            //slide
             velocity.y += GRAVITY_ACCEL; //* slope (perp. to ground angle), * friction?
         }
         */
@@ -536,6 +536,7 @@ public class Player : MonoBehaviour
 	{
 		walljumpTime = WALLJUMP_TIME;
 		lastWallSide = wallSide;
+		wallSide = 0; //so player can't walljump any more
 		velocity.y = JUMP_VEL;
 		walljumpPush = true;
 		jumpQueued = false;
@@ -726,19 +727,22 @@ public class Player : MonoBehaviour
 			ContactPoint2D? groundPoint = GetGround(collision);
 			if (groundPoint.HasValue)
 			{
-				rb.velocity = new Vector2(rb.velocity.x, slime.bounceSpeed);
+				float bounce = Mathf.Max(slime.bounceSpeed, -rb.velocity.y);
+				rb.velocity = new Vector2(rb.velocity.x, bounce);
 			}
 			ContactPoint2D? ceilingPoint = GetCeiling(collision);
 			if (ceilingPoint.HasValue)
 			{
-				rb.velocity = new Vector2(rb.velocity.x, -slime.bounceSpeed);
+				float bounce = Mathf.Min(-slime.bounceSpeed, -rb.velocity.y);
+				rb.velocity = new Vector2(rb.velocity.x, bounce);
 			}
 			ContactPoint2D? wallPoint = GetWall(collision);
 			if (wallPoint.HasValue)
 			{
 				//apply some velocity- use walljump code
-				UpdateWallSide(wallPoint.Value);
-				lastWallSide = wallSide;
+				lastWallSide = GetWallSide(wallPoint.Value);
+				wallSide = 0; //don't allow further walljump
+				walls.Add(other); //so we don't hit the wall in collision stay
 				walljumpTime = WALLJUMP_TIME;
 				Vector2 velocity = rb.velocity;
 				velocity.y = slime.bounceSpeed;
@@ -804,8 +808,10 @@ public class Player : MonoBehaviour
 			if (!walls.Contains(collision.gameObject))
 			{
 				walls.Add(collision.gameObject);
+
+				int newWallSide = GetWallSide(wallPoint.Value);
+				HitWall(newWallSide);
 			}
-			HitWallPoint(wallPoint.Value);
 		}
 		else
 		{
@@ -826,8 +832,11 @@ public class Player : MonoBehaviour
 		rb.velocity = velocity;
 	}
 
-	private void HitWall()
+	private void HitWall(int newWallSide)
 	{
+		wallSide = newWallSide;
+		lastWallSide = newWallSide;
+
 		StopCoroutine(LeaveWall());
 		ResetWalljump();
 		StopRoll();
@@ -840,22 +849,12 @@ public class Player : MonoBehaviour
 		//SkidSound.PlayScheduled(0.1);
 	}
 
-	private void UpdateWallSide(ContactPoint2D wallPoint)
+	private int GetWallSide(ContactPoint2D wallPoint)
 	{
 		float x = Vector2.Dot(Vector2.right, wallPoint.normal);
-		wallSide = Mathf.RoundToInt(x);
+		return Mathf.RoundToInt(x);
 	}
-
-	private void HitWallPoint(ContactPoint2D wallPoint)
-	{
-		int oldWallSide = wallSide;
-		UpdateWallSide(wallPoint);
-		if (wallSide != oldWallSide)
-		{
-			HitWall();
-		}
-	}
-
+	
 	private bool IsOneWayPlatform(Collision2D collision)
 	{
 		return collision.gameObject.GetComponent<PlatformEffector2D>() != null;
