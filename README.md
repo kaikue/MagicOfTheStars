@@ -4,7 +4,6 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Kill gets called twice
 - Call floats "speed" instead of "vel" or "velocity" (since velocity is a vector)
 - Rotating platforms (spin, wait, etc.)
 - Vanishing platforms (when touched, shake, crumble, respawn)
@@ -18,7 +17,9 @@ Exploration and puzzle-based platformer
 	- If enough space above tile and jump pressed: hop up
 		- Space test: raycast from player's side a bit above tile towards the center, at height where player would be hanging
 	- If down/(L/R away from wall) pressed: release and fall normally
-	- Test with one-tall gaps, two-tall, etc. 
+	- Test with one-tall gaps, two-tall, etc.
+- Adjustable gravity direction
+	- Might need to mess with IsWall() etc. dot checks 
 - Slopes?
 	- Sliding down steep angles, walljumping from really steep ones
 	- Hitsnapping

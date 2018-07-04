@@ -16,6 +16,7 @@ public class HurtZone : MonoBehaviour
 	{
 		GameObject other = collision.gameObject;
 
+		//squish if clipping into terrain
 		if (other.layer == LayerMask.NameToLayer("LevelGeometry") && other.GetComponent<PlatformEffector2D>() == null)
 		{
 			player.Kill();
@@ -25,7 +26,7 @@ public class HurtZone : MonoBehaviour
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		GameObject other = collision.gameObject;
-
+		
 		Damage damage = other.GetComponent<Damage>();
 		if (damage != null)
 		{

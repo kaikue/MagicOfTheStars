@@ -4,6 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+enum AnimState
+{
+	STAND,
+	JUMP,
+	WALLSLIDE,
+	RUN,
+	ROLL
+}
+
 public class Player : MonoBehaviour
 {
 
@@ -91,14 +100,6 @@ public class Player : MonoBehaviour
 
 	private Vector2 respawnPos;
 
-	enum AnimState
-	{
-		STAND,
-		JUMP,
-		WALLSLIDE,
-		RUN,
-		ROLL
-	}
 	private SpriteRenderer sr;
 	private AnimState animState = AnimState.STAND;
 	private int animFrame = 0;
@@ -111,7 +112,7 @@ public class Player : MonoBehaviour
 	private Sprite wallslideSprite;
 	private Sprite[] runSprites;
 	private Sprite[] rollSprites;
-	
+
 	private void Start()
 	{
 		gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -598,20 +599,34 @@ public class Player : MonoBehaviour
 		return walljumpPush || walljumpTime > 0;
 	}
 
+	private void ResetMovement()
+	{
+		//TODO: make sure this sets all relevant properties
+
+		jumpQueued = false;
+		jumpReleaseQueued = false;
+		canJump = false;
+		canJumpRelease = false;
+		grounds.Clear();
+		walls.Clear();
+		wallSide = 0;
+		lastWallSide = 0;
+		ResetWalljump();
+
+		StopRoll();
+		rollQueued = false;
+		rollReleaseQueued = false;
+
+		canMidairJump = false;
+
+		rb.velocity = Vector3.zero;
+	}
+
 	public void Kill()
 	{
-		print("kill");
-		//TODO: make sure this sets all relevant properties
-		StopRoll();
-		grounds.Clear();
-		canJump = false;
-		canMidairJump = false;
-		ResetWalljump();
-		wallSide = 0;
-		walls.Clear();
-		rb.velocity = Vector3.zero;
-		rb.position = respawnPos;
+		ResetMovement();
 
+		rb.position = respawnPos;
 		audioSrc.PlayOneShot(deathSound);
 	}
 
@@ -736,7 +751,7 @@ public class Player : MonoBehaviour
 		if (slime != null)
 		{
 			float prevXVel = rb.velocity.x;
-			
+
 			ContactPoint2D? groundPoint = GetGround(collision);
 			if (groundPoint.HasValue)
 			{
@@ -868,7 +883,7 @@ public class Player : MonoBehaviour
 		float x = Vector2.Dot(Vector2.right, wallPoint.normal);
 		return Mathf.RoundToInt(x);
 	}
-	
+
 	private bool IsOneWayPlatform(Collision2D collision)
 	{
 		return collision.gameObject.GetComponent<PlatformEffector2D>() != null;
