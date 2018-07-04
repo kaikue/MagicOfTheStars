@@ -28,28 +28,28 @@ public class Player : MonoBehaviour
 	public AudioClip deathSound;
 
 	private const float RUN_ACCEL = 0.4f; //acceleration of horizontal movement
-	private const float MAX_RUN_VEL = 7.0f; //maximum speed of horizontal movement
+	private const float MAX_RUN_SPEED = 7.0f; //maximum speed of horizontal movement
 
 	private const float GRAVITY_ACCEL = -0.6f; //acceleration of gravity
-	private const float MAX_FALL_VEL = -50.0f; //maximum speed of fall
+	private const float MAX_FALL_SPEED = -50.0f; //maximum speed of fall
 	private const float SLIDE_FACTOR = 0.5f; //multiplier for fall speed when sliding against wall
 	private const float SNAP_DIST = 0.5f;
 
-	private const float JUMP_VEL = 14.0f; //jump y speed
+	private const float JUMP_SPEED = 14.0f; //jump y speed
 	private const float JUMP_RELEASE_FACTOR = 0.5f; //factor to reduce jump by when releasing
 	private const float JUMP_GRACE_TIME = 0.1f; //time after leaving ground player can still jump
 	private const float JUMP_BUFFER_TIME = 0.1f; //time before hitting ground a jump will still be queued
 
-	private const float WALLJUMP_VEL = MAX_RUN_VEL; //speed applied at time of walljump
+	private const float WALLJUMP_SPEED = MAX_RUN_SPEED; //speed applied at time of walljump
 	private const float WALLJUMP_MIN_FACTOR = 0.75f; //amount of walljump kept at minimum if no input
 	private const float WALLJUMP_TIME = 0.5f; //time it takes for walljump to wear off
 	private const float WALLJUMP_GRACE_TIME = 0.2f; //time after leaving wall player can still walljump
 
-	private const float ROLL_VEL = 2 * MAX_RUN_VEL; //speed of roll
+	private const float ROLL_SPEED = 2 * MAX_RUN_SPEED; //speed of roll
 	private const float ROLL_TIME = 1.0f; //time it takes for roll to wear off naturally
 	private const float MAX_ROLL_TIME = 2.0f; //time it takes for roll to wear off at the bottom of a long slope
 	private const float ROLL_MAX_ADDITION = 5.0f; //amount of roll added on high slopes
-	private const float ROLLJUMP_VEL = JUMP_VEL * 2.0f / 3.0f; //roll cancel jump y speed
+	private const float ROLLJUMP_SPEED = JUMP_SPEED * 2.0f / 3.0f; //roll cancel jump y speed
 	private const float ROLL_HEIGHT = 0.5f; //scale factor of height when rolling
 	private const float ROLL_FORCE_AMOUNT = 0.1f; //how much to push the player when they can't unroll
 	private const float ROLL_RELEASE_FACTOR = 0.5f; //factor to reduce roll by when releasing
@@ -224,15 +224,15 @@ public class Player : MonoBehaviour
 		Vector2 velocity = rb.velocity; //for changing the player's actual velocity
 		Vector2 offset = Vector2.zero; //for any additional movement nudges
 		shouldStand = false;
-		float inputXVel = Input.GetAxisRaw("Horizontal");
-		if (inputXVel == 0)
+		float inputXSpeed = Input.GetAxisRaw("Horizontal");
+		if (inputXSpeed == 0)
 		{
 			velocity.x = 0;
 			shouldStand = true;
 		}
 		else
 		{
-			MoveHorizontal(inputXVel, ref velocity);
+			MoveHorizontal(inputXSpeed, ref velocity);
 		}
 
 		bool onGround = grounds.Count > 0;
@@ -353,7 +353,7 @@ public class Player : MonoBehaviour
 		if (velocity.x != 0)
 		{
 			facingLeft = velocity.x < 0;
-			if (inputXVel == 0)
+			if (inputXSpeed == 0)
 			{
 				rollDir = Math.Sign(velocity.x);
 			}
@@ -372,17 +372,17 @@ public class Player : MonoBehaviour
 		rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime + offset);
 	}
 
-	private void MoveHorizontal(float inputXVel, ref Vector2 velocity)
+	private void MoveHorizontal(float inputXSpeed, ref Vector2 velocity)
 	{
-		if (velocity.x != 0 && Mathf.Sign(inputXVel) != Mathf.Sign(velocity.x)) //don't slide if switching directions on same frame
+		if (velocity.x != 0 && Mathf.Sign(inputXSpeed) != Mathf.Sign(velocity.x)) //don't slide if switching directions on same frame
 		{
 			velocity.x = 0;
 			shouldStand = true;
 		}
 		else
 		{
-			velocity.x += RUN_ACCEL * inputXVel;
-			float speedCap = Mathf.Abs(inputXVel * MAX_RUN_VEL); //use input to clamp max speed so half tilted joystick is slower
+			velocity.x += RUN_ACCEL * inputXSpeed;
+			float speedCap = Mathf.Abs(inputXSpeed * MAX_RUN_SPEED); //use input to clamp max speed so half tilted joystick is slower
 			velocity.x = Mathf.Clamp(velocity.x, -speedCap, speedCap);
 			SetAnimState(AnimState.RUN);
 		}
@@ -392,7 +392,7 @@ public class Player : MonoBehaviour
 
 		if (!IsRolling())
 		{
-			rollDir = Math.Sign(inputXVel);
+			rollDir = Math.Sign(inputXSpeed);
 		}
 	}
 
@@ -443,7 +443,7 @@ public class Player : MonoBehaviour
 	private void Fall(ref Vector2 velocity)
 	{
 		float gravAccel = GRAVITY_ACCEL;
-		float maxFall = MAX_FALL_VEL;
+		float maxFall = MAX_FALL_SPEED;
 		if (velocity.y < 0 && walls.Count > 0)
 		{
 			//slide down wall more slowly
@@ -463,10 +463,10 @@ public class Player : MonoBehaviour
 		{
 			timeFactor = Mathf.Max(timeFactor, WALLJUMP_MIN_FACTOR);
 		}
-		float walljumpVel = WALLJUMP_VEL * lastWallSide * timeFactor;
+		float walljumpVel = WALLJUMP_SPEED * lastWallSide * timeFactor;
 
 		velocity.x += walljumpVel;
-		velocity.x = Mathf.Clamp(velocity.x, -MAX_RUN_VEL, MAX_RUN_VEL);
+		velocity.x = Mathf.Clamp(velocity.x, -MAX_RUN_SPEED, MAX_RUN_SPEED);
 
 		if (walljumpTime > 0)
 		{
@@ -477,7 +477,7 @@ public class Player : MonoBehaviour
 	private void ApplyRoll(bool onGround, ref Vector2 velocity, ref Vector2 offset)
 	{
 		float timeFactor = rollTime / ROLL_TIME;
-		float rollVel = rollDir * ROLL_VEL * timeFactor;
+		float rollVel = rollDir * ROLL_SPEED * timeFactor;
 
 		/*bool shouldStop = false;
 		if (Mathf.Abs(rollVel) < Mathf.Abs(velocity.x))
@@ -533,7 +533,7 @@ public class Player : MonoBehaviour
 		StopRoll();
 		if (!IsRolling()) //don't jump if forced roll
 		{
-			velocity.y = JUMP_VEL;
+			velocity.y = JUMP_SPEED;
 			//add moving platform vertical velocity
 			Rigidbody2D groundRB = GetGroundRigidbody();
 			if (groundRB != null)
@@ -550,7 +550,7 @@ public class Player : MonoBehaviour
 		walljumpTime = WALLJUMP_TIME;
 		lastWallSide = wallSide;
 		wallSide = 0; //so player can't walljump any more
-		velocity.y = JUMP_VEL;
+		velocity.y = JUMP_SPEED;
 		walljumpPush = true;
 		jumpQueued = false;
 		canJumpRelease = true;
@@ -750,7 +750,7 @@ public class Player : MonoBehaviour
 		Slime slime = other.GetComponent<Slime>();
 		if (slime != null)
 		{
-			float prevXVel = rb.velocity.x;
+			float prevXSpeed = rb.velocity.x;
 
 			ContactPoint2D? groundPoint = GetGround(collision);
 			if (groundPoint.HasValue)
@@ -779,7 +779,7 @@ public class Player : MonoBehaviour
 			}
 
 			//reverse if rolling into slime
-			if (IsRolling() && Mathf.Sign(rb.velocity.x) != Mathf.Sign(prevXVel))
+			if (IsRolling() && Mathf.Sign(rb.velocity.x) != Mathf.Sign(prevXSpeed))
 			{
 				rollDir *= -1;
 			}
@@ -1038,7 +1038,7 @@ public class Player : MonoBehaviour
 			walljumpTime = WALLJUMP_TIME;
 			lastWallSide = UnityEngine.Random.Range(0f, 1f) < 0.5f ? -1 : 1;
 			Vector2 velocity = rb.velocity;
-			velocity.y = JUMP_VEL / 2;
+			velocity.y = JUMP_SPEED / 2;
 			rb.velocity = velocity;
 			walljumpPush = true;
 			audioSrc.PlayOneShot(deathSound);

@@ -4,7 +4,6 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Call floats "speed" instead of "vel" or "velocity" (since velocity is a vector)
 - Rotating platforms (spin, wait, etc.)
 - Vanishing platforms (when touched, shake, crumble, respawn)
 - Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
