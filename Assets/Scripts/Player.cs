@@ -355,7 +355,14 @@ public class Player : MonoBehaviour
 			}
 		}
 
-		sr.flipX = !facingLeft; //change this if sprites face right
+		if (animState == AnimState.WALLSLIDE)
+		{
+			sr.flipX = wallSide > 0;
+		}
+		else
+		{
+			sr.flipX = !facingLeft; //change this if sprites face right
+		}
 
 		rb.velocity = velocity;
 		rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime + offset);
