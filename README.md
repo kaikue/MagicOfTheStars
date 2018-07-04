@@ -4,15 +4,23 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
+- Kill gets called twice
 - Call floats "speed" instead of "vel" or "velocity" (since velocity is a vector)
 - Rotating platforms (spin, wait, etc.)
 - Vanishing platforms (when touched, shake, crumble, respawn)
 - Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
-- Redo player sounds
-	- Delete old sound files
-- Climb up ground tiles if player is more than halfway up tile and has free space above it?
+- Hanging on corners
+	- If:
+		- sliding down ground tile
+		- free space above that tile
+		- at a certain position to that tile (halfway down?)
+	- Stop movement, go into hanging animstate
+	- If enough space above tile and jump pressed: hop up
+		- Space test: raycast from player's side a bit above tile towards the center, at height where player would be hanging
+	- If down/(L/R away from wall) pressed: release and fall normally
+	- Test with one-tall gaps, two-tall, etc. 
 - Slopes?
-	- Sliding down steep angles
+	- Sliding down steep angles, walljumping from really steep ones
 	- Hitsnapping
 		- note issues when rolling off of platform and immediately under ledge
 - Moving platform- use most recent last platform to have player standing mostly on it (currently sticks on corner of player)
@@ -209,6 +217,7 @@ Exploration and puzzle-based platformer
 		- plays full swim animation then goes to swim-stand
 
 ### Sound
+- Delete old sound files
 - Multiple jump sounds
 - Wallslide down
 - Roll (whoosh)
@@ -220,6 +229,7 @@ Exploration and puzzle-based platformer
 - Door sliding open
 - Door ascending tones
 - Level music (mute during star overlay)
+- UI sounds
 
 ### Art
 - Vector art

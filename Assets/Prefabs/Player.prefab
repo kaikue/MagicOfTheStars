@@ -53,9 +53,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4165879742230138}
   - component: {fileID: 50272064587794744}
-  - component: {fileID: 81087343871268842}
   - component: {fileID: 114592835240083726}
   - component: {fileID: 68408387707633938}
+  - component: {fileID: 82693222259231778}
+  - component: {fileID: 81223768667086060}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -87,7 +88,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1776542791216156}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: 4, z: 0}
+  m_LocalPosition: {x: -4, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4239297252355670}
@@ -200,13 +201,108 @@ EdgeCollider2D:
   - {x: 0.25, y: 0.9675}
   - {x: 0.25, y: -0.9675}
   - {x: -0.25, y: -0.9675}
---- !u!81 &81087343871268842
+--- !u!81 &81223768667086060
 AudioListener:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1776542791216156}
   m_Enabled: 1
+--- !u!82 &82693222259231778
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1776542791216156}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &114020198285222936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -229,14 +325,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b213838d8d587d45b069544627c9927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpriteObject: {fileID: 1061453982016600}
-  HurtZone: {fileID: 1777920819247860}
-  JumpSound: {fileID: 0}
-  RollSound: {fileID: 0}
-  SkidSound: {fileID: 0}
-  BounceSound: {fileID: 0}
-  StarCollectSound: {fileID: 0}
-  DeathSound: {fileID: 0}
+  spriteObject: {fileID: 1061453982016600}
+  hurtZone: {fileID: 1777920819247860}
+  jumpSound: {fileID: 8300000, guid: 28593b76b7ef62646adb70db4f8f0983, type: 3}
+  rollSound: {fileID: 8300000, guid: 805bf4ea3d37bff4eb9cadbcecd8f4ea, type: 3}
+  skidSound: {fileID: 8300000, guid: dd554b4948418ee4999708940f92d494, type: 3}
+  bounceSound: {fileID: 8300000, guid: ef7fc929a564f9c4bb13409b531eca55, type: 3}
+  starCollectSound: {fileID: 8300000, guid: 7f9568fd09b2a9b40b091495949e9a34, type: 3}
+  oldStarCollectSound: {fileID: 8300000, guid: 1cf337aec83b203409edbf74141c1c55, type: 3}
+  deathSound: {fileID: 8300000, guid: 28593b76b7ef62646adb70db4f8f0983, type: 3}
 --- !u!198 &198969991212576312
 ParticleSystem:
   m_ObjectHideFlags: 1

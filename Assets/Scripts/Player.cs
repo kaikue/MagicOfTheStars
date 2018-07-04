@@ -7,15 +7,16 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
 
-	public GameObject SpriteObject;
-	public GameObject HurtZone;
+	public GameObject spriteObject;
+	public GameObject hurtZone;
 
-	public AudioSource JumpSound;
-	public AudioSource RollSound;
-	public AudioSource SkidSound;
-	public AudioSource BounceSound;
-	public AudioSource StarCollectSound;
-	public AudioSource DeathSound;
+	public AudioClip jumpSound;
+	public AudioClip rollSound;
+	public AudioClip skidSound;
+	public AudioClip bounceSound;
+	public AudioClip starCollectSound;
+	public AudioClip oldStarCollectSound;
+	public AudioClip deathSound;
 
 	private const float RUN_ACCEL = 0.4f; //acceleration of horizontal movement
 	private const float MAX_RUN_VEL = 7.0f; //maximum speed of horizontal movement
@@ -61,6 +62,7 @@ public class Player : MonoBehaviour
 	private GameManager gm;
 	private EdgeCollider2D ec;
 	private Rigidbody2D rb;
+	private AudioSource audioSrc;
 
 	private Vector2 groundNormal;
 
@@ -114,16 +116,17 @@ public class Player : MonoBehaviour
 	{
 		gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 		rb = GetComponent<Rigidbody2D>();
+		audioSrc = GetComponent<AudioSource>();
 		ec = GetComponent<EdgeCollider2D>();
 		normalHeight = ec.points[1].y - ec.points[0].y;
-		hurtCollider = HurtZone.GetComponent<BoxCollider2D>();
+		hurtCollider = hurtZone.GetComponent<BoxCollider2D>();
 		RefreshHurtZone();
 
 		//SLIDE_THRESHOLD = -Mathf.Sqrt(2) / 2; //player will slide down 45 degree angle slopes
 
 		respawnPos = transform.position;
 
-		sr = SpriteObject.GetComponent<SpriteRenderer>();
+		sr = spriteObject.GetComponent<SpriteRenderer>();
 		LoadSprites();
 	}
 
@@ -564,7 +567,7 @@ public class Player : MonoBehaviour
 		ResetWalljump();
 		velocity.y = 0;
 
-		RollSound.Play();
+		audioSrc.PlayOneShot(rollSound);
 	}
 
 	public void SetCanRoll()
@@ -597,6 +600,7 @@ public class Player : MonoBehaviour
 
 	public void Kill()
 	{
+		print("kill");
 		//TODO: make sure this sets all relevant properties
 		StopRoll();
 		grounds.Clear();
@@ -606,9 +610,9 @@ public class Player : MonoBehaviour
 		wallSide = 0;
 		walls.Clear();
 		rb.velocity = Vector3.zero;
-		transform.position = respawnPos;
+		rb.position = respawnPos;
 
-		DeathSound.Play();
+		audioSrc.PlayOneShot(deathSound);
 	}
 
 	private void SetRollCollider()
@@ -768,8 +772,7 @@ public class Player : MonoBehaviour
 			//prevent jump-release-braking the slime bounce
 			canJumpRelease = false;
 
-			BounceSound.Play();
-
+			audioSrc.PlayOneShot(bounceSound);
 		}
 	}
 
@@ -968,11 +971,11 @@ public class Player : MonoBehaviour
 			Destroy(other);
 			if (newStar)
 			{
-				StarCollectSound.Play();
+				audioSrc.PlayOneShot(starCollectSound);
 			}
 			else
 			{
-				//TODO: old star collect noise
+				audioSrc.PlayOneShot(oldStarCollectSound);
 			}
 		}
 
@@ -1008,8 +1011,8 @@ public class Player : MonoBehaviour
 
 	private void PlayJumpSound()
 	{
-		JumpSound.pitch = UnityEngine.Random.Range(2 - PITCH_VARIATION, 2 + PITCH_VARIATION);
-		JumpSound.Play();
+		//audioSrc.pitch = UnityEngine.Random.Range(2 - PITCH_VARIATION, 2 + PITCH_VARIATION);
+		audioSrc.PlayOneShot(jumpSound);
 	}
 
 	public void Shove()
@@ -1023,7 +1026,7 @@ public class Player : MonoBehaviour
 			velocity.y = JUMP_VEL / 2;
 			rb.velocity = velocity;
 			walljumpPush = true;
-			DeathSound.Play();
+			audioSrc.PlayOneShot(deathSound);
 		}
 	}
 }
