@@ -778,7 +778,9 @@ public class Player : MonoBehaviour
 		ContactPoint2D? groundPoint = GetGround(collision);
 		if (groundPoint.HasValue)
 		{
-			if (IsFeet(groundPoint.Value.point) || !IsOneWayPlatform(collision))
+			Rigidbody2D groundRB = collision.gameObject.GetComponent<Rigidbody2D>();
+			Vector2 groundVel = groundRB == null ? Vector2.zero : groundRB.velocity;
+			if (IsFeet(groundPoint.Value.point, groundVel) || !IsOneWayPlatform(collision))
 			{
 				if (!grounds.Contains(collision.gameObject))
 				{
@@ -862,10 +864,10 @@ public class Player : MonoBehaviour
 		return collision.gameObject.GetComponent<PlatformEffector2D>() != null;
 	}
 
-	private bool IsFeet(Vector2 point)
+	private bool IsFeet(Vector2 point, Vector2 vel)
 	{
 		float feetY = ec.points[0].y + ec.offset.y + transform.position.y;
-		return Mathf.Abs(point.y - feetY) < FEET_CHECK;
+		return Mathf.Abs(point.y - feetY) < FEET_CHECK + Mathf.Abs(vel.y * Time.fixedDeltaTime);
 	}
 
 	private IEnumerator TempDisableGround(Collider2D col)

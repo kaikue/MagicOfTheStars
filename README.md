@@ -4,9 +4,10 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Can't get onto vertical moving one-way platform
 - Sliding down when just off of platform edge is wrong sprite direction
 - Call floats "speed" instead of "vel" or "velocity" (since velocity is a vector)
+- Rotating platforms (spin, wait, etc.)
+- Vanishing platforms (when touched, shake, crumble, respawn)
 - Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
 - Redo player sounds
 	- Delete old sound files
