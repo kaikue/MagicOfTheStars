@@ -49,7 +49,6 @@ public class Player : MonoBehaviour
 	private const float ROLL_TIME = 1.0f; //time it takes for roll to wear off naturally
 	private const float MAX_ROLL_TIME = 2.0f; //time it takes for roll to wear off at the bottom of a long slope
 	private const float ROLL_MAX_ADDITION = 5.0f; //amount of roll added on high slopes
-	private const float ROLLJUMP_SPEED = JUMP_SPEED * 2.0f / 3.0f; //roll cancel jump y speed
 	private const float ROLL_HEIGHT = 0.5f; //scale factor of height when rolling
 	private const float ROLL_FORCE_AMOUNT = 0.1f; //how much to push the player when they can't unroll
 	private const float ROLL_RELEASE_FACTOR = 0.5f; //factor to reduce roll by when releasing
