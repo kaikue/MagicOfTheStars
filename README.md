@@ -4,7 +4,7 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Rotating platforms (spin, wait, etc.)
+- Rotating platforms (spin, wait, repeat)
 - Vanishing platforms (when touched, shake, crumble, respawn)
 - Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
 - Hanging on corners
@@ -171,7 +171,9 @@ Exploration and puzzle-based platformer
 	- Spring off vertical moving platform
 
 ### UI
+- press jump to skip menu
 - Import menus from zubenel
+- Confirm new game save deletion
 - TextMeshPro
 - Outline on star # GUI (white text, dark outline)
 - Add back HUD sliding in/out
@@ -197,6 +199,7 @@ Exploration and puzzle-based platformer
 	- At top of pits, near interesting thing
 
 ### Misc
+- Use Application.persistentDataPath for .save file
 - Doors
 - Zoom in to star when approaching (then zoom out after collected)
 - Gamepad/keyboard controls text
