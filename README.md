@@ -4,7 +4,6 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Rotating platforms (spin, wait, repeat)
 - Vanishing platforms (when touched, shake, crumble, respawn)
 - Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
 - Hanging on corners
@@ -247,8 +246,7 @@ Exploration and puzzle-based platformer
 - Enemies
 - Obstacles
 
-- Default sprite facing is left (remove - in facing calculation if not)
-- Wall slide sprite should face opposite of other sprites
+- Default sprite facing is left (remove ! in facing calculation if not)
 - Star should be white, colored by material
 - When changing player dimensions, update bounding box and fully retest level design
 - Player can jump up 3 blocks, across 7 blocks without rolling
