@@ -4,8 +4,12 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Vanishing platforms (when touched, shake, crumble, respawn)
-- Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
+- Slime tilemap (LevelGeometry tilemap with slime component)
+- Vanishing platforms (when touched, shake, crumble, respawn) (shy expressions)
+- Holding crates
+	- Press X when on ground, not rolling, and near crate on the side to pick it up
+	- Hold crate over head- can run/jump normally, can't roll
+	- Press X to release crate- while standing = put down, while running = throw
 - Hanging on corners
 	- If:
 		- sliding down ground tile
@@ -16,6 +20,7 @@ Exploration and puzzle-based platformer
 		- Space test: raycast from player's side a bit above tile towards the center, at height where player would be hanging
 	- If down/(L/R away from wall) pressed: release and fall normally
 	- Test with one-tall gaps, two-tall, etc.
+- Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
 - Adjustable gravity direction
 	- Might need to mess with IsWall() etc. dot checks 
 - Slopes?
@@ -35,6 +40,7 @@ Exploration and puzzle-based platformer
 	- Particles
 	- Glowy effect for can midair jump
 - Visual indication for SetCanRoll (like mario galaxy spin recharge)
+- Can't jump and slide up rotating platform
 - More moves?
 	- Roll + jump = long jump?
 	- Roll cancel jump in midair?
@@ -60,6 +66,8 @@ Exploration and puzzle-based platformer
 		- up to 3rd time combo (2 increasing rolls)
 	- Should make the game FUN
 	- Slimes- have to roll under ledge and squish one to teach mechanic
+	- Can also jump on enemies to damage them
+	- Spiky shell enemies- bounce off them (or along top) while rolling
 - Bosses
 	- Super Stars (gives star x3, different overlay text, image, music)
 	- Don't spawn boss if superstar was collected
@@ -74,8 +82,11 @@ Exploration and puzzle-based platformer
 	- Star chips- collect 5 to make star
 - Coins
 	- Shops?
+	- Throughout level
+	- Drop randomly from enemies
 - Health
-	- In levels, drops from enemies? 
+	- Full recharge points in levels (checkpoints)
+	- Single heart refills dropped randomly from enemies 
 - Color schemes
 - Special collectibles for an NPC
 - Suits
@@ -83,6 +94,7 @@ Exploration and puzzle-based platformer
 	- Swim
 	- Moon gravity?
 	- Ability to place limited number of jump/roll powerups?
+- Achievements?????
 
 ### Level design
 - Player should visit doors before being able to open them
@@ -168,6 +180,7 @@ Exploration and puzzle-based platformer
 	- Chase someone
 	- Stuff with one-way platforms (feel less stable)
 	- Spring off vertical moving platform
+	- Throw crate on vanishing platform so it doesn't go away
 
 ### UI
 - press jump to skip menu
@@ -241,6 +254,8 @@ Exploration and puzzle-based platformer
 - Door
 - Menus
 - Levels
+	- Tiles- multiple sets per level
+		- Tilemap collider vertical offset to not float on tiles
 	- Scenery
 	- Backgrounds
 - Enemies

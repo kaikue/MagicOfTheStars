@@ -775,12 +775,11 @@ public class Player : MonoBehaviour
 				velocity.y = slime.bounceSpeed;
 				rb.velocity = velocity;
 				walljumpPush = true;
-			}
 
-			//reverse if rolling into slime
-			if (IsRolling() && Mathf.Sign(rb.velocity.x) != Mathf.Sign(prevXSpeed))
-			{
-				rollDir *= -1;
+				if (IsRolling())
+				{
+					rollDir *= -1;
+				}
 			}
 
 			//prevent jump-release-braking the slime bounce
