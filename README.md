@@ -4,10 +4,9 @@ Exploration and puzzle-based platformer
 ## TODO
 
 ### Movement
-- Slime tilemap (LevelGeometry tilemap with slime component)
 - Vanishing platforms (when touched, shake, crumble, respawn) (shy expressions)
 - Holding crates
-	- Press X when on ground, not rolling, and near crate on the side to pick it up
+	- Press X or Ctrl when on ground, not rolling, and near crate on the side to pick it up
 	- Hold crate over head- can run/jump normally, can't roll
 	- Press X to release crate- while standing = put down, while running = throw
 - Hanging on corners
