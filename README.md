@@ -1,6 +1,8 @@
 # Magic Of The Stars
 Exploration and puzzle-based platformer
 
+Some placeholder graphics by [Kenney](http://kenney.nl/).
+
 ## TODO
 
 ### Movement
@@ -9,7 +11,7 @@ Exploration and puzzle-based platformer
 	- Press X or Ctrl when on ground, not rolling, and near crate on the side to pick it up
 	- Hold crate over head- can run/jump normally, can't roll
 	- Press X to release crate- while standing = put down, while running = throw
-- Hanging on corners
+- Hanging on corners? Kind of unnecessary with rolling over corners
 	- If:
 		- sliding down ground tile
 		- free space above that tile
@@ -179,7 +181,9 @@ Exploration and puzzle-based platformer
 	- Chase someone
 	- Stuff with one-way platforms (feel less stable)
 	- Spring off vertical moving platform
-	- Throw crate on vanishing platform so it doesn't go away
+	- Throw crate on vanishing platform so it doesn't go away when you step on it
+	- Jumping between conveyors in different directions
+	- Jumping between multiple spinning platforms
 
 ### UI
 - press jump to skip menu
