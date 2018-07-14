@@ -6,8 +6,8 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 ## TODO
 
 ### Movement
-- Try doubling all the values and see if it feels better
 - Vanishing platforms (when touched, shake, crumble, respawn) (shy expressions)
+- Releasing jump before hitting ground in queuedjump will go maximum height (queue jumprelease? or when jumping, check if jump is not held and brake then?)
 - Holding crates
 	- Press X or Ctrl when on ground, not rolling, and near crate on the side to pick it up
 	- Hold crate over head- can run/jump normally, can't roll
@@ -35,6 +35,9 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Don't use Resources.Load
 	- Use skeleton animation instead of individual frames
 	- Get rid of NUM\_whatever\_FRAMES
+- Jump speed- 14 or 16 (3 or 4 blocks)?
+	- Test with better player proportions/size
+	- Tweak walljump push
 - Adjust jump & walljump grace period based on playtesting
 - Slide particles and sound?
 - Sideways one-way platforms?

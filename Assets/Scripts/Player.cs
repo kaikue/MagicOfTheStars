@@ -27,12 +27,13 @@ public class Player : MonoBehaviour
 	public AudioClip oldStarCollectSound;
 	public AudioClip deathSound;
 
-	private const float RUN_ACCEL = 0.4f; //acceleration of horizontal movement
+	private const float RUN_ACCEL = 0.5f; //acceleration of horizontal movement
 	private const float MAX_RUN_SPEED = 7.0f; //maximum speed of horizontal movement
 
 	private const float GRAVITY_ACCEL = -0.6f; //acceleration of gravity
 	private const float MAX_FALL_SPEED = -50.0f; //maximum speed of fall
-	private const float SLIDE_FACTOR = 0.5f; //multiplier for fall speed when sliding against wall
+	private const float SLIDE_GRAVITY_ACCEL = -0.3f; //acceleration of gravity when sliding down wall
+	private const float SLIDE_MAX_FALL_SPEED = -8.0f; //maximum speed of sliding down wall
 	private const float SNAP_DIST = 0.5f;
 
 	private const float JUMP_SPEED = 14.0f; //jump y speed
@@ -449,8 +450,8 @@ public class Player : MonoBehaviour
 		if (velocity.y < 0 && walls.Count > 0)
 		{
 			//slide down wall more slowly
-			gravAccel *= SLIDE_FACTOR;
-			maxFall *= SLIDE_FACTOR;
+			gravAccel = SLIDE_GRAVITY_ACCEL;
+			maxFall = SLIDE_MAX_FALL_SPEED;
 			//TODO: slide sound/particles?
 		}
 
@@ -752,8 +753,6 @@ public class Player : MonoBehaviour
 		Slime slime = other.GetComponent<Slime>();
 		if (slime != null)
 		{
-			float prevXSpeed = rb.velocity.x;
-
 			ContactPoint2D? groundPoint = GetGround(collision);
 			if (groundPoint.HasValue)
 			{
