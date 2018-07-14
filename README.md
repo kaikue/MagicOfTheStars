@@ -6,6 +6,8 @@ Some placeholder graphics by [Kenney](http://kenney.nl/).
 ## TODO
 
 ### Movement
+- Remove/fix StopCoroutine(CancelQueuedJump())
+- Try doubling all the values and see if it feels better
 - Vanishing platforms (when touched, shake, crumble, respawn) (shy expressions)
 - Holding crates
 	- Press X or Ctrl when on ground, not rolling, and near crate on the side to pick it up
@@ -161,6 +163,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/).
 		- Beehive
 		- Lava streams
 		- Gravity direction
+		- The Tower
 - Level bits:
 	- Multiple columns of ascending/descending platforms
 	- Star bits at corners of area
@@ -212,6 +215,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/).
 	- Lerp to fixed or relative positions
 	- Zoom out
 	- At top of pits, near interesting thing
+- should AudioListener go on camera or player? consider when camera/player is near twinkling star
 
 ### Misc
 - Use Application.persistentDataPath for .save file
