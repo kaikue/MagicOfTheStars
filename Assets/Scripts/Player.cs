@@ -99,6 +99,9 @@ public class Player : MonoBehaviour
 
 	private Vector2 respawnPos;
 
+	private Coroutine crtLeaveWall;
+	private Coroutine crtCancelQueuedJump;
+
 	private SpriteRenderer sr;
 	private AnimState animState = AnimState.STAND;
 	private int animFrame = 0;
@@ -167,9 +170,9 @@ public class Player : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton0)) //A
 		{
-			StopCoroutine(CancelQueuedJump());
+			TryStopCoroutine(crtCancelQueuedJump);
 			jumpQueued = true;
-			StartCoroutine(CancelQueuedJump());
+			crtCancelQueuedJump = StartCoroutine(CancelQueuedJump());
 		}
 
 		if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton0))
@@ -525,7 +528,7 @@ public class Player : MonoBehaviour
 	private void Jump(ref Vector2 velocity)
 	{
 		jumpQueued = false;
-		StopCoroutine(CancelQueuedJump());
+		TryStopCoroutine(crtCancelQueuedJump);
 		canJump = false;
 		canMidairJump = false;
 		canJumpRelease = true;
@@ -553,7 +556,7 @@ public class Player : MonoBehaviour
 		walljumpPush = true;
 		jumpQueued = false;
 		canJumpRelease = true;
-		StopCoroutine(CancelQueuedJump());
+		TryStopCoroutine(crtCancelQueuedJump);
 
 		PlayJumpSound();
 		//SkidSound.Stop();
@@ -842,7 +845,7 @@ public class Player : MonoBehaviour
 		}
 		else
 		{
-			RemoveContact(walls, collision.gameObject, LeaveWall());
+			crtLeaveWall = RemoveContact(walls, collision.gameObject, LeaveWall());
 		}
 	}
 
@@ -864,7 +867,7 @@ public class Player : MonoBehaviour
 		wallSide = newWallSide;
 		lastWallSide = newWallSide;
 
-		StopCoroutine(LeaveWall());
+		TryStopCoroutine(crtLeaveWall);
 		ResetWalljump();
 		StopRoll();
 		//if still rolling: bounce (stuck under ledge)
@@ -908,7 +911,7 @@ public class Player : MonoBehaviour
 		}
 
 		RemoveContact(grounds, collision.gameObject, LeaveGround());
-		RemoveContact(walls, collision.gameObject, LeaveWall());
+		crtLeaveWall = RemoveContact(walls, collision.gameObject, LeaveWall());
 	}
 
 	private float NormalDot(ContactPoint2D contact)
@@ -947,13 +950,14 @@ public class Player : MonoBehaviour
 		return GetWithDotCheck(collision, d => Mathf.Abs(d) < 0.01f);
 	}
 
-	private void RemoveContact(List<GameObject> contacts, GameObject contact, IEnumerator ifEmpty)
+	private Coroutine RemoveContact(List<GameObject> contacts, GameObject contact, IEnumerator ifEmpty)
 	{
 		bool removed = contacts.Remove(contact);
 		if (removed && contacts.Count == 0)
 		{
-			StartCoroutine(ifEmpty);
+			return StartCoroutine(ifEmpty);
 		}
+		return null;
 	}
 
 	private IEnumerator LeaveGround()
@@ -1026,6 +1030,14 @@ public class Player : MonoBehaviour
 	{
 		//audioSrc.pitch = UnityEngine.Random.Range(2 - PITCH_VARIATION, 2 + PITCH_VARIATION);
 		audioSrc.PlayOneShot(jumpSound);
+	}
+
+	private void TryStopCoroutine(Coroutine crt)
+	{
+		if (crt != null)
+		{
+			StopCoroutine(crt);
+		}
 	}
 
 	public void Shove()

@@ -1,12 +1,11 @@
 # Magic Of The Stars
-Exploration and puzzle-based platformer
+Exploration-based collectathon platformer by Kai Kuehner.
 
-Some placeholder graphics by [Kenney](http://kenney.nl/).
+Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](https://www.gameart2d.com/).
 
 ## TODO
 
 ### Movement
-- Remove/fix StopCoroutine(CancelQueuedJump())
 - Try doubling all the values and see if it feels better
 - Vanishing platforms (when touched, shake, crumble, respawn) (shy expressions)
 - Holding crates
@@ -23,6 +22,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/).
 		- Space test: raycast from player's side a bit above tile towards the center, at height where player would be hanging
 	- If down/(L/R away from wall) pressed: release and fall normally
 	- Test with one-tall gaps, two-tall, etc.
+- Should tiles be full tile rect or sized to image? (setting in tile asset)
 - Try unrolling and moving the player down a bit (since rolling up into a corner will engage anti-softlock and bounce the player instead of stopping them)
 - Adjustable gravity direction
 	- Might need to mess with IsWall() etc. dot checks 
