@@ -56,8 +56,8 @@ public class Player : MonoBehaviour
 	private const float ROLL_FORCE_AMOUNT = 0.1f; //how much to push the player when they can't unroll
 	private const float ROLL_RELEASE_FACTOR = 0.5f; //factor to reduce roll by when releasing
 
-	private const float THROW_X_FACTOR = 2.0f; //velocity x multiplier for throwing a grabbable object
-	private const float THROW_Y_SPEED = 10.0f; //velocity y addition for throwing a grabbable object
+	private const float THROW_X_FACTOR = 50.0f; //velocity x multiplier for throwing a grabbable object
+	private const float THROW_Y_SPEED = 100.0f; //velocity y addition for throwing a grabbable object
 
 	//private static float SLIDE_THRESHOLD;
 	private static Vector2 GRAVITY_NORMAL = new Vector2(0, GRAVITY_ACCEL).normalized;
@@ -631,7 +631,8 @@ public class Player : MonoBehaviour
 	private void ThrowHeldObject(Vector2 velocity)
 	{
 		float dropX = grabZone.transform.position.x;
-		dropX += Mathf.Sign(dropX) * heldObject.GetSize().x / 2;
+		float side = Mathf.Sign(grabZone.transform.localPosition.x);
+		dropX += side * heldObject.GetSize().x / 2;
 		Vector2 dropPos = new Vector2(dropX, holdSpot.transform.position.y);
 		if (CanMoveGrabbable(heldObject, dropPos))
 		{
@@ -639,7 +640,6 @@ public class Player : MonoBehaviour
 			heldObject.Drop(dropPos);
 			if (velocity.x != 0)
 			{
-				print("throw");
 				Vector2 force = new Vector2(velocity.x * THROW_X_FACTOR, velocity.y + THROW_Y_SPEED);
 				heldObject.AddForce(force);
 			}

@@ -9,10 +9,8 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Vanishing platforms (when touched, shake, crumble, respawn) (shy expressions)
 - Releasing jump before hitting ground in queuedjump will go maximum height (queue jumprelease? or when jumping, check if jump is not held and brake then?)
 - Holding crates
-	- Drop position not working right
-	- Throwing not working right?
+	- Throw from holdspot, coroutine to moveposition from holdspot to drop spot when dropping (long raycast to ensure valid along drop path)
 	- edgecolliders? to prevent catching on tiles
-	- test picking up, releasing under ledge
 	- forward grabbable collisions to player, then test collisions with wall above head, ceiling
 	- 3d sfx on hit with loudness (cut off below min)
 - Hanging on corners? Kind of unnecessary with rolling over corners

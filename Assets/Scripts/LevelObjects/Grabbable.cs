@@ -8,11 +8,13 @@ public class Grabbable : MonoBehaviour
 	private BoxCollider2D bc;
 
 	private bool held = false;
+	private float gravityScale;
 
 	private void Start()
 	{
 		rb = GetComponent<Rigidbody2D>();
 		bc = GetComponent<BoxCollider2D>();
+		gravityScale = rb.gravityScale;
 	}
 
 	public Vector2 GetSize()
@@ -32,7 +34,7 @@ public class Grabbable : MonoBehaviour
 	{
 		MoveTo(pos);
 		rb.isKinematic = false;
-		rb.gravityScale = 1;
+		rb.gravityScale = gravityScale;
 		held = false;
 	}
 
