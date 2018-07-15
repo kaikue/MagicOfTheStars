@@ -9,9 +9,12 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Vanishing platforms (when touched, shake, crumble, respawn) (shy expressions)
 - Releasing jump before hitting ground in queuedjump will go maximum height (queue jumprelease? or when jumping, check if jump is not held and brake then?)
 - Holding crates
-	- Press X or Ctrl when on ground, not rolling, and near crate on the side to pick it up
-	- Hold crate over head- can run/jump normally, can't roll
-	- Press X to release crate- while standing = put down, while running = throw
+	- Drop position not working right
+	- Throwing not working right?
+	- edgecolliders? to prevent catching on tiles
+	- test picking up, releasing under ledge
+	- forward grabbable collisions to player, then test collisions with wall above head, ceiling
+	- 3d sfx on hit with loudness (cut off below min)
 - Hanging on corners? Kind of unnecessary with rolling over corners
 	- If:
 		- sliding down ground tile
@@ -271,7 +274,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Enemies
 - Obstacles
 
-- Default sprite facing is left (remove ! in facing calculation if not)
+- Default sprite facing is left (if not, remove ! in facing calculation and flip grabzone logic)
 - Star should be white, colored by material
 - When changing player dimensions, update bounding box and fully retest level design
 - Player can jump up 3 blocks, across 7 blocks without rolling

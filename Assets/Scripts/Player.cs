@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
 
 	public GameObject spriteObject;
 	public GameObject hurtZone;
+	public GameObject grabZone;
+	public GameObject holdSpot;
 
 	public AudioClip jumpSound;
 	public AudioClip rollSound;
@@ -53,6 +55,9 @@ public class Player : MonoBehaviour
 	private const float ROLL_HEIGHT = 0.5f; //scale factor of height when rolling
 	private const float ROLL_FORCE_AMOUNT = 0.1f; //how much to push the player when they can't unroll
 	private const float ROLL_RELEASE_FACTOR = 0.5f; //factor to reduce roll by when releasing
+
+	private const float THROW_X_FACTOR = 2.0f; //velocity x multiplier for throwing a grabbable object
+	private const float THROW_Y_SPEED = 10.0f; //velocity y addition for throwing a grabbable object
 
 	//private static float SLIDE_THRESHOLD;
 	private static Vector2 GRAVITY_NORMAL = new Vector2(0, GRAVITY_ACCEL).normalized;
@@ -96,6 +101,10 @@ public class Player : MonoBehaviour
 	private float normalHeight;
 	private bool rollingCollider = false;
 
+	private bool grabQueued = false;
+	private GrabZone gz;
+	private Grabbable heldObject;
+
 	private BoxCollider2D hurtCollider;
 
 	private Vector2 respawnPos;
@@ -125,6 +134,7 @@ public class Player : MonoBehaviour
 		normalHeight = ec.points[1].y - ec.points[0].y;
 		hurtCollider = hurtZone.GetComponent<BoxCollider2D>();
 		RefreshHurtZone();
+		gz = grabZone.GetComponent<GrabZone>();
 
 		//SLIDE_THRESHOLD = -Mathf.Sqrt(2) / 2; //player will slide down 45 degree angle slopes
 
@@ -195,8 +205,14 @@ public class Player : MonoBehaviour
 		{
 			rollReleaseQueued = true;
 		}
-
 		triggerWasHeld = triggerHeld;
+
+		bool ctrlPressed = Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl);
+		bool actionPressed = Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.JoystickButton2); //B, X
+		if (ctrlPressed || actionPressed)
+		{
+			grabQueued = true;
+		}
 
 		AdvanceAnim();
 		sr.sprite = GetAnimSprite();
@@ -305,6 +321,19 @@ public class Player : MonoBehaviour
 			Jump(ref velocity);
 		}
 
+		if (grabQueued)
+		{
+			if (heldObject != null)
+			{
+				ThrowHeldObject(velocity);
+			}
+			else if (onGround && !IsRolling())
+			{
+				GrabObject();
+			}
+			grabQueued = false;
+		}
+
 		if (IsWalljumping())
 		{
 			ApplyWalljumpPush(ref velocity);
@@ -322,14 +351,11 @@ public class Player : MonoBehaviour
 			}
 		}
 
-		if (rollQueued)
+		if (rollQueued && canRoll && heldObject == null)
 		{
-			rollQueued = false;
-			if (canRoll)
-			{
-				Roll(ref velocity);
-			}
+			Roll(ref velocity);
 		}
+		rollQueued = false;
 
 		if (IsRolling())
 		{
@@ -602,6 +628,52 @@ public class Player : MonoBehaviour
 		return walljumpPush || walljumpTime > 0;
 	}
 
+	private void ThrowHeldObject(Vector2 velocity)
+	{
+		float dropX = grabZone.transform.position.x;
+		dropX += Mathf.Sign(dropX) * heldObject.GetSize().x / 2;
+		Vector2 dropPos = new Vector2(dropX, holdSpot.transform.position.y);
+		if (CanMoveGrabbable(heldObject, dropPos))
+		{
+			heldObject.transform.parent = null;
+			heldObject.Drop(dropPos);
+			if (velocity.x != 0)
+			{
+				print("throw");
+				Vector2 force = new Vector2(velocity.x * THROW_X_FACTOR, velocity.y + THROW_Y_SPEED);
+				heldObject.AddForce(force);
+			}
+			heldObject = null;
+		}	
+	}
+
+	private void GrabObject()
+	{
+		Grabbable toGrab = gz.GetGrabbable();
+		if (toGrab != null)
+		{
+			Vector3 holdPos = holdSpot.transform.position;
+			float headY = ec.points[1].y + ec.offset.y + transform.position.y;
+			holdPos.y = headY + toGrab.GetSize().y / 2 + 0.5f;
+			holdSpot.transform.position = holdPos;
+			if (CanMoveGrabbable(toGrab, holdPos))
+			{
+				gz.RemoveGrabbable(toGrab);
+				heldObject = toGrab;
+				toGrab.transform.parent = holdSpot.transform;
+				toGrab.PickUp(holdPos);
+				//TODO: set animstate to carrying? can just check if heldObject != null
+			}
+		}
+	}
+
+	private bool CanMoveGrabbable(Grabbable g, Vector2 pos)
+	{
+		Vector2 size = g.GetSize();
+		RaycastHit2D[] hits = Physics2D.BoxCastAll(pos, size, 0, Vector2.zero, 0, LayerMask.GetMask("LevelGeometry"));
+		return hits.Length == 0 || (hits.Length == 1 && hits[0].collider.gameObject == g.gameObject);
+	}
+
 	private void ResetMovement()
 	{
 		//TODO: make sure this sets all relevant properties
@@ -619,6 +691,9 @@ public class Player : MonoBehaviour
 		StopRoll();
 		rollQueued = false;
 		rollReleaseQueued = false;
+
+		grabQueued = false;
+		//TODO release heldObject? or nah
 
 		canMidairJump = false;
 
@@ -941,7 +1016,7 @@ public class Player : MonoBehaviour
 
 	private ContactPoint2D? GetCeiling(Collision2D collision)
 	{
-		return GetWithDotCheck(collision, d => d > 0);
+		return GetWithDotCheck(collision, d => d > 0.1);
 	}
 
 	private ContactPoint2D? GetWall(Collision2D collision)

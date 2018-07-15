@@ -3,8 +3,8 @@
 --- !u!62 &6200000
 PhysicsMaterial2D:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Tile
-  friction: 0
+  m_Name: PhysicsObject
+  friction: 3
   bounciness: 0
