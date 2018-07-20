@@ -102,6 +102,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Moon gravity?
 	- Ability to place limited number of jump/roll powerups?
 - Achievements?????
+- 5 rare "blue pipe"-like things that go to secret areas, something special when you find all 5 
 
 ### Level design
 - Player should visit doors before being able to open them
@@ -191,6 +192,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Throw crate on vanishing platform so it doesn't go away when you step on it
 	- Jumping between conveyors in different directions
 	- Jumping between multiple spinning platforms
+	- Giant hourglass that slows down time when you roll (or reverses it or something?)
 
 ### UI
 - press jump to skip menu
@@ -211,6 +213,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Cartoony font
 
 ### Camera
+- Use Cinemachine for this stuff- https://blogs.unity3d.com/2018/07/17/cinemachine-for-2d-tips-and-tricks/
 - Follow player- part of prefab
 	- room to move back and forth a bit
 	- lead the player's movement?
