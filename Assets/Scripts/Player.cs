@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
 	private const int NUM_ROLL_FRAMES = 4;
 
 	private const float RUN_FRAME_TIME = 0.02f; //time in seconds per frame of run animation
-	private const float ROLL_FRAME_TIME = 0.2f; //time in seconds per frame of roll animation
+	private const float ROLL_FRAME_TIME = 0.1f; //time in seconds per frame of roll animation
 
 	private const float PITCH_VARIATION = 0.1f;
 
@@ -393,7 +393,7 @@ public class Player : MonoBehaviour
 		bool left;
 		if (animState == AnimState.WALLSLIDE)
 		{
-			left = wallSide > 0;
+			left = wallSide < 0;
 		}
 		else
 		{
@@ -406,8 +406,10 @@ public class Player : MonoBehaviour
 		spritePos.x = Mathf.Abs(spritePos.x) * xSign;
 		sr.transform.localPosition = spritePos;
 
+		Vector2 movement = velocity * Time.fixedDeltaTime + offset;
+
 		rb.velocity = velocity;
-		rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime + offset);
+		rb.MovePosition(rb.position + movement);
 	}
 
 	private void MoveHorizontal(float inputXSpeed, ref Vector2 velocity)
@@ -663,7 +665,7 @@ public class Player : MonoBehaviour
 		{
 			Vector3 holdPos = holdSpot.transform.position;
 			float headY = ec.points[1].y + ec.offset.y + transform.position.y;
-			holdPos.y = headY + toGrab.GetSize().y / 2 + 0.5f;
+			holdPos.y = headY + toGrab.GetSize().y / 2 + 0.1f;
 			holdSpot.transform.position = holdPos;
 			if (CanMoveGrabbable(toGrab, holdPos))
 			{

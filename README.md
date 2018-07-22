@@ -6,12 +6,12 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 ## TODO
 
 ### Movement
-- Wallslide is backwards again
+- Sprite is wrong for a moment when holding towards wall and walljumping off it
 - Vanishing platforms (when touched, shake, crumble, respawn) (shy expressions)
 - Physics platforms that squish down when you land on them then slowly sink into lava
 - Releasing jump before hitting ground in queuedjump will go maximum height (queue jumprelease? or when jumping, check if jump is not held and brake then?)
 - Holding crates
-	- Call moveposition on held object just before player moves so it doesn't bonk on head
+	- Holding an object sometimes makes you fall more slowly (two rigidbodies issue?)
 	- Throw from holdspot, coroutine to moveposition from holdspot to drop spot when dropping (long raycast to ensure valid along drop path)
 	- edgecolliders? to prevent catching on tiles
 	- forward grabbable collisions to player, then test collisions with wall above head, ceiling

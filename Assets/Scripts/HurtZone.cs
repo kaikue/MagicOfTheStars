@@ -19,6 +19,7 @@ public class HurtZone : MonoBehaviour
 		//squish if clipping into terrain
 		if (other.layer == LayerMask.NameToLayer("LevelGeometry") && other.GetComponent<PlatformEffector2D>() == null)
 		{
+			print(other);
 			player.Kill();
 		}
 	}
