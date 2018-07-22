@@ -26,7 +26,9 @@ public class Grabbable : MonoBehaviour
 	{
 		gameObject.layer = LayerMask.NameToLayer("HeldObject");
 		rb.isKinematic = true;
+		rb.velocity = Vector2.zero;
 		rb.gravityScale = 0;
+		rb.constraints = RigidbodyConstraints2D.FreezeAll;
 		MoveTo(pos);
 		held = true;
 	}
@@ -34,9 +36,11 @@ public class Grabbable : MonoBehaviour
 	public void Drop(Vector2 pos)
 	{
 		gameObject.layer = LayerMask.NameToLayer("LevelGeometry");
+		rb.velocity = Vector2.zero;
 		MoveTo(pos);
 		rb.isKinematic = false;
 		rb.gravityScale = gravityScale;
+		rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 		held = false;
 	}
 
@@ -58,7 +62,7 @@ public class Grabbable : MonoBehaviour
 	}
 
 	//TODO: when held, forward LevelGeometry collisions onto player (so HitCeiling etc. will still happen)
-
+	
 	private void OnTriggerStay2D(Collider2D collider)
 	{
 		GameObject other = collider.gameObject;
