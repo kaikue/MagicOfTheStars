@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
 	private const float SLIDE_MAX_FALL_SPEED = -8.0f; //maximum speed of sliding down wall
 	private const float SNAP_DIST = 0.5f;
 
-	private const float JUMP_SPEED = 14.0f; //jump y speed
+	private const float JUMP_SPEED = 16.0f; //jump y speed
 	private const float JUMP_RELEASE_FACTOR = 0.5f; //factor to reduce jump by when releasing
 	private const float JUMP_GRACE_TIME = 0.1f; //time after leaving ground player can still jump
 	private const float JUMP_BUFFER_TIME = 0.1f; //time before hitting ground a jump will still be queued
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
 	private const float ROLL_FORCE_AMOUNT = 0.1f; //how much to push the player when they can't unroll
 	private const float ROLL_RELEASE_FACTOR = 0.5f; //factor to reduce roll by when releasing
 
-	private const float THROW_X_FACTOR = 50.0f; //velocity x multiplier for throwing a grabbable object
+	private const float THROW_X_FACTOR = 75.0f; //velocity x multiplier for throwing a grabbable object
 	private const float THROW_Y_SPEED = 100.0f; //velocity y addition for throwing a grabbable object
 
 	//private static float SLIDE_THRESHOLD;
@@ -66,10 +66,11 @@ public class Player : MonoBehaviour
 
 	private const float FEET_CHECK = 0.01f; //used in checking ground collision validity
 
-	private const int NUM_RUN_FRAMES = 10;
+	private const int NUM_RUN_FRAMES = 20;
 	private const int NUM_ROLL_FRAMES = 4;
 
-	private const float FRAME_TIME = 0.1f; //time in seconds per frame of animation
+	private const float RUN_FRAME_TIME = 0.02f; //time in seconds per frame of run animation
+	private const float ROLL_FRAME_TIME = 0.2f; //time in seconds per frame of roll animation
 
 	private const float PITCH_VARIATION = 0.1f;
 
@@ -115,7 +116,8 @@ public class Player : MonoBehaviour
 	private SpriteRenderer sr;
 	private AnimState animState = AnimState.STAND;
 	private int animFrame = 0;
-	private float frameTime = FRAME_TIME;
+	private float frameTime; //max time of frame
+	private float frameTimer; //goes from frameTime down to 0
 	private bool facingLeft = false; //for animation (images face left)
 	private bool shouldStand = false;
 
@@ -388,14 +390,21 @@ public class Player : MonoBehaviour
 			}
 		}
 
+		bool left;
 		if (animState == AnimState.WALLSLIDE)
 		{
-			sr.flipX = wallSide > 0;
+			left = wallSide > 0;
 		}
 		else
 		{
-			sr.flipX = !facingLeft; //change this if sprites face right
+			left = facingLeft;
 		}
+
+		sr.flipX = left; //change this if sprites face left
+		int xSign = left ? 1 : -1; //change this if sprites face left
+		Vector3 spritePos = sr.transform.localPosition;
+		spritePos.x = Mathf.Abs(spritePos.x) * xSign;
+		sr.transform.localPosition = spritePos;
 
 		rb.velocity = velocity;
 		rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime + offset);
@@ -793,16 +802,18 @@ public class Player : MonoBehaviour
 	{
 		if (animState == AnimState.RUN)
 		{
+			frameTime = RUN_FRAME_TIME;
 			AdvanceFrame(NUM_RUN_FRAMES);
 		}
 		else if (animState == AnimState.ROLL)
 		{
+			frameTime = ROLL_FRAME_TIME;
 			AdvanceFrame(NUM_ROLL_FRAMES);
 		}
 		else
 		{
 			animFrame = 0;
-			frameTime = FRAME_TIME;
+			frameTimer = frameTime;
 		}
 	}
 
@@ -813,10 +824,10 @@ public class Player : MonoBehaviour
 			animFrame = 0;
 		}
 
-		frameTime -= Time.deltaTime;
-		if (frameTime <= 0)
+		frameTimer -= Time.deltaTime;
+		if (frameTimer <= 0)
 		{
-			frameTime = FRAME_TIME;
+			frameTimer = frameTime;
 			animFrame = (animFrame + 1) % numFrames;
 		}
 	}

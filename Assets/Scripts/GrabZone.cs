@@ -21,8 +21,8 @@ public class GrabZone : MonoBehaviour
 	private void Update()
 	{
 		Vector3 pos = transform.localPosition;
-		//change this if sprites face right
-		pos.x = (playerSR.flipX ? 1 : -1) * xDistance;
+		//change this if sprites face left
+		pos.x = (playerSR.flipX ? -1 : 1) * xDistance;
 		transform.localPosition = pos;
 	}
 
