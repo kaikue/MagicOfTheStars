@@ -665,7 +665,7 @@ public class Player : MonoBehaviour
 		{
 			Vector3 holdPos = holdSpot.transform.position;
 			float headY = ec.points[1].y + ec.offset.y + transform.position.y;
-			holdPos.y = headY + toGrab.GetSize().y / 2;// + 0.1f;
+			holdPos.y = headY + toGrab.GetSize().y / 2;
 			holdSpot.transform.position = holdPos;
 			if (CanMoveGrabbable(toGrab, holdPos))
 			{

@@ -83,7 +83,14 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Don't spawn boss if superstar was collected
 	- Slime King
 	- Hatter
+		- purple ghost magician
+		- bomb from hat attack
+		- spinning hats attack
 	- Grob
+		- tunnels through walls
+		- grows legs for last phase
+	- Magmarock
+		- lava dragon
 
 ### Collectables
 - Stars
@@ -157,7 +164,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 		- Roll over coals (low ceiling)
 	- other levels:
 		- Lake
-			- Surfer dude fish
+			- Surfer dude fish (Flotsam, Jetsam)
 			- Streams of water that push you faster
 		- Cloud kingdom
 			- Princess- authoritarian
@@ -199,7 +206,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Giant hourglass that slows down time when you roll (or reverses it or something?)
 
 ### UI
-- press jump to skip menu
+- press jump to skip logo
 - Import menus from zubenel
 - Confirm new game save deletion
 - TextMeshPro
@@ -227,11 +234,11 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Zoom out
 	- At top of pits, near interesting thing
 - should AudioListener go on camera or player? consider when camera/player is near twinkling star
+- Zoom in to star when approaching (then zoom out after collected)
 
 ### Misc
 - Use Application.persistentDataPath for .save file
 - Doors
-- Zoom in to star when approaching (then zoom out after collected)
 - Gamepad/keyboard controls text
 - Freeze for a bit on hit then flicker after respawning
 - Checkpoint notifications
