@@ -280,12 +280,7 @@ public class Player : MonoBehaviour
 		{
 			if (jumpReleaseQueued)
 			{
-				//cut jump short
-				if (canJumpRelease && velocity.y > 0)
-				{
-					velocity.y = velocity.y * JUMP_RELEASE_FACTOR;
-				}
-				canJumpRelease = false;
+				JumpRelease(ref velocity);
 			}
 
 			if (!onGround && jumpQueued && wallSide != 0 && !IsRolling())
@@ -295,7 +290,11 @@ public class Player : MonoBehaviour
 
 			Fall(ref velocity);
 		}
-		jumpReleaseQueued = false;
+
+		if (!jumpQueued) //in case the player is about to jump, in which case their jump should be cut short
+		{
+			jumpReleaseQueued = false;
+		}
 
 		//continued moving past wall corner- clear wallslide
 		//this should happen if:
@@ -598,6 +597,15 @@ public class Player : MonoBehaviour
 
 		PlayJumpSound();
 		//SkidSound.Stop();
+	}
+
+	private void JumpRelease(ref Vector2 velocity)
+	{
+		if (canJumpRelease && velocity.y > 0)
+		{
+			velocity.y = velocity.y * JUMP_RELEASE_FACTOR;
+		}
+		canJumpRelease = false;
 	}
 
 	private void Roll(ref Vector2 velocity)
