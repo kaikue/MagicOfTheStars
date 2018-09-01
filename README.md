@@ -3,6 +3,8 @@ Exploration-based collectathon platformer by Kai Kuehner.
 
 Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](https://www.gameart2d.com/).
 
+Font: [Poetsen One by Rodrigo Fuenzalida](https://www.dafont.com/poetsen-one.font).
+
 ## TODO
 
 ### Movement
@@ -206,23 +208,24 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Giant hourglass that slows down time when you roll (or reverses it or something?)
 
 ### UI
-- press jump to skip logo
-- Import menus from zubenel
+- logo animation (press any key to skip)
 - Confirm new game save deletion
+- Button hover/press sounds
 - TextMeshPro
 - Outline on star # GUI (white text, dark outline)
 - Add back HUD sliding in/out
 	- Also show star count when paused
 	- Use quadratic slope for in/out movement?
-- Keyboard/gamepad support for menus
 - Options buttons on title and pause
 	- Volume control
 	- Invincibility
+	- Game speed scale
+	- Save options with PlayerPrefs
 - Star collect overlay
 	- Banner/star image color matches star color (or banner contrasts and matches level color?)
 	- Fancy transitions for banner and overlay
-- Cartoony font
-- Save options with PlayerPrefs
+- Make HUD overlays use new font
+
 
 ### Camera
 - Use Cinemachine for this stuff- https://blogs.unity3d.com/2018/07/17/cinemachine-for-2d-tips-and-tricks/
