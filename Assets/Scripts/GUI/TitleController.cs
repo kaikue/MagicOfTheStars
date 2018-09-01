@@ -7,22 +7,28 @@ using UnityEngine.SceneManagement;
 public class TitleController : MonoBehaviour
 {
 
-	public GameObject ContinueButton;
+	public GameObject continueButton;
 	public GameObject loadingOverlay;
+	public MenuSound sounds;
 
 	public string FirstLevelName = "Hub";
 
+	private string savePath;
+
 	private void Start()
 	{
-		if (!File.Exists(GameManager.GetSavePath()))
+		savePath = GameManager.GetSavePath();
+		if (!File.Exists(savePath))
 		{
-			ContinueButton.SetActive(false);
+			continueButton.SetActive(false);
 		}
 	}
 
 	public void Continue()
 	{
-		string[] lines = File.ReadAllLines(GameManager.GetSavePath());
+		sounds.PlayConfirm();
+
+		string[] lines = File.ReadAllLines(savePath);
 		string levelName = lines[0];
 		loadingOverlay.SetActive(true);
 		SceneManager.LoadScene(levelName);
@@ -30,9 +36,11 @@ public class TitleController : MonoBehaviour
 
 	public void NewGame()
 	{
-		string savePath = GameManager.GetSavePath();
+		sounds.PlayConfirm();
+
 		if (File.Exists(savePath))
 		{
+			//TODO: confirm deletion
 			//delete old save
 			File.Delete(GameManager.GetSavePath());
 		}
@@ -49,6 +57,7 @@ public class TitleController : MonoBehaviour
 
 	public void Options()
 	{
+		sounds.PlayConfirm();
 		//TODO
 	}
 

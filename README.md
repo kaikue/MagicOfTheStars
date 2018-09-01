@@ -1,9 +1,20 @@
 # Magic Of The Stars
-Exploration-based collectathon platformer by Kai Kuehner.
+Exploration-based collectathon platformer
 
+## Credits
+Developed by [Kai Kuehner](http://kai.bvk.nu).
+
+### Art
 Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](https://www.gameart2d.com/).
 
-Font: [Poetsen One by Rodrigo Fuenzalida](https://www.dafont.com/poetsen-one.font).
+### Font
+[Poetsen One by Rodrigo Fuenzalida](https://www.dafont.com/poetsen-one.font).
+
+### Sound
+- UI sounds by broumbroun
+	- https://freesound.org/people/broumbroum/sounds/50565/
+	- https://freesound.org/people/broumbroum/sounds/50561/
+	- https://freesound.org/people/broumbroum/sounds/50557/  
 
 ## TODO
 
