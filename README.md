@@ -49,6 +49,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Particles
 	- Glowy effect for can midair jump
 - Visual indication for SetCanRoll (like mario galaxy spin recharge)
+	- star glowing out?
 - Can't jump and slide up rotating platform
 - More moves?
 	- Roll + jump = long jump?
@@ -221,6 +222,8 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Banner/star image color matches star color (or banner contrasts and matches level color?)
 	- Fancy transitions for banner and overlay
 - Cartoony font
+- Rebinding controls
+- Save options with PlayerPrefs
 
 ### Camera
 - Use Cinemachine for this stuff- https://blogs.unity3d.com/2018/07/17/cinemachine-for-2d-tips-and-tricks/
@@ -236,13 +239,11 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Zoom in to star when approaching (then zoom out after collected)
 
 ### Misc
-- Use Application.persistentDataPath for .save file
 - Doors
+	- why are they there? were they always there? why do colored stars unlock them?
 - Gamepad/keyboard controls text
 - Freeze for a bit on hit then flicker after respawning
 - Checkpoint notifications
-- Remove N cheat
-- Save options with PlayerPrefs
 - Scene transitions (to point in scene)
 	- Shrinking cutout star animation
 - Portals
@@ -254,6 +255,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Decreases move speed?
 	- Allows offground jumps after swim animation is complete? This is just mario...
 		- plays full swim animation then goes to swim-stand
+	- Allows full two-axis movement?
 
 ### Sound
 - Delete old sound files

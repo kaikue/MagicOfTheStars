@@ -17,7 +17,8 @@ public class GameManager : MonoBehaviour
 	public bool paused = false;
 	private bool overlayActive = false;
 
-	public const string SAVE_PATH = ".save";
+	public const string SAVE_FILE = ".save";
+	private string savePath;
 
 	private GameObject pauseOverlay;
 	private HUDOverlay hudOverlay;
@@ -27,8 +28,14 @@ public class GameManager : MonoBehaviour
 	private List<string> starCollectedNames;
 	private List<string> doorsOpenedNames;
 
+	public static string GetSavePath()
+	{
+		return Path.Combine(Application.persistentDataPath, SAVE_FILE);
+	}
+
 	private void Awake()
 	{
+		savePath = GetSavePath();
 		GameObject hudObject = Instantiate(hudOverlayPrefab);
 		hudOverlay = hudObject.GetComponent<HUDOverlay>();
 		LoadSave();
@@ -41,7 +48,7 @@ public class GameManager : MonoBehaviour
 		starCollectedNames = new List<string>();
 		doorsOpenedNames = new List<string>();
 
-		string[] lines = File.ReadAllLines(SAVE_PATH);
+		string[] lines = ReadSave();
 		for (int l = 1; l < lines.Length; l++) //skip first line (level index)
 		{
 			string line = lines[l];
@@ -60,12 +67,24 @@ public class GameManager : MonoBehaviour
 		}
 
 		lines[0] = SceneManager.GetActiveScene().name;
-		File.WriteAllLines(SAVE_PATH, lines);
+		File.WriteAllLines(savePath, lines);
+	}
+
+	private string[] ReadSave()
+	{
+		if (File.Exists(savePath))
+		{
+			return File.ReadAllLines(savePath);
+		}
+		else
+		{
+			return new string[1];
+		}
 	}
 
 	private void AppendToSave(string line)
 	{
-		File.AppendAllText(SAVE_PATH, line + Environment.NewLine);
+		File.AppendAllText(savePath, line + Environment.NewLine);
 	}
 
 	private void Start()

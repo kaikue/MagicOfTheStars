@@ -14,7 +14,7 @@ public class TitleController : MonoBehaviour
 
 	private void Start()
 	{
-		if (!File.Exists(GameManager.SAVE_PATH))
+		if (!File.Exists(GameManager.GetSavePath()))
 		{
 			ContinueButton.SetActive(false);
 		}
@@ -22,7 +22,7 @@ public class TitleController : MonoBehaviour
 
 	public void Continue()
 	{
-		string[] lines = File.ReadAllLines(GameManager.SAVE_PATH);
+		string[] lines = File.ReadAllLines(GameManager.GetSavePath());
 		string levelName = lines[0];
 		loadingOverlay.SetActive(true);
 		SceneManager.LoadScene(levelName);
@@ -30,13 +30,14 @@ public class TitleController : MonoBehaviour
 
 	public void NewGame()
 	{
-		if (File.Exists(GameManager.SAVE_PATH))
+		string savePath = GameManager.GetSavePath();
+		if (File.Exists(savePath))
 		{
 			//delete old save
-			File.Delete(GameManager.SAVE_PATH);
+			File.Delete(GameManager.GetSavePath());
 		}
 
-		using (StreamWriter sw = File.CreateText(GameManager.SAVE_PATH))
+		using (StreamWriter sw = File.CreateText(savePath))
 		{
 			sw.WriteLine(FirstLevelName);
 		}
