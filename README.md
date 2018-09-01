@@ -222,7 +222,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Banner/star image color matches star color (or banner contrasts and matches level color?)
 	- Fancy transitions for banner and overlay
 - Cartoony font
-- Rebinding controls
 - Save options with PlayerPrefs
 
 ### Camera
