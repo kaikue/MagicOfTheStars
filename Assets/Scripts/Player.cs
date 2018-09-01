@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
 	public AudioClip deathSound;
 
 	private const float RUN_ACCEL = 0.5f; //acceleration of horizontal movement
-	private const float MAX_RUN_SPEED = 7.0f; //maximum speed of horizontal movement
+	private const float MAX_RUN_SPEED = 9.0f; //maximum speed of horizontal movement
 
 	private const float GRAVITY_ACCEL = -0.6f; //acceleration of gravity
 	private const float MAX_FALL_SPEED = -50.0f; //maximum speed of fall
@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
 
 	private const float WALLJUMP_SPEED = MAX_RUN_SPEED; //speed applied at time of walljump
 	private const float WALLJUMP_MIN_FACTOR = 0.75f; //amount of walljump kept at minimum if no input
-	private const float WALLJUMP_TIME = 0.5f; //time it takes for walljump to wear off
+	private const float WALLJUMP_TIME = 0.575f; //time it takes for walljump to wear off
 	private const float WALLJUMP_GRACE_TIME = 0.2f; //time after leaving wall player can still walljump
 
 	private const float ROLL_SPEED = 2 * MAX_RUN_SPEED; //speed of roll
