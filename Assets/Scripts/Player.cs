@@ -176,13 +176,11 @@ public class Player : MonoBehaviour
 	{
 		//Get input here and queue it up to be processed by FixedUpdate- can't get in FixedUpdate since it may miss inputs
 
-		//if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7)) //Start
 		if (Input.GetButtonDown("Pause"))
 		{
 			gm.TogglePauseMenu();
 		}
 
-		//if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton0)) //A
 		if (Input.GetButtonDown("Jump"))
 		{
 			TryStopCoroutine(crtCancelQueuedJump);
@@ -190,7 +188,6 @@ public class Player : MonoBehaviour
 			crtCancelQueuedJump = StartCoroutine(CancelQueuedJump());
 		}
 
-		//if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton0))
 		if (Input.GetButtonUp("Jump"))
 		{
 			jumpReleaseQueued = true;
@@ -198,23 +195,18 @@ public class Player : MonoBehaviour
 
 		bool triggerHeld = Input.GetAxis("LTrigger") > 0 || Input.GetAxis("RTrigger") > 0;
 		bool triggerPressed = !triggerWasHeld && triggerHeld;
-		//bool shiftPressed = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
 		if (triggerPressed)
 		{
 			rollQueued = true;
 		}
 
 		bool triggerReleased = triggerWasHeld && !triggerHeld;
-		//bool shiftReleased = Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift);
-		if (triggerReleased) //shiftReleased
+		if (triggerReleased)
 		{
 			rollReleaseQueued = true;
 		}
 		triggerWasHeld = triggerHeld;
-
-		//bool ctrlPressed = Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl);
-		//bool actionPressed = Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.JoystickButton2); //B, X
-		//if (ctrlPressed || actionPressed)
+		
 		if (Input.GetButtonDown("ActionL") || Input.GetButtonDown("ActionR"))
 		{
 			grabQueued = true;

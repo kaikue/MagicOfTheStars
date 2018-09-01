@@ -25,11 +25,12 @@ public class ButtonSelect : MonoBehaviour
 			ActivateSelectedButton();
 		}
 
-		if (false) //up
+		float vert = Input.GetAxis("Vertical");
+		if (vert < 0.001f)
 		{
 			PrevButton();
 		}
-		else if (false) //down
+		else if (vert > 0.001f)
 		{
 			NextButton();
 		}
