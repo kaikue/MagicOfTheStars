@@ -47,6 +47,11 @@ public class TitleController : MonoBehaviour
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 
+	public void Options()
+	{
+		//TODO
+	}
+
 	public void Quit()
 	{
 		Application.Quit();
