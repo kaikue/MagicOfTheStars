@@ -200,7 +200,8 @@ public class GameManager : MonoBehaviour
 
 	private void SetTimeScale()
 	{
-		Time.timeScale = PlayerPrefs.GetFloat(Options.KEY_GAME_SPEED, 1);
-		Time.fixedDeltaTime = Time.fixedUnscaledDeltaTime * PlayerPrefs.GetFloat(Options.KEY_GAME_SPEED, 1);
+		float speed = PlayerPrefs.GetFloat(Options.KEY_GAME_SPEED, 1);
+		Time.timeScale = speed;
+		Time.fixedDeltaTime = Time.fixedUnscaledDeltaTime * speed;
 	}
 }

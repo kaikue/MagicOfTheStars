@@ -232,7 +232,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 		- infinite pits or getting squished- respawn without losing health
 		- ignore enemy collisions that would hurt?
 	- Game speed scale
-		- gravity is too high when slow
 		- go up to 300%??? can't use maxvalue anymore then
 - TextMeshPro
 	- Outline on star # GUI (white text, dark outline)

@@ -29,12 +29,12 @@ public class Player : MonoBehaviour
 	public AudioClip oldStarCollectSound;
 	public AudioClip deathSound;
 
-	private const float RUN_ACCEL = 0.5f; //acceleration of horizontal movement
+	private const float RUN_ACCEL = 25.0f; //acceleration of horizontal movement
 	private const float MAX_RUN_SPEED = 9.0f; //maximum speed of horizontal movement
 
-	private const float GRAVITY_ACCEL = -0.6f; //acceleration of gravity
+	private const float GRAVITY_ACCEL = -30.0f; //acceleration of gravity
 	private const float MAX_FALL_SPEED = -50.0f; //maximum speed of fall
-	private const float SLIDE_GRAVITY_ACCEL = -0.3f; //acceleration of gravity when sliding down wall
+	private const float SLIDE_GRAVITY_ACCEL = -15.0f; //acceleration of gravity when sliding down wall
 	private const float SLIDE_MAX_FALL_SPEED = -8.0f; //maximum speed of sliding down wall
 	private const float SNAP_DIST = 0.5f;
 
@@ -416,7 +416,7 @@ public class Player : MonoBehaviour
 		}
 		else
 		{
-			velocity.x += RUN_ACCEL * inputXSpeed;
+			velocity.x += RUN_ACCEL * Time.fixedDeltaTime * inputXSpeed;
 			float speedCap = Mathf.Abs(inputXSpeed * MAX_RUN_SPEED); //use input to clamp max speed so half tilted joystick is slower
 			velocity.x = Mathf.Clamp(velocity.x, -speedCap, speedCap);
 			SetAnimState(AnimState.RUN);
@@ -487,7 +487,7 @@ public class Player : MonoBehaviour
 			//TODO: slide sound/particles?
 		}
 
-		velocity.y += gravAccel;
+		velocity.y += gravAccel * Time.fixedDeltaTime;
 		velocity.y = Mathf.Max(velocity.y, maxFall); //max since they're negative
 	}
 
