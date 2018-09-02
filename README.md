@@ -78,6 +78,9 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- sometimes for >2 health, always for <=2?
 	- always if below max?
 	- If you die you restart from the last checkpoint (reload scene)
+- Invincibility PlayerPref
+	- infinite pits or getting squished- respawn without losing health
+	- ignore enemy collisions that would hurt?
 - Obstacles
 	- Spikes
 	- Thwomps (spiky)
@@ -230,11 +233,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - if move key pressed and nothing selected, select first
 - When creating options screen, select first option & disable other menu's buttons
 - Options menu close sound plays on parent menu's menusound, since its own gets deleted
-- Options buttons on title and pause
-	- Volume control
-	- Invincibility
-		- infinite pits or getting squished- respawn without losing health
-		- ignore enemy collisions that would hurt?
 - TextMeshPro
 	- Outline on star # GUI (white text, dark outline)
 - Add back HUD sliding in/out
