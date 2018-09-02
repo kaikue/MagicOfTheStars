@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 	public GameObject hudOverlayPrefab;
 	public GameObject loadingOverlayPrefab;
 
-	public GameObject levelStarPrefab; //TODO remove
+	public GameObject levelStarPrefab;
 
 	public bool paused = false;
 	private bool overlayActive = false;
@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+		SetTimeScale();
 		SetHUDLevelStar();
 		hudOverlay.Hold();
 	}
@@ -126,7 +127,7 @@ public class GameManager : MonoBehaviour
 		}
 		else
 		{
-			Time.timeScale = 1;
+			SetTimeScale();
 		}
 	}
 
@@ -195,5 +196,11 @@ public class GameManager : MonoBehaviour
 	public bool WasDoorOpened(string doorName)
 	{
 		return doorsOpenedNames.Contains(doorName);
+	}
+
+	private void SetTimeScale()
+	{
+		Time.timeScale = PlayerPrefs.GetFloat(Options.KEY_GAME_SPEED, 1);
+		Time.fixedDeltaTime = Time.fixedUnscaledDeltaTime * PlayerPrefs.GetFloat(Options.KEY_GAME_SPEED, 1);
 	}
 }

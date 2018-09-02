@@ -223,17 +223,22 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Confirm new game save deletion
 - Select new game button if continue is disabled
 - Don't play select sound on automatic start selection (check if close to start?)
-- if move key pressed and nothing selected, select first 
-- TextMeshPro
-- Outline on star # GUI (white text, dark outline)
-- Add back HUD sliding in/out
-	- Also show star count when paused
-	- Use quadratic slope for in/out movement?
+- if move key pressed and nothing selected, select first
+- When creating options screen, select first option & disable other menu's buttons
+- Options menu close sound plays on parent menu's menusound, since its own gets deleted
 - Options buttons on title and pause
 	- Volume control
 	- Invincibility
+		- infinite pits or getting squished- respawn without losing health
+		- ignore enemy collisions that would hurt?
 	- Game speed scale
-	- Save options with PlayerPrefs
+		- gravity is too high when slow
+		- go up to 300%??? can't use maxvalue anymore then
+- TextMeshPro
+	- Outline on star # GUI (white text, dark outline)
+- Add back HUD sliding in/out
+	- Also show star count when paused
+	- Use quadratic slope for in/out movement?
 - Star collect overlay
 	- Banner/star image color matches star color (or banner contrasts and matches level color?)
 	- Fancy transitions for banner and overlay

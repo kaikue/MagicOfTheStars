@@ -98,10 +98,10 @@ public class Door : MonoBehaviour
 
 	private IEnumerator SlideOpen()
 	{
-		for (float t = 0; t < SLIDE_TIME; t += Time.deltaTime)
+		for (float t = 0; t < SLIDE_TIME; t += Time.fixedDeltaTime)
 		{
 			transform.position = Vector3.Lerp(closedPos, openPos, t / SLIDE_TIME);
-			yield return new WaitForEndOfFrame();
+			yield return new WaitForFixedUpdate();
 		}
 
 		gm.SaveDoor(doorName);

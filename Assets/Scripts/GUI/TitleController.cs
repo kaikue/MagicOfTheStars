@@ -8,6 +8,7 @@ public class TitleController : MonoBehaviour
 {
 
 	public GameObject continueButton;
+	public GameObject optionsOverlayPrefab;
 	public GameObject loadingOverlay;
 	public MenuSound sounds;
 	
@@ -51,7 +52,7 @@ public class TitleController : MonoBehaviour
 	public void Options()
 	{
 		sounds.PlayConfirm();
-		//TODO
+		Instantiate(optionsOverlayPrefab);
 	}
 
 	public void Quit()
