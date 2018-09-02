@@ -89,11 +89,12 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+		Utils.SetVolume();
 		SetTimeScale();
 		SetHUDLevelStar();
 		hudOverlay.Hold();
 	}
-
+	
 	private void SetHUDLevelStar()
 	{
 		levelStar = levelStarPrefab.GetComponent<Star>();
@@ -198,7 +199,7 @@ public class GameManager : MonoBehaviour
 		return doorsOpenedNames.Contains(doorName);
 	}
 
-	private void SetTimeScale()
+	public void SetTimeScale()
 	{
 		float speed = PlayerPrefs.GetFloat(Options.KEY_GAME_SPEED, 1);
 		Time.timeScale = speed;

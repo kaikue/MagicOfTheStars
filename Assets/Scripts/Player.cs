@@ -721,6 +721,7 @@ public class Player : MonoBehaviour
 
 		rb.position = respawnPos;
 		audioSrc.PlayOneShot(deathSound);
+		//TODO: subtract health if not invincible
 	}
 
 	private void SetRollCollider()

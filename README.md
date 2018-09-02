@@ -1,4 +1,4 @@
-# Magic Of The Stars
+# Magic of the Stars
 Exploration-based collectathon platformer
 
 ## Credits
@@ -14,7 +14,11 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - UI sounds by broumbroun
 	- https://freesound.org/people/broumbroum/sounds/50565/
 	- https://freesound.org/people/broumbroum/sounds/50561/
-	- https://freesound.org/people/broumbroum/sounds/50557/  
+	- https://freesound.org/people/broumbroum/sounds/50557/
+- Star twinkle modified from sound by MrCisum
+	- https://freesound.org/people/MrCisum/sounds/336664/
+- Star collect sound by elmasmalo1
+	- https://freesound.org/people/elmasmalo1/sounds/350841/
 
 ## TODO
 
@@ -231,8 +235,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Invincibility
 		- infinite pits or getting squished- respawn without losing health
 		- ignore enemy collisions that would hurt?
-	- Game speed scale
-		- go up to 300%??? can't use maxvalue anymore then
 - TextMeshPro
 	- Outline on star # GUI (white text, dark outline)
 - Add back HUD sliding in/out
@@ -242,6 +244,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Banner/star image color matches star color (or banner contrasts and matches level color?)
 	- Fancy transitions for banner and overlay
 - Make HUD overlays use new font
+- Add options to pause menu
 
 ### Camera
 - Use Cinemachine for this stuff- https://blogs.unity3d.com/2018/07/17/cinemachine-for-2d-tips-and-tricks/
@@ -274,20 +277,23 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Allows offground jumps after swim animation is complete? This is just mario...
 		- plays full swim animation then goes to swim-stand
 	- Allows full two-axis movement?
+- Achievements?
+	- beat game on 200% speed
+- Pacifist ending?
+	- no bosses?
 
 ### Sound
 - Delete old sound files
 - Multiple jump sounds
 - Wallslide down
 - Roll (whoosh)
-- star collect (level up) https://freesound.org/people/elmasmalo1/sounds/350841/
-- star twinkle https://freesound.org/people/MrCisum/sounds/336664/
 - collect star again (bloop)
 - collect powerup (ding or up-whoosh)
 - Landing from high fall
 - Door sliding open
 - Door ascending tones
 - Level music (mute during star overlay)
+- Music fades in and out smoothly
 - UI sounds
 
 ### Art
