@@ -221,7 +221,9 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 ### UI
 - logo animation (press any key to skip)
 - Confirm new game save deletion
-- Button hover/press sounds
+- Select new game button if continue is disabled
+- Don't play select sound on automatic start selection (check if close to start?)
+- if move key pressed and nothing selected, select first 
 - TextMeshPro
 - Outline on star # GUI (white text, dark outline)
 - Add back HUD sliding in/out
@@ -236,7 +238,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Banner/star image color matches star color (or banner contrasts and matches level color?)
 	- Fancy transitions for banner and overlay
 - Make HUD overlays use new font
-
 
 ### Camera
 - Use Cinemachine for this stuff- https://blogs.unity3d.com/2018/07/17/cinemachine-for-2d-tips-and-tricks/

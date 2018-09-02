@@ -10,9 +10,7 @@ public class TitleController : MonoBehaviour
 	public GameObject continueButton;
 	public GameObject loadingOverlay;
 	public MenuSound sounds;
-
-	public string FirstLevelName = "Hub";
-
+	
 	private string savePath;
 
 	private void Start()
@@ -44,12 +42,7 @@ public class TitleController : MonoBehaviour
 			//delete old save
 			File.Delete(GameManager.GetSavePath());
 		}
-
-		using (StreamWriter sw = File.CreateText(savePath))
-		{
-			sw.WriteLine(FirstLevelName);
-		}
-
+		
 		loadingOverlay.SetActive(true);
 		//load intro
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
