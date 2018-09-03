@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Utils
 {
-	
-	private static readonly float adjustFactor = Mathf.Log(10, 3);
+
+	private const float adjustFactor = 2.0f;
 
 	public static void SetVolume()
 	{

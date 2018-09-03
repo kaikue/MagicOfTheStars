@@ -1490,16 +1490,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114941976655347904, guid: a2a39711a95d2074fb0b8c989f4a79aa,
-        type: 2}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UpdateMusic
-      objectReference: {fileID: 0}
-    - target: {fileID: 114986821617130052, guid: a2a39711a95d2074fb0b8c989f4a79aa,
-        type: 2}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UpdateSound
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2a39711a95d2074fb0b8c989f4a79aa, type: 2}
   m_IsPrefabAsset: 0
