@@ -29,9 +29,12 @@ public abstract class BaseMenu : MonoBehaviour
 		}
 	}
 
-	public void Hover()
+	public void Hover(Selectable selectable)
 	{
-		eventSystem.SetSelectedGameObject(null);
+		if (selectable.gameObject != eventSystem.currentSelectedGameObject) //avoids Unity selectable-lock issue
+		{
+			eventSystem.SetSelectedGameObject(null);
+		}
 		sound.PlayHover();
 	}
 }
