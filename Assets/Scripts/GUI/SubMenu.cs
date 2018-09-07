@@ -28,4 +28,9 @@ public abstract class SubMenu : BaseMenu
 		eventSystem.SetSelectedGameObject(baseSelected);
 		Destroy(gameObject);
 	}
+
+	protected override GameObject GetFirstSelected()
+	{
+		return firstSelected;
+	}
 }

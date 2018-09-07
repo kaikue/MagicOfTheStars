@@ -230,7 +230,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - would loading overlay work if instantiated just before loading, instead of activating? that would be better
 - fix pause menu
 - Don't play select sound on automatic start selection (check if close to start?)
-- if move key pressed and nothing selected, select first
+- make enter key work for pressing buttons
 - TextMeshPro
 	- Outline on star # GUI (white text, dark outline)
 - Add back HUD sliding in/out

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public abstract class BaseMenu : MonoBehaviour
 {
+	
 	//These should only be contained in base-level menus- only one per scene
 	public EventSystem eventSystem;
 	public MenuSound sound;
@@ -36,5 +37,19 @@ public abstract class BaseMenu : MonoBehaviour
 			eventSystem.SetSelectedGameObject(null);
 		}
 		sound.PlayHover();
+	}
+
+	private void Update()
+	{
+		bool moving = Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0;
+		if (moving && eventSystem.currentSelectedGameObject == null)
+		{
+			eventSystem.SetSelectedGameObject(GetFirstSelected());
+		}
+	}
+
+	protected virtual GameObject GetFirstSelected()
+	{
+		return eventSystem.firstSelectedGameObject;
 	}
 }
