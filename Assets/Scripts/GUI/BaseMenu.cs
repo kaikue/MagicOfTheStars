@@ -11,6 +11,13 @@ public abstract class BaseMenu : MonoBehaviour
 	public EventSystem eventSystem;
 	public MenuSound sound;
 
+	private float activeTime;
+
+	private void Awake()
+	{
+		activeTime = Time.unscaledTime;
+	}
+
 	public void DisableAll()
 	{
 		SetAllEnabled(false);
@@ -18,6 +25,7 @@ public abstract class BaseMenu : MonoBehaviour
 
 	public void EnableAll()
 	{
+		activeTime = Time.unscaledTime;
 		SetAllEnabled(true);
 	}
 
@@ -36,7 +44,12 @@ public abstract class BaseMenu : MonoBehaviour
 		{
 			eventSystem.SetSelectedGameObject(null);
 		}
-		sound.PlayHover();
+		//don't play hover sound if the menu was just activated
+		bool canPlayHover = Time.unscaledTime > activeTime + Time.unscaledDeltaTime;
+		if (canPlayHover)
+		{
+			sound.PlayHover();
+		}
 	}
 
 	private void Update()
