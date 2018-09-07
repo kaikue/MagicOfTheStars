@@ -229,9 +229,8 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 
 ### UI
 - logo animation scene (press any key to skip)
-- would loading overlay work if instantiated just before loading, instead of activating? that would be better
-- Pause menu- keep MenuSound around somehow and have resume sound? Could have GameManager audiosource
 - Pause menu open/close sound
+	- GameManager audiosource for close?
 - Don't play select sound on automatic start selection (check if close to menu's creation?)
 - TextMeshPro
 	- Outline on star # GUI (white text, dark outline)

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -13,7 +12,7 @@ public class MainMenu : BaseMenu
 	public Button newGameButton;
 	public GameObject confirmOverlayPrefab;
 	public GameObject optionsOverlayPrefab;
-	public GameObject loadingOverlay;
+	public GameObject loadingOverlayPrefab;
 
 	private string savePath;
 
@@ -33,7 +32,7 @@ public class MainMenu : BaseMenu
 
 		string[] lines = File.ReadAllLines(savePath);
 		string levelName = lines[0];
-		loadingOverlay.SetActive(true);
+		Instantiate(loadingOverlayPrefab);
 		SceneManager.LoadScene(levelName);
 	}
 
@@ -75,7 +74,7 @@ public class MainMenu : BaseMenu
 
 	private void StartGame()
 	{
-		loadingOverlay.SetActive(true);
+		Instantiate(loadingOverlayPrefab);
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 }
