@@ -2,24 +2,28 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class TitleController : MonoBehaviour
+public class MainMenu : BaseMenu
 {
 
-	public GameObject continueButton;
+	public Button continueButton;
+	public Button newGameButton;
 	public GameObject optionsOverlayPrefab;
 	public GameObject loadingOverlay;
 	public MenuSound sounds;
 	
 	private string savePath;
 
-	private void Start()
+	private void Awake()
 	{
 		savePath = GameManager.GetSavePath();
 		if (!File.Exists(savePath))
 		{
-			continueButton.SetActive(false);
+			continueButton.gameObject.SetActive(false);
+			eventSystem.firstSelectedGameObject = newGameButton.gameObject;
 		}
 	}
 
@@ -40,7 +44,6 @@ public class TitleController : MonoBehaviour
 		if (File.Exists(savePath))
 		{
 			//TODO: confirm deletion
-			//delete old save
 			File.Delete(GameManager.GetSavePath());
 		}
 		
@@ -52,7 +55,8 @@ public class TitleController : MonoBehaviour
 	public void Options()
 	{
 		sounds.PlayConfirm();
-		Instantiate(optionsOverlayPrefab);
+		GameObject optionsOverlay = Instantiate(optionsOverlayPrefab);
+		optionsOverlay.GetComponent<Options>().SetBaseMenu(this);
 	}
 
 	public void Quit()

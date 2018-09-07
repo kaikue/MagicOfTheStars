@@ -228,11 +228,11 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 ### UI
 - logo animation (press any key to skip)
 - Confirm new game save deletion
-- Select new game button if continue is disabled
+	- Are you sure? This will overwrite your old save!
+	- Yes	>No<
+- Move MenuSounds to BaseMenu like EventSystem
 - Don't play select sound on automatic start selection (check if close to start?)
 - if move key pressed and nothing selected, select first
-- When creating options screen, select first option & disable other menu's buttons
-- Options menu close sound plays on parent menu's menusound, since its own gets deleted
 - TextMeshPro
 	- Outline on star # GUI (white text, dark outline)
 - Add back HUD sliding in/out

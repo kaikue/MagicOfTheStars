@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Options : MonoBehaviour
+public class Options : SubMenu
 {
 
 	public Slider musicSlider;
@@ -88,7 +89,7 @@ public class Options : MonoBehaviour
 	public void Return()
 	{
 		sounds.PlayCancel();
-		Destroy(gameObject);
+		Close();
 	}
 
 	private void Update()
