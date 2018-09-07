@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class PauseMenu : BaseMenu
 {
-	
+
+	public GameObject optionsOverlayPrefab;
+
 	private GameManager gm;
 
 	private void Start()
@@ -16,6 +18,13 @@ public class PauseMenu : BaseMenu
 	public void Resume()
 	{
 		gm.TogglePauseMenu();
+	}
+
+	public void Options()
+	{
+		sound.PlayConfirm();
+		GameObject optionsOverlay = Instantiate(optionsOverlayPrefab);
+		optionsOverlay.GetComponent<Options>().SetBaseMenu(this);
 	}
 
 	public void Exit()

@@ -1132,6 +1132,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114104806111632338, guid: 22d5d17fd5c517645a1380ff24dbac41,
+        type: 2}
+      propertyPath: starText
+      value: Test Star Please Ignore
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22d5d17fd5c517645a1380ff24dbac41, type: 2}
   m_IsPrefabAsset: 0

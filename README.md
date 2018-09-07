@@ -188,6 +188,8 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 			- Streams of water that push you faster
 		- Cloud kingdom
 			- Princess- authoritarian
+			- Bird pirates
+			- Have to resolve war
 		- Haunted Mansion
 			- Draculas
 			- Appearing platforms
@@ -226,10 +228,11 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Giant hourglass that slows down time when you roll (or reverses it or something?)
 
 ### UI
-- logo animation (press any key to skip)
+- logo animation scene (press any key to skip)
 - would loading overlay work if instantiated just before loading, instead of activating? that would be better
-- fix pause menu
-- Don't play select sound on automatic start selection (check if close to start?)
+- Pause menu- keep MenuSound around somehow and have resume sound?
+- Pause menu open/close sound
+- Don't play select sound on automatic start selection (check if close to menu's creation?)
 - make enter key work for pressing buttons
 - TextMeshPro
 	- Outline on star # GUI (white text, dark outline)
@@ -239,7 +242,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Star collect overlay
 	- Banner/star image color matches star color (or banner contrasts and matches level color?)
 	- Fancy transitions for banner and overlay
-- Make HUD overlays use new font
 
 ### Camera
 - Use Cinemachine for this stuff- https://blogs.unity3d.com/2018/07/17/cinemachine-for-2d-tips-and-tricks/
@@ -298,6 +300,10 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Star collect image
 - Door
 - Menus
+	- Main menu background
+	- Options menu background
+	- Pause/confirm/loading overlay banner
+	- Buttons, sliders, checkbox
 - Levels
 	- Tiles- multiple sets per level
 		- Tilemap collider vertical offset to not float on tiles

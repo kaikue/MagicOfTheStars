@@ -67,12 +67,6 @@ public class Options : SubMenu
 	public void UpdateSpeed()
 	{
 		UpdateFloat(speedSlider, TIME_SLIDER_MULTIPLIER, KEY_GAME_SPEED, speedPercentText);
-		
-		GameObject gm = GameObject.Find("GameManager");
-		if (gm != null)
-		{
-			gm.GetComponent<GameManager>().SetTimeScale();
-		}
 	}
 
 	public void UpdateInvincibility()
