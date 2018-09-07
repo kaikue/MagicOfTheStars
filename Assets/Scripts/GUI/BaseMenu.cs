@@ -6,8 +6,9 @@ using UnityEngine.UI;
 
 public abstract class BaseMenu : MonoBehaviour
 {
-
-	public EventSystem eventSystem; //Should only be contained in base-level menus- only one per scene
+	//These should only be contained in base-level menus- only one per scene
+	public EventSystem eventSystem;
+	public MenuSound sound;
 
 	public void DisableAll()
 	{

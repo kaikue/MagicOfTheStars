@@ -13,7 +13,6 @@ public class MainMenu : BaseMenu
 	public Button newGameButton;
 	public GameObject optionsOverlayPrefab;
 	public GameObject loadingOverlay;
-	public MenuSound sounds;
 	
 	private string savePath;
 
@@ -29,7 +28,7 @@ public class MainMenu : BaseMenu
 
 	public void Continue()
 	{
-		sounds.PlayConfirm();
+		sound.PlayConfirm();
 
 		string[] lines = File.ReadAllLines(savePath);
 		string levelName = lines[0];
@@ -39,7 +38,7 @@ public class MainMenu : BaseMenu
 
 	public void NewGame()
 	{
-		sounds.PlayConfirm();
+		sound.PlayConfirm();
 
 		if (File.Exists(savePath))
 		{
@@ -54,7 +53,7 @@ public class MainMenu : BaseMenu
 
 	public void Options()
 	{
-		sounds.PlayConfirm();
+		sound.PlayConfirm();
 		GameObject optionsOverlay = Instantiate(optionsOverlayPrefab);
 		optionsOverlay.GetComponent<Options>().SetBaseMenu(this);
 	}

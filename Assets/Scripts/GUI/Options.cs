@@ -16,8 +16,6 @@ public class Options : SubMenu
 	public Toggle invincibilityToggle;
 	public Text invincibilityOnOffText;
 
-	public MenuSound sounds;
-
 	public const string KEY_MUSIC_VOLUME = "musicVolume";
 	public const string KEY_SOUND_VOLUME = "soundVolume";
 	public const string KEY_GAME_SPEED = "gameSpeed";
@@ -88,7 +86,7 @@ public class Options : SubMenu
 
 	public void Return()
 	{
-		sounds.PlayCancel();
+		sound.PlayCancel();
 		Close();
 	}
 

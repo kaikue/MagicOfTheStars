@@ -15,6 +15,7 @@ public abstract class SubMenu : BaseMenu
 	{
 		baseMenu = bm;
 		eventSystem = baseMenu.eventSystem;
+		sound = baseMenu.sound;
 		baseSelected = eventSystem.currentSelectedGameObject;
 		baseMenu.DisableAll();
 		eventSystem.SetSelectedGameObject(firstSelected);

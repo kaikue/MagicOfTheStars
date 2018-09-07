@@ -640,7 +640,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 993227485}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &490253805
 GameObject:
@@ -1431,12 +1431,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventSystem: {fileID: 1746203521}
+  sound: {fileID: 307378062}
   continueButton: {fileID: 682677868}
   newGameButton: {fileID: 244372472}
   optionsOverlayPrefab: {fileID: 1255609220379792, guid: a2a39711a95d2074fb0b8c989f4a79aa,
     type: 2}
   loadingOverlay: {fileID: 1463183618}
-  sounds: {fileID: 307378062}
 --- !u!4 &993227485
 Transform:
   m_ObjectHideFlags: 0
@@ -1448,8 +1448,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1746203522}
-  - {fileID: 1828839614}
   - {fileID: 307378063}
+  - {fileID: 1828839614}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1733,7 +1733,7 @@ RectTransform:
   - {fileID: 265946166}
   - {fileID: 753969349}
   m_Father: {fileID: 993227485}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

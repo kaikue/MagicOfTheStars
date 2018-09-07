@@ -227,10 +227,10 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 
 ### UI
 - logo animation (press any key to skip)
-- Confirm new game save deletion
+- would loading overlay work if instantiated just before loading, instead of activating? that would be better
+- Confirm new game save deletion submenu
 	- Are you sure? This will overwrite your old save!
 	- Yes	>No<
-- Move MenuSounds to BaseMenu like EventSystem
 - Don't play select sound on automatic start selection (check if close to start?)
 - if move key pressed and nothing selected, select first
 - TextMeshPro
