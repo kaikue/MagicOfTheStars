@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
 
 	public GameObject levelStarPrefab;
 
+	public AudioClip pauseSound;
+	public AudioClip unpauseSound;
+	
+	[HideInInspector]
 	public bool paused = false;
 	private bool overlayActive = false;
 
@@ -23,7 +27,9 @@ public class GameManager : MonoBehaviour
 	private GameObject pauseOverlay;
 	private HUDOverlay hudOverlay;
 	private Star levelStar;
+	private AudioSource audioSrc;
 
+	[HideInInspector]
 	public int[] starsCollected;
 	private List<string> starCollectedNames;
 	private List<string> doorsOpenedNames;
@@ -38,6 +44,7 @@ public class GameManager : MonoBehaviour
 		savePath = GetSavePath();
 		GameObject hudObject = Instantiate(hudOverlayPrefab);
 		hudOverlay = hudObject.GetComponent<HUDOverlay>();
+		audioSrc = GetComponent<AudioSource>();
 		LoadSave();
 	}
 
@@ -140,10 +147,12 @@ public class GameManager : MonoBehaviour
 		if (paused)
 		{
 			pauseOverlay = Instantiate(pauseOverlayPrefab);
+			PlaySound(pauseSound);
 		}
 		else
 		{
 			Destroy(pauseOverlay);
+			PlaySound(unpauseSound);
 		}
 	}
 
@@ -204,5 +213,10 @@ public class GameManager : MonoBehaviour
 		float speed = PlayerPrefs.GetFloat(Options.KEY_GAME_SPEED, 1);
 		Time.timeScale = speed;
 		Time.fixedDeltaTime = Time.fixedUnscaledDeltaTime * speed;
+	}
+
+	private void PlaySound(AudioClip sound)
+	{
+		audioSrc.PlayOneShot(sound);
 	}
 }

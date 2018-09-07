@@ -19,6 +19,8 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- https://freesound.org/people/MrCisum/sounds/336664/
 - Star collect sound by elmasmalo1
 	- https://freesound.org/people/elmasmalo1/sounds/350841/
+- Pause sound by legoluft
+	- https://opengameart.org/content/atmospheric-interaction-sound-pack
 
 ## TODO
 
@@ -229,8 +231,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 
 ### UI
 - logo animation scene (press any key to skip)
-- Pause menu open/close sound
-	- GameManager audiosource for close?
 - Don't play select sound on automatic start selection (check if close to menu's creation?)
 - TextMeshPro
 	- Outline on star # GUI (white text, dark outline)
@@ -290,6 +290,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Level music (mute during star overlay)
 - Music fades in and out smoothly
 - UI sounds
+	- better unpause sound
 
 ### Art
 - Vector art
