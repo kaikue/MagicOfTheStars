@@ -28,4 +28,10 @@ public abstract class BaseMenu : MonoBehaviour
 			s.interactable = enabled;
 		}
 	}
+
+	public void Hover()
+	{
+		eventSystem.SetSelectedGameObject(null);
+		sound.PlayHover();
+	}
 }

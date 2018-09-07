@@ -228,7 +228,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 ### UI
 - logo animation (press any key to skip)
 - would loading overlay work if instantiated just before loading, instead of activating? that would be better
-- remove menusound from optionsoverlay, and make everything play hover/select sounds right
+- deselect/unhover currently hovered button on Hover (when using mouse instead of keyboard)
 - fix pause menu
 - Don't play select sound on automatic start selection (check if close to start?)
 - if move key pressed and nothing selected, select first
