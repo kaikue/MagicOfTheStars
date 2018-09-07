@@ -231,7 +231,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 
 ### UI
 - logo animation scene (press any key to skip)
-- Don't play select sound on automatic start selection (check if close to menu's creation? has to work in timescale 0 pause menu)
 - TextMeshPro
 	- Outline on star # GUI (white text, dark outline)
 - Add back HUD sliding in/out
