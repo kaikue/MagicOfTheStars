@@ -228,9 +228,8 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 ### UI
 - logo animation (press any key to skip)
 - would loading overlay work if instantiated just before loading, instead of activating? that would be better
-- Confirm new game save deletion submenu
-	- Are you sure? This will overwrite your old save!
-	- Yes	>No<
+- remove menusound from optionsoverlay, and make everything play hover/select sounds right
+- fix pause menu
 - Don't play select sound on automatic start selection (check if close to start?)
 - if move key pressed and nothing selected, select first
 - TextMeshPro
@@ -242,7 +241,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Banner/star image color matches star color (or banner contrasts and matches level color?)
 	- Fancy transitions for banner and overlay
 - Make HUD overlays use new font
-- Add options to pause menu
 
 ### Camera
 - Use Cinemachine for this stuff- https://blogs.unity3d.com/2018/07/17/cinemachine-for-2d-tips-and-tricks/

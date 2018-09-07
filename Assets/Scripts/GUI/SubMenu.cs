@@ -23,6 +23,7 @@ public abstract class SubMenu : BaseMenu
 
 	public void Close()
 	{
+		sound.PlayCancel();
 		baseMenu.EnableAll();
 		eventSystem.SetSelectedGameObject(baseSelected);
 		Destroy(gameObject);

@@ -1434,6 +1434,8 @@ MonoBehaviour:
   sound: {fileID: 307378062}
   continueButton: {fileID: 682677868}
   newGameButton: {fileID: 244372472}
+  confirmOverlayPrefab: {fileID: 1928249704200714, guid: b34268d8dab39b3428e43a3ab0084d01,
+    type: 2}
   optionsOverlayPrefab: {fileID: 1255609220379792, guid: a2a39711a95d2074fb0b8c989f4a79aa,
     type: 2}
   loadingOverlay: {fileID: 1463183618}
@@ -1641,6 +1643,52 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1782534061}
   m_CullTransparentMesh: 0
+--- !u!1001 &1788364102
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4336397868537342, guid: a2a39711a95d2074fb0b8c989f4a79aa, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4336397868537342, guid: a2a39711a95d2074fb0b8c989f4a79aa, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4336397868537342, guid: a2a39711a95d2074fb0b8c989f4a79aa, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4336397868537342, guid: a2a39711a95d2074fb0b8c989f4a79aa, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4336397868537342, guid: a2a39711a95d2074fb0b8c989f4a79aa, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4336397868537342, guid: a2a39711a95d2074fb0b8c989f4a79aa, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4336397868537342, guid: a2a39711a95d2074fb0b8c989f4a79aa, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4336397868537342, guid: a2a39711a95d2074fb0b8c989f4a79aa, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1255609220379792, guid: a2a39711a95d2074fb0b8c989f4a79aa, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a2a39711a95d2074fb0b8c989f4a79aa, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1828839609
 GameObject:
   m_ObjectHideFlags: 0

@@ -83,18 +83,12 @@ public class Options : SubMenu
 
 		invincibilityOnOffText.text = invincibilityToggle.isOn ? "On" : "Off";
 	}
-
-	public void Return()
-	{
-		sound.PlayCancel();
-		Close();
-	}
-
+	
 	private void Update()
 	{
 		if (Input.GetButtonDown("Cancel"))
 		{
-			Return();
+			Close();
 		}
 	}
 }

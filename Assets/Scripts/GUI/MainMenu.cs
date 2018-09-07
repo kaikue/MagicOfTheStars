@@ -11,9 +11,10 @@ public class MainMenu : BaseMenu
 
 	public Button continueButton;
 	public Button newGameButton;
+	public GameObject confirmOverlayPrefab;
 	public GameObject optionsOverlayPrefab;
 	public GameObject loadingOverlay;
-	
+
 	private string savePath;
 
 	private void Awake()
@@ -42,13 +43,15 @@ public class MainMenu : BaseMenu
 
 		if (File.Exists(savePath))
 		{
-			//TODO: confirm deletion
-			File.Delete(GameManager.GetSavePath());
+			GameObject confirmOverlay = Instantiate(confirmOverlayPrefab);
+			ConfirmOverlay co = confirmOverlay.GetComponent<ConfirmOverlay>();
+			co.SetBaseMenu(this);
+			co.SetContents(DeleteAndStart, co.Close, "Start new game?", "This will overwrite your old save!", "Clear Save", "Cancel");
 		}
-		
-		loadingOverlay.SetActive(true);
-		//load intro
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+		else
+		{
+			StartGame();
+		}
 	}
 
 	public void Options()
@@ -61,5 +64,18 @@ public class MainMenu : BaseMenu
 	public void Quit()
 	{
 		Application.Quit();
+	}
+
+	public void DeleteAndStart()
+	{
+		//this might not need to be in a File.Exists check, but it's probably safer
+		File.Delete(GameManager.GetSavePath());
+		StartGame();
+	}
+
+	private void StartGame()
+	{
+		loadingOverlay.SetActive(true);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 }
