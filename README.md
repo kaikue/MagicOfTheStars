@@ -128,13 +128,12 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Single heart refills dropped randomly from enemies 
 - Color schemes
 - Special collectibles for an NPC
-- Suits
+- Suits (or held items?)
 	- New abilities
-	- Swim
+	- Swim?
 	- Moon gravity?
 	- Ability to place limited number of jump/roll powerups?
-	- Floaty fall
-- Achievements?????
+	- Floaty fall (umbrella?)
 - 5 rare "blue pipe"-like things that go to secret areas, something special when you find all 5 
 
 ### Level design
@@ -168,7 +167,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- left: Slime forest
 		- Slime pads bounce you
 		- Reverse direction of roll
-		- Slime conserves vertial momentum (if >= max) or add to it (if below max)
+		- Slime conserves vertical momentum (if >= max) or add to it (if below max)
 		- Auto walljump corridor
 	- up: Crystal mountain
 		- Climbers
