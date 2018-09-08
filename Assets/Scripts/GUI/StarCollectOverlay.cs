@@ -21,7 +21,6 @@ public class StarCollectOverlay : MonoBehaviour
 	private const float CENTER_OFFSET = 200;
 
 	private float time = 0;
-	//private float lastRealTime = 0;
 	private RectTransform leftRect;
 	private RectTransform rightRect;
 
@@ -35,19 +34,13 @@ public class StarCollectOverlay : MonoBehaviour
 		float canvasWidth = canvas.GetComponent<RectTransform>().rect.width;
 		leftRect.anchoredPosition = new Vector2(-CENTER_OFFSET - canvasWidth / 2, leftRect.anchoredPosition.y);
 		rightRect.anchoredPosition = new Vector2(CENTER_OFFSET + canvasWidth / 2, rightRect.anchoredPosition.y);
-
-		//lastRealTime = Time.realtimeSinceStartup;
-
+		
 		gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 		starImage.GetComponent<Image>().color = gm.levelStarPrefab.GetComponent<Star>().GetColor();
 	}
 
 	private void Update()
 	{
-		//float realTime = Time.realtimeSinceStartup;
-		//float deltaTime = realTime - lastRealTime;
-		//lastRealTime = realTime;
-
 		//fade in overlay
 
 		//slide up contents from bottom

@@ -251,6 +251,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Zoom in to uncollected star when approaching (then zoom out after collected)
 
 ### Misc
+- Star twinkle sound doesn't work
 - Doors
 	- why are they there? were they always there? why do colored stars unlock them?
 - Gamepad/keyboard controls text
