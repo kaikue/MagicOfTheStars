@@ -46,7 +46,7 @@ public class HUDOverlay : MonoBehaviour
 	public void Hold()
 	{
 		showing = true;
-		//StartCoroutine(HoldContents());
+		StartCoroutine(HoldContents());
 	}
 
 	public IEnumerator HoldContents()
@@ -71,7 +71,7 @@ public class HUDOverlay : MonoBehaviour
 			for (int i = 0; i < contentRects.Length; i++)
 			{
 				RectTransform contentRect = contentRects[i];
-				float newY = getInY(contentGoalsY[i], t, isIn);
+				float newY = GetInY(contentGoalsY[i], t, isIn);
 				contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, newY);
 			}
 			yield return new WaitForEndOfFrame();
@@ -86,7 +86,7 @@ public class HUDOverlay : MonoBehaviour
 		}
 	}
 
-	private float getInY(float goalY, float t, bool isIn)
+	private float GetInY(float goalY, float t, bool isIn)
 	{
 		float tScale = t / SLIDE_TIME;
 		if (isIn)
@@ -95,7 +95,7 @@ public class HUDOverlay : MonoBehaviour
 		}
 		float oneMinusTScale = 1 - tScale;
 
-		//return Mathf.Pow(timeRemaining, 2) * goalY + HEIGHT_OFFSCREEN; //TODO: quadtratic slide
+		//return Mathf.Pow(timeRemaining, 2) * goalY + HEIGHT_OFFSCREEN; //TODO: quadratic slide
 		return tScale * HEIGHT_OFFSCREEN + oneMinusTScale * goalY;
 	}
 

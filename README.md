@@ -232,12 +232,10 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - logo animation scene (press any key to skip)
 - TextMeshPro
 	- Outline on star # GUI (white text, dark outline)
-- Add back HUD sliding in/out
-	- Also show star count when paused
-	- Use quadratic slope for in/out movement?
+- Show current color star count when paused (add to pause menu)
 - Star collect overlay
 	- Banner/star image color matches star color (or banner contrasts and matches level color?)
-	- Fancy transitions for banner and overlay
+	- Fancy transitions for banner and overlay?
 
 ### Camera
 - Use Cinemachine for this stuff- https://blogs.unity3d.com/2018/07/17/cinemachine-for-2d-tips-and-tricks/
@@ -250,7 +248,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Zoom out
 	- At top of pits, near interesting thing
 - should AudioListener go on camera or player? consider when camera/player is near twinkling star
-- Zoom in to star when approaching (then zoom out after collected)
+- Zoom in to uncollected star when approaching (then zoom out after collected)
 
 ### Misc
 - Doors
@@ -260,7 +258,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Checkpoint notifications
 - Scene transitions (to point in scene)
 	- Shrinking cutout star animation
-- Portals
 - Slopes
 	- slide down >= 45 degree slopes, can't move/jump/roll
 		- not if already rolling?
@@ -270,6 +267,11 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Allows offground jumps after swim animation is complete? This is just mario...
 		- plays full swim animation then goes to swim-stand
 	- Allows full two-axis movement?
+- NPCs
+	- Dialogue boxes
+		- animated portrait, name, animated text (set transparency character-by-character)
+	- Press interact to talk, jump to advance speech
+	- Hold jump to speed up speech
 - Achievements?
 	- beat game on 200% speed
 - Pacifist ending?
@@ -312,4 +314,4 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Default sprite facing is left (if not, remove ! in facing calculation and flip grabzone logic)
 - Star should be white, colored by material
 - When changing player dimensions, update bounding box and fully retest level design
-- Player can jump up 3 blocks, across 7 blocks without rolling
+- Player can jump up 4 blocks

@@ -21,7 +21,7 @@ public class StarCollectOverlay : MonoBehaviour
 	private const float CENTER_OFFSET = 200;
 
 	private float time = 0;
-	private float lastRealTime = 0;
+	//private float lastRealTime = 0;
 	private RectTransform leftRect;
 	private RectTransform rightRect;
 
@@ -36,7 +36,7 @@ public class StarCollectOverlay : MonoBehaviour
 		leftRect.anchoredPosition = new Vector2(-CENTER_OFFSET - canvasWidth / 2, leftRect.anchoredPosition.y);
 		rightRect.anchoredPosition = new Vector2(CENTER_OFFSET + canvasWidth / 2, rightRect.anchoredPosition.y);
 
-		lastRealTime = Time.realtimeSinceStartup;
+		//lastRealTime = Time.realtimeSinceStartup;
 
 		gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 		starImage.GetComponent<Image>().color = gm.levelStarPrefab.GetComponent<Star>().GetColor();
@@ -44,9 +44,9 @@ public class StarCollectOverlay : MonoBehaviour
 
 	private void Update()
 	{
-		float realTime = Time.realtimeSinceStartup;
-		float deltaTime = realTime - lastRealTime;
-		lastRealTime = realTime;
+		//float realTime = Time.realtimeSinceStartup;
+		//float deltaTime = realTime - lastRealTime;
+		//lastRealTime = realTime;
 
 		//fade in overlay
 
@@ -55,7 +55,8 @@ public class StarCollectOverlay : MonoBehaviour
 		//slide in left and right, then pause, then out
 		if (time < SLIDE_TIME)
 		{
-			float offset = getTextMovement(deltaTime);
+			float deltaTime = Time.unscaledDeltaTime;
+			float offset = GetTextMovement(deltaTime);
 			leftRect.anchoredPosition = new Vector2(leftRect.anchoredPosition.x + offset, leftRect.anchoredPosition.y);
 			rightRect.anchoredPosition = new Vector2(rightRect.anchoredPosition.x - offset, rightRect.anchoredPosition.y);
 			time += deltaTime;
@@ -71,7 +72,7 @@ public class StarCollectOverlay : MonoBehaviour
 		}
 	}
 
-	private float getTextMovement(float deltaTime)
+	private float GetTextMovement(float deltaTime)
 	{
 		float compression = 0;
 		float segTime = 0;
