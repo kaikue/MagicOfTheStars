@@ -80,6 +80,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- sometimes for >2 health, always for <=2?
 	- always if below max?
 	- If you die you restart from the last checkpoint (reload scene)
+		- save major checkpoints in save file, spawn there when loading level
 - Invincibility PlayerPref
 	- infinite pits or getting squished- respawn without losing health
 	- ignore enemy collisions that would hurt?
