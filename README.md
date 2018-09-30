@@ -34,7 +34,12 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- keep normal collision stuff
 	- lookahead don't ignore Y (set back to ignore when going to playermove)
 	- set input queued flags to false appropriately
+	- Rolling into/out of water messes up collider height
+	- set component velocity to 0 when hitting wall
+	- rotate to movement direction
+	- use acceleration, not lerp?
 - More PlayerMovement states? (grounded, falling, walljumping, holding, rolling, swimming)
+- Trail renderer when rolling
 - Sometimes you fall slowly (related to holding or new sprites)
 - Sprite is wrong for a moment when holding towards wall and walljumping off it
 - Vanishing platforms (when touched, shake, crumble, respawn) (shy expressions)

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerSwim : PlayerMovement
 {
-	private const float SWIM_LERP = 7.0f;
-	private const float SWIM_SPEED = 8.0f;
+	private const float SWIM_LERP = 4.0f;
+	private const float SWIM_SPEED = 10.0f;
 
 	public PlayerSwim(Player player) : base(player)
 	{

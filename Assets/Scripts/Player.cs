@@ -59,7 +59,9 @@ public class Player : MonoBehaviour
 
 	private Vector2 respawnPos;
 
+	[HideInInspector]
 	public SpriteRenderer sr;
+	[HideInInspector]
 	public AnimState animState = AnimState.STAND;
 	private int animFrame = 0;
 	private float frameTime; //max time of frame
