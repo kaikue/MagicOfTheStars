@@ -32,6 +32,8 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- roll to boost in direction of swimming, recharges after a second (vortex effect)
 	- swim to wall to stick on it? jump to push off
 	- keep normal collision stuff
+	- lookahead don't ignore Y (set back to ignore when going to playermove)
+	- set input queued flags to false appropriately
 - More PlayerMovement states? (grounded, falling, walljumping, holding, rolling, swimming)
 - Sometimes you fall slowly (related to holding or new sprites)
 - Sprite is wrong for a moment when holding towards wall and walljumping off it

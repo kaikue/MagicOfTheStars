@@ -473,7 +473,7 @@ GameObject:
   - component: {fileID: 922566057}
   - component: {fileID: 922566061}
   m_Layer: 8
-  m_Name: Tilemap
+  m_Name: LevelGeometry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

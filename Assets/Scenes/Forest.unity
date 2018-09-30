@@ -681,14 +681,6 @@ Prefab:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 340895355}
-    - target: {fileID: 4036797498283410, guid: ffd491ef9f31bfe439097c80c8dd0a87, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4036797498283410, guid: ffd491ef9f31bfe439097c80c8dd0a87, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffd491ef9f31bfe439097c80c8dd0a87, type: 2}
   m_IsPrefabAsset: 0
@@ -1218,7 +1210,7 @@ GameObject:
   - component: {fileID: 922566057}
   - component: {fileID: 922566061}
   m_Layer: 8
-  m_Name: Tilemap
+  m_Name: LevelGeometry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
