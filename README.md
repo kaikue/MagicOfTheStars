@@ -25,6 +25,14 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 ## TODO
 
 ### Movement
+- Swimming
+	- enter swimming state when submerging in water (hurtzone entirely in water)
+	- enter regular player state when leaving (hurtzone entirely out of water), reset roll but keep speed
+	- full 360 movement
+	- roll to boost in direction of swimming, recharges after a second (vortex effect)
+	- swim to wall to stick on it? jump to push off
+	- keep normal collision stuff
+- More PlayerMovement states? (grounded, falling, walljumping, holding, rolling, swimming)
 - Sometimes you fall slowly (related to holding or new sprites)
 - Sprite is wrong for a moment when holding towards wall and walljumping off it
 - Vanishing platforms (when touched, shake, crumble, respawn) (shy expressions)
@@ -160,6 +168,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Conspiracy- detective sends you to "pick up clues", he was the one who did the crime and wants you to collect evidence
 	- Tournament
 	- Race- one in swimming level, one in land level
+		- roll refill crystals to get speed boost
 	- Exploring ancient deep ruins
 	- Climbing a mountain
 	- Digging to the core
@@ -263,12 +272,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Slopes
 	- slide down >= 45 degree slopes, can't move/jump/roll
 		- not if already rolling?
-- Water
-	- Decreases gravity
-	- Decreases move speed?
-	- Allows offground jumps after swim animation is complete? This is just mario...
-		- plays full swim animation then goes to swim-stand
-	- Allows full two-axis movement?
 - NPCs
 	- Dialogue boxes
 		- animated portrait, name, animated text (set transparency character-by-character)

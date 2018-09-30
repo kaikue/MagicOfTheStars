@@ -126,6 +126,14 @@ public class GameManager : MonoBehaviour
 		hudOverlay.SlideIn();
 	}
 
+	private void Update()
+	{
+		if (Input.GetButtonDown("Pause"))
+		{
+			TogglePauseMenu();
+		}
+	}
+
 	private void TogglePause()
 	{
 		paused = !paused;
