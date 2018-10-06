@@ -305,7 +305,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Vector art
 - Player animations
 - Star (juicier shading)
-	- make orange star lighter? to fit with water
 - Star collect image
 - Door
 - Menus
