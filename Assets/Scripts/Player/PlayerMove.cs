@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -67,6 +68,14 @@ public class PlayerMove : PlayerMovement
 	public PlayerMove(Player player) : base(player)
 	{
 		normalHeight = ec.points[1].y - ec.points[0].y;
+	}
+
+	public override void SetCamera(CinemachineFramingTransposer body)
+	{
+		body.m_LookaheadIgnoreY = true;
+		body.m_ScreenY = 0.6f;
+		body.m_DeadZoneHeight = 0.1f;
+		body.m_BiasY = -0.1f;
 	}
 
 	public override void Move(PlayerInput input)

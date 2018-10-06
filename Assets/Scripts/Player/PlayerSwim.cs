@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,7 +26,15 @@ public class PlayerSwim : PlayerMovement
 
 	public PlayerSwim(Player player) : base(player)
 	{
+		
+	}
 
+	public override void SetCamera(CinemachineFramingTransposer body)
+	{
+		body.m_LookaheadIgnoreY = false;
+		body.m_ScreenY = 0.5f;
+		body.m_DeadZoneHeight = 0.2f;
+		body.m_BiasY = 0;
 	}
 
 	public override void Move(PlayerInput input)

@@ -25,18 +25,12 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Grab zone shouldn't trigger powerups, stars, etc.
 - Swimming
 	- enter swimming state when submerging in water (hurtzone entirely in water)
-	- enter regular player state when leaving (hurtzone entirely out of water), reset roll but keep speed
+	- enter regular player state when leaving (hurtzone entirely out of water)
 	- set component velocity to 0 when hitting/rolling into wall (velocity -= velocity . wallnormal)
-	- underwater camera
-		- lookahead don't ignore Y
-		- bigger Y window
-		- centered
 	- Rolling into/out of water messes up collider height?
+		- Use constant non-rotating non-roll-reducing square bounding box for swimming player?
 	- rotate to movement direction
-	- poweruproll refills roll immediately
 	- water streams (push in direction)
-	- use acceleration, not lerp?
-	- swim to wall to stick on it? jump to push off
 - More PlayerMovement states? (grounded, falling, walljumping, holding, rolling, swimming)
 - Trail renderer when rolling
 - Vortex effect when rolling underwater
