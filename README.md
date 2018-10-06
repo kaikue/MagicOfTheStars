@@ -15,31 +15,31 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- https://freesound.org/people/broumbroum/sounds/50565/
 	- https://freesound.org/people/broumbroum/sounds/50561/
 	- https://freesound.org/people/broumbroum/sounds/50557/
-- Star twinkle modified from sound by MrCisum
-	- https://freesound.org/people/MrCisum/sounds/336664/
-- Star collect sound by elmasmalo1
-	- https://freesound.org/people/elmasmalo1/sounds/350841/
-- Pause sound by legoluft
-	- https://opengameart.org/content/atmospheric-interaction-sound-pack
+- Star twinkle modified from [sound by MrCisum](https://freesound.org/people/MrCisum/sounds/336664/)
+- [Star collect sound by elmasmalo1](https://freesound.org/people/elmasmalo1/sounds/350841/)
+- [Pause sound by legoluft](https://opengameart.org/content/atmospheric-interaction-sound-pack)
 
 ## TODO
 
 ### Movement
+- Grab zone shouldn't trigger powerups, stars, etc.
 - Swimming
 	- enter swimming state when submerging in water (hurtzone entirely in water)
 	- enter regular player state when leaving (hurtzone entirely out of water), reset roll but keep speed
-	- full 360 movement
-	- roll to boost in direction of swimming, recharges after a second (vortex effect)
-	- swim to wall to stick on it? jump to push off
-	- keep normal collision stuff
-	- lookahead don't ignore Y (set back to ignore when going to playermove)
-	- set input queued flags to false appropriately
-	- Rolling into/out of water messes up collider height
-	- set component velocity to 0 when hitting wall
+	- set component velocity to 0 when hitting/rolling into wall (velocity -= velocity . wallnormal)
+	- underwater camera
+		- lookahead don't ignore Y
+		- bigger Y window
+		- centered
+	- Rolling into/out of water messes up collider height?
 	- rotate to movement direction
+	- poweruproll refills roll immediately
+	- water streams (push in direction)
 	- use acceleration, not lerp?
+	- swim to wall to stick on it? jump to push off
 - More PlayerMovement states? (grounded, falling, walljumping, holding, rolling, swimming)
 - Trail renderer when rolling
+- Vortex effect when rolling underwater
 - Sometimes you fall slowly (related to holding or new sprites)
 - Sprite is wrong for a moment when holding towards wall and walljumping off it
 - Vanishing platforms (when touched, shake, crumble, respawn) (shy expressions)
@@ -84,6 +84,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Glowy effect for can midair jump
 - Visual indication for SetCanRoll (like mario galaxy spin recharge)
 	- star glowing out?
+	- underwater also
 - Can't jump and slide up rotating platform
 - More moves?
 	- Roll + jump = long jump?
@@ -181,11 +182,10 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Digging to the core
 	- Fixing the village
 - Levels:
-	- left: Slime forest
-		- Slime pads bounce you
-		- Reverse direction of roll
-		- Slime conserves vertical momentum (if >= max) or add to it (if below max)
-		- Auto walljump corridor
+	- left: Lake
+		- Surfer dude fish (Flotsam, Jetsam)
+		- Streams of water that push you faster
+		- Roll power ups can be used to force through a backwards jetstream
 	- up: Crystal mountain
 		- Climbers
 		- Something at the top
@@ -201,9 +201,11 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- right: Charred forest
 		- Roll over coals (low ceiling)
 	- other levels:
-		- Lake
-			- Surfer dude fish (Flotsam, Jetsam)
-			- Streams of water that push you faster
+		- Slime forest
+			- Slime pads bounce you
+			- Reverse direction of roll
+			- Slime conserves vertical momentum (if >= max) or add to it (if below max)
+			- Auto walljump corridor
 		- Cloud kingdom
 			- Princess- authoritarian
 			- Bird pirates
@@ -268,24 +270,25 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Zoom in to uncollected star when approaching (then zoom out after collected)
 
 ### Misc
-- Star twinkle sound doesn't work
 - Doors
-	- why are they there? were they always there? why do colored stars unlock them?
+	- walls of darkness created by bad guy, use star power to destroy them
+	- actually needed you to gather stars for them
+	- NPCs reaction to doors appearance/removal?
 - Gamepad/keyboard controls text
 - Freeze for a bit on hit then flicker after respawning
 - Checkpoint notifications
 - Scene transitions (to point in scene)
 	- Shrinking cutout star animation
+		- use shader for this- cutoff gradient texture that spins CW when shrinking&leaving, CCW when expanding&entering
 - Slopes
 	- slide down >= 45 degree slopes, can't move/jump/roll
 		- not if already rolling?
 - NPCs
 	- Dialogue boxes
 		- animated portrait, name, animated text (set transparency character-by-character)
-	- Press interact to talk, jump to advance speech
-	- Hold jump to speed up speech
-- Achievements?
-	- beat game on 200% speed
+	- Press interact to talk, interact/jump to advance speech
+	- Hold interact/jump to speed up speech
+	- bounce on their heads :)
 - Pacifist ending?
 	- no bosses?
 
@@ -308,6 +311,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Vector art
 - Player animations
 - Star (juicier shading)
+	- make orange star lighter? to fit with water
 - Star collect image
 - Door
 - Menus
@@ -320,6 +324,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 		- Tilemap collider vertical offset to not float on tiles
 	- Scenery
 	- Backgrounds
+- Water overlay
 - Enemies
 - Obstacles
 

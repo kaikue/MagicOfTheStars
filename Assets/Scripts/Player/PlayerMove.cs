@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Movement for when on land.
+ * Includes running, rolling, jumping, and walljumping.
+ */
 public class PlayerMove : PlayerMovement
 {
 
