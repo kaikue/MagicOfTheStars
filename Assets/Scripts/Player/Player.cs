@@ -42,6 +42,8 @@ public class Player : MonoBehaviour
 	private const float RUN_FRAME_TIME = 0.02f; //time in seconds per frame of run animation
 	private const float ROLL_FRAME_TIME = 0.1f; //time in seconds per frame of roll animation
 
+	private const float TRAIL_BETWEEN_TIME = 0.05f; //time in seconds between roll trail echoes
+
 	//private const float PITCH_VARIATION = 0.1f;
 
 	[HideInInspector]
@@ -55,6 +57,7 @@ public class Player : MonoBehaviour
 	protected PlayerMovement movement;
 
 	private GrabZone gz;
+	[HideInInspector]
 	public Grabbable heldObject;
 
 	private BoxCollider2D hurtCollider;
@@ -68,7 +71,9 @@ public class Player : MonoBehaviour
 	private int animFrame = 0;
 	private float frameTime; //max time of frame
 	private float frameTimer; //goes from frameTime down to 0
+	[HideInInspector]
 	public bool facingLeft = false; //for animation (images face left)
+	private float trailTime;
 
 	private Sprite standSprite;
 	private Sprite jumpSprite;
@@ -127,19 +132,37 @@ public class Player : MonoBehaviour
 		//Get input here and queue it up to be processed by FixedUpdate- can't get in FixedUpdate since it may miss inputs
 		input.Update(this);
 
-		if (movement.IsRolling())
-		{
-			//TODO: not every frame
-			GameObject rollTrail = Instantiate(rollTrailPrefab, spriteObject.transform.position, spriteObject.transform.rotation);
-			rollTrail.transform.localScale = spriteObject.transform.lossyScale;
-			SpriteRenderer rtSR = rollTrail.GetComponent<SpriteRenderer>();
-			rtSR.sprite = sr.sprite;
-			rtSR.flipX = sr.flipX;
-		}
+		CheckRollTrail();
 
 		//TODO replace this with unity animator stuff
 		AdvanceAnim();
 		sr.sprite = GetAnimSprite();
+	}
+
+	private void CheckRollTrail()
+	{
+		if (movement.IsRolling())
+		{
+			trailTime += Time.deltaTime;
+			if (trailTime > TRAIL_BETWEEN_TIME)
+			{
+				trailTime = 0;
+				SpawnRollTrail();
+			}
+		}
+		else
+		{
+			trailTime = 0;
+		}
+	}
+
+	private void SpawnRollTrail()
+	{
+		GameObject rollTrail = Instantiate(rollTrailPrefab, spriteObject.transform.position, spriteObject.transform.rotation);
+		rollTrail.transform.localScale = spriteObject.transform.lossyScale;
+		SpriteRenderer rtSR = rollTrail.GetComponent<SpriteRenderer>();
+		rtSR.sprite = sr.sprite;
+		rtSR.flipX = sr.flipX;
 	}
 
 	private Sprite GetAnimSprite()

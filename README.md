@@ -31,7 +31,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- rotate to movement direction
 	- water streams (push in direction)
 - More PlayerMovement states? (grounded, falling, walljumping, holding, rolling, swimming)
-- Roll trail not every frame
 - Vortex effect when rolling underwater
 - Sometimes you fall slowly (related to holding)
 - Sprite is wrong for a moment when holding towards wall and walljumping off it
