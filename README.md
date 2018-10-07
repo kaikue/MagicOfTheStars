@@ -26,14 +26,14 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- enter swimming state when submerging in water (hurtzone entirely in water)
 	- enter regular player state when leaving (hurtzone entirely out of water)
 	- set component velocity to 0 when hitting/rolling into wall (velocity -= velocity . wallnormal)
-	- Rolling into/out of water messes up collider height?
-		- Use constant non-rotating non-roll-reducing square bounding box for swimming player?
+	- Use constant non-rotating non-roll-reducing square bounding box for swimming player
+		- Set back to normal playermove bounding box when leaving water
 	- rotate to movement direction
 	- water streams (push in direction)
 - More PlayerMovement states? (grounded, falling, walljumping, holding, rolling, swimming)
-- Trail renderer when rolling
+- Roll trail not every frame
 - Vortex effect when rolling underwater
-- Sometimes you fall slowly (related to holding or new sprites)
+- Sometimes you fall slowly (related to holding)
 - Sprite is wrong for a moment when holding towards wall and walljumping off it
 - Vanishing platforms (when touched, shake, crumble, respawn) (shy expressions)
 - Physics platforms that squish down when you land on them then slowly sink into lava

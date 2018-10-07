@@ -449,7 +449,7 @@ public class PlayerMove : PlayerMovement
 		player.PlayRollSound();
 	}
 
-	private bool IsRolling()
+	public override bool IsRolling()
 	{
 		return rollTime > 0;
 	}

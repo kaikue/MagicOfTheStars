@@ -443,6 +443,8 @@ MonoBehaviour:
   starCollectSound: {fileID: 8300000, guid: 7f9568fd09b2a9b40b091495949e9a34, type: 3}
   oldStarCollectSound: {fileID: 8300000, guid: 1cf337aec83b203409edbf74141c1c55, type: 3}
   deathSound: {fileID: 8300000, guid: 28593b76b7ef62646adb70db4f8f0983, type: 3}
+  rollTrailPrefab: {fileID: 1430754153617790, guid: 43659b0316443de448aea02352d02821,
+    type: 2}
   ec: {fileID: 0}
   rb: {fileID: 0}
   heldObject: {fileID: 0}

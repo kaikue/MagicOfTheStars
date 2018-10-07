@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
 	public AudioClip oldStarCollectSound;
 	public AudioClip deathSound;
 
+	public GameObject rollTrailPrefab;
+
 	private const float THROW_X_FACTOR = 75.0f; //velocity x multiplier for throwing a grabbable object
 	private const float THROW_Y_SPEED = 100.0f; //velocity y addition for throwing a grabbable object
 
@@ -124,6 +126,16 @@ public class Player : MonoBehaviour
 	{
 		//Get input here and queue it up to be processed by FixedUpdate- can't get in FixedUpdate since it may miss inputs
 		input.Update(this);
+
+		if (movement.IsRolling())
+		{
+			//TODO: not every frame
+			GameObject rollTrail = Instantiate(rollTrailPrefab, spriteObject.transform.position, spriteObject.transform.rotation);
+			rollTrail.transform.localScale = spriteObject.transform.lossyScale;
+			SpriteRenderer rtSR = rollTrail.GetComponent<SpriteRenderer>();
+			rtSR.sprite = sr.sprite;
+			rtSR.flipX = sr.flipX;
+		}
 
 		//TODO replace this with unity animator stuff
 		AdvanceAnim();

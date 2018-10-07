@@ -61,7 +61,7 @@ public class PlayerSwim : PlayerMovement
 		}
 		input.rollQueued = false;
 
-		if (rollTime > 0) //is rolling
+		if (IsRolling())
 		{
 			if (input.rollReleaseQueued)
 			{
@@ -92,6 +92,11 @@ public class PlayerSwim : PlayerMovement
 		Vector2 movement = velocity * Time.fixedDeltaTime;
 		rb.velocity = velocity;
 		rb.MovePosition(rb.position + movement);
+	}
+
+	public override bool IsRolling()
+	{
+		return rollTime > 0;
 	}
 
 	public override void SetCanRoll()

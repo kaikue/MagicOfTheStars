@@ -28,6 +28,11 @@ public abstract class PlayerMovement
 
 	public abstract void Move(PlayerInput input);
 
+	public virtual bool IsRolling()
+	{
+		return false;
+	}
+
 	public virtual void SetCanRoll()
 	{
 
