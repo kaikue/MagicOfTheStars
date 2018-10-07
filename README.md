@@ -22,7 +22,6 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 ## TODO
 
 ### Movement
-- Grab zone shouldn't trigger powerups, stars, etc.
 - Swimming
 	- enter swimming state when submerging in water (hurtzone entirely in water)
 	- enter regular player state when leaving (hurtzone entirely out of water)
