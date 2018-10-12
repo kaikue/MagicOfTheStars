@@ -24,7 +24,9 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 ### Movement
 - Swimming
 	- enter swimming state when submerging in water (hurtzone entirely in water)
+		- ontriggerexit WaterEdge?
 	- enter regular player state when leaving (hurtzone entirely out of water)
+		- ontriggerexit Water
 	- set component velocity to 0 when hitting/rolling into wall (velocity -= velocity . wallnormal)
 	- Use constant non-rotating non-roll-reducing square bounding box for swimming player
 		- Set back to normal playermove bounding box when leaving water
@@ -178,6 +180,8 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 		- Surfer dude fish (Flotsam, Jetsam)
 		- Streams of water that push you faster
 		- Roll power ups can be used to force through a backwards jetstream
+		- Jump out of water puzzle
+		- Change water levels puzzle
 	- up: Crystal mountain
 		- Climbers
 		- Something at the top
@@ -298,6 +302,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 - Music fades in and out smoothly
 - UI sounds
 	- better unpause sound
+- Sound filters for underwater (music & sfx)
 
 ### Art
 - Vector art
