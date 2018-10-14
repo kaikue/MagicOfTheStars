@@ -169,23 +169,36 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Story should be reflected in level mechanics
 	- Conspiracy- detective sends you to "pick up clues", he was the one who did the crime and wants you to collect evidence
 	- Tournament
-	- Race- one in swimming level, one in land level
-		- roll refill crystals to get speed boost
 	- Exploring ancient deep ruins
 	- Climbing a mountain
 	- Digging to the core
 	- Fixing the village
 - Levels:
+	- start: Forest
+		- ruins
+		- waterfalls & streams from mountain down to lake
 	- left: Lake
 		- Surfer dude fish (Flotsam, Jetsam)
 		- Streams of water that push you faster
 		- Roll power ups can be used to force through a backwards jetstream
 		- Jump out of water puzzle
-		- Change water levels puzzle
-	- up: Crystal mountain
+		- Little islands over water
+		- Climb small mountain island
+		- Underwater race (hit roll crystals)
+		- Boss: kraken? tests underwater movement
+	- up: Mountain
+		- Moving platforms
+		- Diagonal moving platforms
+		- Progressively unlock higher sections with stars
 		- Climbers
 		- Something at the top
-	- down: Rock
+		- Air roll course with PowerUpRoll
+		- Roll after fall
+		- Use roll powerups to do multiple walljumps
+		- Reuse roll/jump powerup after it resets while you're still in midair
+		- Boss: yeti? tests jumping & moving platforms
+	- down: Cave
+		- Hidden sections (roll through walls)
 		- Tumbler
 		- Get on top of the elevator puzzle
 		- Spinny platforms (gears?) (rotating, revolving)
@@ -193,55 +206,58 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 		- Foreman- angry
 		- Mining bots- scared
 		- Bug enemies
-		- Grob
+		- Boss: Grob (giant grub) tests rolling
 	- right: Charred forest
 		- Roll over coals (low ceiling)
 	- other levels:
-		- Slime forest
+		- Slime forest (no)
 			- Slime pads bounce you
 			- Reverse direction of roll
 			- Slime conserves vertical momentum (if >= max) or add to it (if below max)
 			- Auto walljump corridor
 		- Cloud kingdom
+			- Platforms revolving around center (windmill style)
+			- Bouncy clouds
+			- Umbrella- grab to fall slower
 			- Princess- authoritarian
+			- Tower castle
 			- Bird pirates
 			- Have to resolve war
+			- Boss: fight princess & captain simultaneously
 		- Haunted Mansion
-			- Draculas
+			- Draculas, ghosts
 			- Appearing platforms
+			- Disappearing platforms
+			- Crate puzzles
+			- Throw crate on vanishing platform so it doesn't go away when you step on it
+			- Boss: Hatter (ghost magician)
+		- Ice
+			- Water
+			- Chase Slicer
+				- roll refill crystals to get speed boost
 		- Temple of the Stars
 			- Quiet, echoes, humming
 			- Symmetry
 			- Bells
+			- Change water levels puzzle
 			- Near end game
-		- Beehive
-		- Lava streams
-		- Gravity direction
+			- Giant hourglass that slows down time when you roll (or reverses it or something?)
+		- Crystal
+			- Gravity direction
+			- Lava streams
+			- Moving blocks push you into spikes
+			- Boss: Magmarock (lava dragon)
 		- The Tower
+			- Slicer chases you
 - Level bits:
 	- Multiple columns of ascending/descending platforms
 	- Star bits at corners of area
-	- Water jetstreams
-	- Platforms revolving around center (windmill style)
 	- Spin entire big area
-	- Little islands over water
-	- Air roll course with PowerUpRoll
-	- Roll after fall
-	- Use roll powerups to do multiple walljumps
-	- Reuse roll/jump powerup after it resets while you're still in midair
-	- Towers over water
-	- Climb small mountain island
 	- Crushers
-	- Flying islands
-	- Diagonal moving platforms
-	- Moving blocks push you into spikes
-	- Chase someone
 	- Stuff with one-way platforms (feel less stable)
 	- Spring off vertical moving platform
-	- Throw crate on vanishing platform so it doesn't go away when you step on it
 	- Jumping between conveyors in different directions
 	- Jumping between multiple spinning platforms
-	- Giant hourglass that slows down time when you roll (or reverses it or something?)
 
 ### UI
 - logo animation scene (press any key to skip)
@@ -285,6 +301,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Press interact to talk, interact/jump to advance speech
 	- Hold interact/jump to speed up speech
 	- bounce on their heads :)
+- Lights
 - Pacifist ending?
 	- no bosses?
 
