@@ -44,6 +44,7 @@ public class Star : MonoBehaviour
 		}
 
 		glow.GetComponent<SpriteRenderer>().material.color = color;
+		glow.GetComponent<Light>().color = color;
 	}
 
 	public Color GetColor()

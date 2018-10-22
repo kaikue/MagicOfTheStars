@@ -22,6 +22,7 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 ## TODO
 
 ### Movement
+- Stop time when star collected (this broke again...)
 - Swimming
 	- enter swimming state when submerging in water (hurtzone entirely in water)
 		- ontriggerexit WaterEdge?
@@ -301,7 +302,13 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Press interact to talk, interact/jump to advance speech
 	- Hold interact/jump to speed up speech
 	- bounce on their heads :)
-- Lights
+- Lighting
+	- Glowing stuff in levels
+	- Reduce ambient light in some places
+		- enable player light
+		- enable star lights?
+	- separate lighting for background?
+	- Raycasting lights? https://github.com/SSS135/Light2D
 - Pacifist ending?
 	- no bosses?
 

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 20489685460204158}
   - component: {fileID: 124581277660999220}
   - component: {fileID: 114277821282829302}
+  - component: {fileID: 114332448519718926}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -198,7 +199,7 @@ Camera:
   field of view: 40
   orthographic: 1
   orthographic size: 7
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 823
@@ -209,7 +210,7 @@ Camera:
   m_HDR: 1
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
+  m_ForceIntoRT: 1
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -285,6 +286,18 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114332448519718926
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1305298294770232}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 87952d1ae19fae74f9161d80f6e1aa74, type: 2}
 --- !u!114 &114409947883531658
 MonoBehaviour:
   m_ObjectHideFlags: 1
