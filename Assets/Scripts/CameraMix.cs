@@ -49,9 +49,10 @@ public class CameraMix : MonoBehaviour
 			if (!star.WasCollected())
 			{
 				float distance = Vector3.Distance(star.transform.position, player.position);
-				if (distance < closestDistance || closestDistance < 0) //negative = first star
+				if (distance < closestDistance || closestDistance < 0) //closestDistance is negative = first star
 				{
 					closestDistance = distance;
+					//if (distance < FAR_DISTANCE)
 					nearestStar = star;
 				}
 			}
