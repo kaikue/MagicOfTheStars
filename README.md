@@ -270,17 +270,17 @@ Some placeholder graphics by [Kenney](http://kenney.nl/) and [Zuhria Alfitra](ht
 	- Fancy transitions for banner and overlay?
 
 ### Camera
-- Use Cinemachine for this stuff- https://blogs.unity3d.com/2018/07/17/cinemachine-for-2d-tips-and-tricks/
-- Follow player- part of prefab
-	- room to move back and forth a bit
-	- lead the player's movement?
-- 2/3 down normally? or snapped to offset from ground position
+- https://blogs.unity3d.com/2018/07/17/cinemachine-for-2d-tips-and-tricks/
+- Smoothly transition between stars (right now there's a jump when changing nearest stars, and after collecting one the camera snaps to the next before returning)
+	- Use target groups?
+- Camera shake
+	- Crates, etc. dropping
+	- Boss attacks
+	- Player hurt
 - Trigger areas
 	- Lerp to fixed or relative positions
 	- Zoom out
 	- At top of pits, near interesting thing
-- should AudioListener go on camera or player? consider when camera/player is near twinkling star
-- Zoom in to uncollected star when approaching (then zoom out after collected)
 
 ### Misc
 - Doors

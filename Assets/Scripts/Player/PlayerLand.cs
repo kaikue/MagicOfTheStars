@@ -8,7 +8,7 @@ using UnityEngine;
  * Movement for when on land.
  * Includes running, rolling, jumping, and walljumping.
  */
-public class PlayerMove : PlayerMovement
+public class PlayerLand : PlayerMovement
 {
 
 	//private static float SLIDE_THRESHOLD;
@@ -65,7 +65,7 @@ public class PlayerMove : PlayerMovement
 
 	private bool shouldStand = false;
 
-	public PlayerMove(Player player) : base(player)
+	public PlayerLand(Player player) : base(player)
 	{
 		normalHeight = ec.points[1].y - ec.points[0].y;
 	}

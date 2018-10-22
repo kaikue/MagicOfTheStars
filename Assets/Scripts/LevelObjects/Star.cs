@@ -58,6 +58,11 @@ public class Star : MonoBehaviour
 		starImage.transform.position = transform.position + new Vector3(0, y, 0);
 	}
 
+	public void Collect()
+	{
+		wasCollected = true;
+	}
+
 	public bool WasCollected()
 	{
 		return wasCollected;

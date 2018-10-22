@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
 		RefreshHurtZone();
 		gz = grabZone.GetComponent<GrabZone>();
 		input = new PlayerInput();
-		movement = new PlayerMove(this);
+		movement = new PlayerLand(this);
 
 		//SLIDE_THRESHOLD = -Mathf.Sqrt(2) / 2; //player will slide down 45 degree angle slopes
 
@@ -203,7 +203,7 @@ public class Player : MonoBehaviour
 	private void ResetMovement()
 	{
 		input = new PlayerInput();
-		movement = new PlayerMove(this);
+		movement = new PlayerLand(this);
 
 		rb.velocity = Vector3.zero;
 	}
@@ -326,7 +326,7 @@ public class Player : MonoBehaviour
 			powerUp.Activate(this);
 		}
 
-		if (other.layer == LayerMask.NameToLayer("Water") && movement is PlayerMove)
+		if (other.layer == LayerMask.NameToLayer("Water") && movement is PlayerLand)
 		{
 			//enter swim state
 			movement = new PlayerSwim(this);
@@ -356,7 +356,7 @@ public class Player : MonoBehaviour
 		if (other.layer == LayerMask.NameToLayer("Water") && movement is PlayerSwim)
 		{
 			//enter land state
-			movement = new PlayerMove(this);
+			movement = new PlayerLand(this);
 		}
 	}
 

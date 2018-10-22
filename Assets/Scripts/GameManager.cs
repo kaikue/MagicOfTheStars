@@ -185,6 +185,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (!star.WasCollected())
 		{
+			star.Collect();
 			AppendToSave("S|" + star.starText + "|" + ((int)star.starType) + "|" + star.starValue);
 			starCollectedNames.Add(star.starText);
 			TogglePause();
